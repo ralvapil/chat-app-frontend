@@ -3,11 +3,13 @@ import {
   Switch,
   Route,
 } from 'react-router-dom'
+import { useMediaQuery } from "react-responsive";
 
 import DesktopChatWindow from '../DesktopComponents/DesktopChatWindow/DesktopChatWindow'
 import MobileChatListWindow from '../MobileComponents/MobileChatListWindow/MobileChatListWindow'
-import { useMediaQuery } from "react-responsive";
 import MobileChatWindow from '../MobileComponents/MobileChatWindow/MobileChatWindow';
+
+import './App.css';
 
 function App() {
   const isDesktopOrLaptop = useMediaQuery({
