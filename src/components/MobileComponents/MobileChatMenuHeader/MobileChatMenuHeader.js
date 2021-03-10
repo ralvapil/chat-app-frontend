@@ -2,8 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import { InboxOutlined, MessageOutlined } from '@ant-design/icons';
 
-export default function MobileChatMenuHeader( {selected = 'chats', handleMessageIconClick, handleInboxIconClick}) {
-  const StyledHeader = styled.h1`
+const StyledHeader = styled.h1`
     font-size: 32px;
     color: #2D3F65;
     font-weight: 400;
@@ -49,6 +48,7 @@ export default function MobileChatMenuHeader( {selected = 'chats', handleMessage
     font-size: 42px;
   `
 
+export default function MobileChatMenuHeader( {selected = 'chats', handleMessageIconClick, handleInboxIconClick}) {
   return (
     <StyledHeaderContainer>
       <StyledHeaderSubContainer>
