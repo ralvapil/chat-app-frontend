@@ -76,11 +76,11 @@ export default function MobileChatListWindow() {
   }
 
   const handleMessageIconClick = () => {
-    history.push('/chat')
+    history.push('/chats')
   }
 
   const handleInboxIconClick = () => {
-    history.push('/request')
+    history.push('/requests')
   }
 
   const convos = data.map((val) => {

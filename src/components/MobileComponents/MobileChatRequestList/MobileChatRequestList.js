@@ -6,11 +6,11 @@ export default function MobileChatRequestList() {
   const history = useHistory();
 
   const handleMessageIconClick = () => {
-    history.push('/chat')
+    history.push('/chats')
   }
 
   const handleInboxIconClick = () => {
-    history.push('/request')
+    history.push('/requests')
   }
 
   return (

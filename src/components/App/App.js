@@ -47,11 +47,11 @@ function App() {
                   isDesktopOrLaptop ? <DesktopChatWindow /> : <MobileChatListWindow />
                 }
               </ProtectedRoute>
-              {/* <ProtectedRoute path="/request">
+              <ProtectedRoute path="/requests">
                 {
                   <MobileChatRequestList />
                 }
-              </ProtectedRoute> */}
+              </ProtectedRoute>
             </SocketProvider>
           <Route path="*">
             <div> 404 Page Not Found</div>
