@@ -13,22 +13,34 @@ export const messageSlice = createSlice({
     status: null,
   },
   reducers: {
+    getMessageHistory: (state, action) => {
+      console.log('action history request sent', action);
+    },
     sendMessage: (state, action) => {
-      console.log('action', action.payload.data.message)
+      // do nothing since we need the server to respond with the message sent
+    },
+    messageReceived: (state, action) => {
+      console.log('action', action.payload.data)
+      
+      const newMessage = {
+        value: action.payload.data.value,
+        user: action.payload.data.user,
+        timestamp: action.payload.data.timestamp,
+        name: action.payload.data.name,
+      };
+
+      console.log('new message', newMessage)
 
       // if the cid exists the add to it, else create a new key for it in the obj
       if(state.messages.hasOwnProperty([action.payload.data['cid']])) {
-        state.messages[action.payload.data['cid']].push(action.payload.data.message);
+        state.messages[action.payload.data['cid']].push(newMessage);
       } else {
-        state.messages[action.payload.data['cid']] = new Array(action.payload.data.message);
+        state.messages[action.payload.data['cid']] = new Array(newMessage);
       }
     },
-    messageReceived: (state, action) => {
-      if(state.messages.hasOwnProperty([action.payload.data['cid']])) {
-        state.messages[action.payload.data['cid']].push(action.payload.data.message);
-      } else {
-        state.messages[action.payload.data['cid']] = [action.payload.data.message];
-      }
+    messageHistoryReceived: (state, action) => {
+      console.log('history rece', action);
+      state.messages[action.payload.data.cid] = action.payload.data.history;
     }
   },
   // extraReducers: {
@@ -47,8 +59,9 @@ export const messageSlice = createSlice({
   // }
 });
 
-export const { sendMessage, messageReceived } = messageSlice.actions
+export const { messageHistoryReceived, getMessageHistory, sendMessage, messageReceived } = messageSlice.actions
 
 export const getMessages = (state) => { return state.messages.messages }
+
 
 export default messageSlice.reducer;

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from 'react-router-dom'
 import styled from 'styled-components'
@@ -7,10 +7,10 @@ import MobileChatHeader from '../MobileChatHeader/MobileChatHeader'
 import MobileChatBody from '../MobileChatBody/MobileChatBody'
 import MobileChatFooter from '../MobileChatFooter/MobileChatFooter'
 
-import { sendMessage, messageReceived, getMessages } from '../../../features/message/messageSlice'
-import { Socket } from '../../../Socket';
+import { getMessageHistory, messageHistoryReceived, sendMessage, messageReceived, getMessages } from '../../../features/message/messageSlice'
+import { selectUser } from '../../../features/auth/authSlice'
 
-let socket;
+import { useSocket } from '../../Contexts/socketContext'; 
 
 const StyledContainer = styled.div`
   display: flex;
@@ -18,24 +18,28 @@ const StyledContainer = styled.div`
 `
 
 export default function MobileChatWindow() {
+
+  const {socket} = useSocket();
+
+  console.log('socket', socket)
   const { cid } = useParams();
   const [messageInput, setMessageInput] = useState('');
   const messages = useSelector(getMessages);
+  const user = useSelector(selectUser);
+  
   const dispatch = useDispatch();
-
-  useEffect(() => {
-    socket = new Socket(dispatch, messageReceived, cid);
-    console.log('effect is running')
-
-    return () => socket.closeSocket();
-  }, [dispatch])
 
   const handleSend = () => {
     console.log('sent', messageInput);
 
     dispatch(sendMessage({
       'type': 'socket',
-      'data': { message: messageInput, cid},
+      'eventType': 'message',
+      'data': { 
+        message: messageInput, 
+        userId: user,
+        cid
+      },
       'socket': socket,
     }));
 
@@ -53,15 +57,26 @@ export default function MobileChatWindow() {
     setMessageInput(() => setMessageInput(e.target.value));
   }
 
+  const handlePhoneIconClick = () => {
+    dispatch(getMessageHistory({
+      'type': 'socket',
+      'eventType': 'messageHistory',
+      'data': { 
+        cid
+      },
+      'socket': socket,
+    }));
+  }
+
   return (
-    <div style={{display: 'flex', flexDirection: 'column'}}>  
-      <MobileChatHeader cid={cid} />
-      <MobileChatBody messages={messages} cid={cid}/>
+    <StyledContainer>  
+      <MobileChatHeader cid={cid} onPhoneClick={handlePhoneIconClick} name={'Ramanan Alvapillai'}/>
+      <MobileChatBody messages={messages} cid={cid} currentUser={user}/>
       <MobileChatFooter 
         messageInput={messageInput} 
         onChange={handleMessageInputChange} 
         handleEnterPress={handleEnterPress}
       />
-    </div>
+    </StyledContainer>
   )
 }

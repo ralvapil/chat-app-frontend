@@ -14,29 +14,30 @@ const StyledWrapper = styled.div`
   border-top: 1px solid rgba(155, 155, 155, 0.1);
   display: flex;
   align-items: center;
+  height: 90px;
+  background: rgba(221, 221, 221, 0.3);
 `;
 
 const StyleContainer = styled.div`
   flex-grow: 1;
   display: flex;
   align-items: center;
-  padding-left: 10px;
+  padding-left: 20px;
   padding-right: 10px;
 `
 
 const StyledTextArea = styled(TextareaAutosize)`
-  width: 100%;
+  width: 80%;
   min-height: 20px;
-  border: 1px solid rgba(155, 155, 155, 0.5);
-  border-radius: 24px;
-  padding: 8px 15px 8px 15px;
+  border: 1px solid rgba(221, 221, 221, 0.4);
+  border-radius: 10px;
+  padding: 12px 15px 12px 15px;
   resize: none;
   outline: none;
 `
 
 const StyledButtonWrapper = styled.div`
-  height: 30px;
-  width: 30px;
+  width: 20%;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -58,7 +59,7 @@ export default function MobileChatFooter({ messageInput, onChange, handleEnterPr
           onKeyPress={handleEnterPress}
         />
         <StyledButtonWrapper>
-          <SendOutlined style={{ fontSize: '25px', color: '#1890ff' }}/>
+          <SendOutlined style={{ fontSize: '25px', color: '#FB6D62' }}/>
         </StyledButtonWrapper>
       </StyleContainer>
     </StyledWrapper>

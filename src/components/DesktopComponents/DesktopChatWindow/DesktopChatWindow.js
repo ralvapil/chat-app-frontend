@@ -15,10 +15,10 @@ export default function DesktopChatWindow() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    socket = new Socket(dispatch, messageReceived);
-    console.log('effect is running')
+    // socket = new Socket(dispatch, messageReceived);
+    // console.log('effect is running')
 
-    return () => socket.closeSocket();
+    // return () => socket.closeSocket();
   }, [dispatch])
 
   const handleFormSubmit = (e) => {

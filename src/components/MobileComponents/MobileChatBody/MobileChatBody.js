@@ -1,27 +1,53 @@
-import React from 'react'
+import React, { useEffect, useRef } from 'react'
 import styled from 'styled-components'
+import MobileChatMessage from '../MobileChatMessage/MobileChatMessage'
 
 const StyledWrapper = styled.div`
-    margin-top: 60px;
+    margin-top: 100px;
     margin-bottom: 60px;
-    padding-left: 10px;
-    padding-right: 10px;
-    height: calc(100vh - 120px);
+    padding-left: 30px;
+    padding-right: 30px;
+    height: calc(100vh - 190px);
     overflow-y: scroll;
+    display: flex;
+    flex-direction: column;
+
 `
 
-export default function MobileChatBody( {messages, cid} ) {
-  console.log('hasown prop', messages.hasOwnProperty(cid))
+export default function MobileChatBody( { messages, cid, currentUser } ) {
+  const messagesEndRef = useRef(null);
+
+  useEffect(() => {
+    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' })
+  }, [messages])
+
+  let prevMessageUserId = null;
+
   const renderedMessages = messages.hasOwnProperty(cid) ? messages[cid].map((message, idx) => {
-    console.log(message)
-    return <div key={idx}>{message}</div>
+    const messageJsx = <MobileChatMessage 
+      key={idx} 
+      name={message.name}
+      timestamp={message.timestamp}
+      isNotCurrentUser={message.user !== currentUser}
+      userIsDifferentThanPrevious = {message.user !== prevMessageUserId}
+      isLastMessage={idx === messages[cid].length - 1}
+    >
+      {message.value}
+    </MobileChatMessage>
+      console.log('prevmess', prevMessageUserId)
+      console.log('message user', message.user)
+    if(prevMessageUserId !== message.user) {
+      prevMessageUserId = message.user;
+    }
+
+    return messageJsx;
   }) : '';
   
-  console.log('rm', renderedMessages)
-  console.log('cid', cid)
   return (
     <StyledWrapper>
       {renderedMessages}
+      {/* <div style={{borderRadius: '50%', width: '32px', height: '32px', background:'green', alignSelf: 'flex-end', marginRight: '-14px', marginTop: '1px'}}></div> */}
+      <div ref={messagesEndRef}></div>
     </StyledWrapper>
   )
 }

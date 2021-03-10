@@ -1,0 +1,74 @@
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { api } from '../../utils/api'
+
+export const getUserStatus = createAsyncThunk(
+  "auth/getUserStatus",
+  async () => {
+    const response = await api.get(
+      "http://localhost:5000/userStatus"
+    );
+
+    return response;
+  }
+);
+
+export const authSlice = createSlice({
+  name: "auth",
+  initialState: {
+    isAuthorized: localStorage.getItem("testLogin")
+      ? localStorage.getItem("testLogin")
+      : null,
+    token: localStorage.getItem("token") ? localStorage.getItem("token") : null,
+    email: null,
+    status: "idle",
+    error: null,
+    userId: null,
+  },
+  reducers: {
+    login: (state) => {
+      state.isAuthorized = true;
+      state.error = ""; 
+    },
+    logout: (state) => {
+      state.isAuthorized = false;
+      state.token = null;
+    },
+    handleInvalidToken: (state) => {
+      state.isAuthorized = false;
+      state.token = null;
+      state.error = "Token Expired";
+    },
+  },
+  extraReducers: {
+    [getUserStatus.pending]: (state, action) => {
+      state.status = "loading";
+      console.log('action loading', action)
+
+    },
+    [getUserStatus.fulfilled]: (state, action) => {
+      console.log('action', action)
+      state.status = "succeeded";
+      // state.email = action.meta.arg.email;
+      // state.token = action.payload;
+      state.isAuthorized = true;
+      state.user = action.payload.user
+    },
+    [getUserStatus.rejected]: (state, action) => {
+      state.status = "failed";
+      console.log('action failed', action)
+      state.isAuthorized = false;
+
+      // state.token = null;
+      // state.error = "Invalid Token.";
+    },
+  },
+});
+
+export const { login, logout, handleInvalidToken } = authSlice.actions;
+
+export const selectToken = (state) => state.auth.token;
+export const selectIsAuthorized = (state) => state.auth.isAuthorized;
+export const selectError = (state) => state.auth.error;
+export const selectUser = (state) => state.auth.user;
+
+export default authSlice.reducer;
