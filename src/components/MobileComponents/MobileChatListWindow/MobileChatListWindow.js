@@ -1,78 +1,106 @@
 import React, { useEffect } from 'react'
 import { useHistory } from 'react-router-dom'
+import { useDispatch, useSelector } from 'react-redux'
 import styled from 'styled-components'
 
+import { getConvos, getMessages } from "../../../features/message/messageSlice"
+import { selectUser } from "../../../features/auth/authSlice"
 import MobileChatListItem from "../MobileChatListItem/MobileChatListItem"
 import MobileChatMenuHeader from "../MobileChatMenuHeader/MobileChatMenuHeader"
+import { useSocket } from '../../Contexts/socketContext'; 
 
 export default function MobileChatListWindow() {
   const history = useHistory();
+  const dispatch = useDispatch();
+  const { socket } = useSocket();
 
-  const data = [
-    { 
-      preview: 'This is preview text',
-      name: 'Roderick Amfee',
-      timestamp: '12:46',
-    },
-    { 
-      preview: 'This is preview text',
-      name: 'Roderick Amfee',
-      timestamp: '12:46',
-    },
-    { 
-      preview: 'This is preview text',
-      name: 'Roderick Amfee',
-      timestamp: '12:46',
-    },
-    { 
-      preview: 'This is preview text',
-      name: 'Roderick Amfee',
-      timestamp: '12:46',
-    },
-    { 
-      preview: 'This is preview text',
-      name: 'Roderick Amfee',
-      timestamp: '12:46',
-    },
-    {       
-      preview: 'This is preview text',
-      name: 'Roderick Amfee',
-      timestamp: '12:46',
-    },
-    { 
-      preview: 'This is preview text',
-      name: 'Roderick Amfee',
-      timestamp: '12:46',
-    },
-    { 
-      preview: 'This is preview text',
-      name: 'Roderick Amfee',
-      timestamp: '12:46',
-    },
-    { 
-      preview: 'This is preview text',
-      name: 'Roderick Amfee',
-      timestamp: '12:46',
-    },
-    { 
-      preview: 'This is preview text',
-      name: 'Roderick Amfee',
-      timestamp: '12:46',
-    },
-    { 
-      preview: 'This is preview text',
-      name: 'Roderick Amfee',
-      timestamp: '12:46',
-    },
-    { 
-      preview: 'This is preview text',
-      name: 'Roderick Amfee',
-      timestamp: '12:46',
-    },
-  ];
+  const user = useSelector( selectUser )
+  const convos = useSelector( getMessages )
 
-  const handleConvoClick = () => {
-    history.push('/chat/60457f13aa458bd0890f2640')
+  console.log('socket instance', socket)
+
+  useEffect(() => {
+    if(socket !== null) {
+      dispatch( 
+        getConvos({
+          'type': 'socket',
+          'eventType': 'getConvos',
+          'data': { 
+            user
+          },
+          'socket': socket,
+        }) 
+      )
+    }
+  }, [dispatch, user, socket])
+
+  // const data = [
+  //   { 
+  //     preview: 'This is preview text',
+  //     name: 'Roderick Amfee',
+  //     timestamp: '12:46',
+  //   },
+  //   { 
+  //     preview: 'This is preview text',
+  //     name: 'Roderick Amfee',
+  //     timestamp: '12:46',
+  //   },
+  //   { 
+  //     preview: 'This is preview text',
+  //     name: 'Roderick Amfee',
+  //     timestamp: '12:46',
+  //   },
+  //   { 
+  //     preview: 'This is preview text',
+  //     name: 'Roderick Amfee',
+  //     timestamp: '12:46',
+  //   },
+  //   { 
+  //     preview: 'This is preview text',
+  //     name: 'Roderick Amfee',
+  //     timestamp: '12:46',
+  //   },
+  //   {       
+  //     preview: 'This is preview text',
+  //     name: 'Roderick Amfee',
+  //     timestamp: '12:46',
+  //   },
+  //   { 
+  //     preview: 'This is preview text',
+  //     name: 'Roderick Amfee',
+  //     timestamp: '12:46',
+  //   },
+  //   { 
+  //     preview: 'This is preview text',
+  //     name: 'Roderick Amfee',
+  //     timestamp: '12:46',
+  //   },
+  //   { 
+  //     preview: 'This is preview text',
+  //     name: 'Roderick Amfee',
+  //     timestamp: '12:46',
+  //   },
+  //   { 
+  //     preview: 'This is preview text',
+  //     name: 'Roderick Amfee',
+  //     timestamp: '12:46',
+  //   },
+  //   { 
+  //     preview: 'This is preview text',
+  //     name: 'Roderick Amfee',
+  //     timestamp: '12:46',
+  //   },
+  //   { 
+  //     preview: 'This is preview text',
+  //     name: 'Roderick Amfee',
+  //     timestamp: '12:46',
+  //   },
+  // ];
+
+
+
+  const handleConvoClick = (cid) => {
+    history.push(`/chat/${cid}`)
   }
 
   const handleMessageIconClick = () => {
@@ -83,12 +111,19 @@ export default function MobileChatListWindow() {
     history.push('/requests')
   }
 
-  const convos = data.map((val) => {
+  const chatIdList = Object.keys(convos);
+
+  const chats = chatIdList.map((cid) => {
+    const currentConvo = convos[cid]
+    const lastMessage = currentConvo.messages[currentConvo.messages.length - 1].value;
+    const name = currentConvo.nickname;
+    const timestamp = '12:36';
+
     return <MobileChatListItem 
-      preview={val.preview} 
-      name={val.name}
-      timestamp={val.timestamp}
-      handleConvoClick={handleConvoClick}
+      preview={lastMessage} 
+      name={name}
+      timestamp={timestamp}
+      handleConvoClick={() => handleConvoClick(cid)}
     />
   })
 
@@ -100,7 +135,7 @@ export default function MobileChatListWindow() {
       handleInboxIconClick={handleInboxIconClick}
      /> 
       <div>
-        {convos}
+        {chats}
       </div>
     </>
   )

@@ -49,7 +49,7 @@ function App() {
               </ProtectedRoute>
               <ProtectedRoute path="/requests">
                 {
-                  <MobileChatRequestList />
+                  <MobileChatRequestList /> 
                 }
               </ProtectedRoute>
             </SocketProvider>

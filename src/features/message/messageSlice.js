@@ -8,10 +8,7 @@ import { createSlice } from '@reduxjs/toolkit';
 
 export const messageSlice = createSlice({
   name: 'message',
-  initialState: {
-    messages: {},
-    status: null,
-  },
+  initialState: {},
   reducers: {
     getMessageHistory: (state, action) => {
       console.log('action history request sent', action);
@@ -32,15 +29,34 @@ export const messageSlice = createSlice({
       console.log('new message', newMessage)
 
       // if the cid exists the add to it, else create a new key for it in the obj
-      if(state.messages.hasOwnProperty([action.payload.data['cid']])) {
-        state.messages[action.payload.data['cid']].push(newMessage);
+      if(state.hasOwnProperty([action.payload.data['cid']])) {
+        state[action.payload.data['cid']].messages.push(newMessage);
       } else {
-        state.messages[action.payload.data['cid']] = new Array(newMessage);
+        state[action.payload.data['cid']].messages = new Array(newMessage);
       }
     },
     messageHistoryReceived: (state, action) => {
       console.log('history rece', action);
-      state.messages[action.payload.data.cid] = action.payload.data.history;
+      state[action.payload.data.cid].messages = action.payload.data.history;
+    },
+
+    getConvos: () => {
+      console.log('get convos sent')
+    },
+
+    convos: (state, action) => {
+      const newConvos = action.payload.data.reduce((acc, convo) => {
+        return {
+          ...acc, 
+          [convo._id]: {
+            messages: convo.messages, 
+            users: convo.users,
+            nickname: convo.nickname,
+          }
+        }
+      }, {})
+
+      return state = newConvos;
     }
   },
   // extraReducers: {
@@ -59,9 +75,16 @@ export const messageSlice = createSlice({
   // }
 });
 
-export const { messageHistoryReceived, getMessageHistory, sendMessage, messageReceived } = messageSlice.actions
+export const { 
+  messageHistoryReceived, 
+  getMessageHistory, 
+  sendMessage, 
+  messageReceived, 
+  getConvos,
+  convos
+} = messageSlice.actions
 
-export const getMessages = (state) => { return state.messages.messages }
+export const getMessages = (state) => { return state.messages }
 
 
 export default messageSlice.reducer;

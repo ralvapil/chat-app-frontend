@@ -29,6 +29,19 @@ export default function MobileChatWindow() {
   
   const dispatch = useDispatch();
 
+  useEffect(() => {
+    if(socket !== null) {
+      dispatch(getMessageHistory({
+        'type': 'socket',
+        'eventType': 'messageHistory',
+        'data': { 
+          cid
+        },
+        'socket': socket,
+      }));
+    }
+  }, [socket, dispatch, cid])
+
   const handleSend = () => {
     console.log('sent', messageInput);
 

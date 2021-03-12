@@ -23,7 +23,7 @@ export default function MobileChatBody( { messages, cid, currentUser } ) {
 
   let prevMessageUserId = null;
 
-  const renderedMessages = messages.hasOwnProperty(cid) ? messages[cid].map((message, idx) => {
+  const renderedMessages = messages.hasOwnProperty(cid) ? messages[cid].messages.map((message, idx) => {
     const messageJsx = <MobileChatMessage 
       key={idx} 
       name={message.name}

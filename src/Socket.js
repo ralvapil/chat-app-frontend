@@ -1,7 +1,7 @@
 import { io } from "socket.io-client"; 
 
 export class Socket {
-  constructor(dispatch, messageReceivedFn, userId, messageHistoryReceivedFn) {
+  constructor(dispatch, messageReceivedFn, userId, messageHistoryReceivedFn, convosFn) {
     this.socket = io("http://localhost:5000", { query: `userId=${userId}` });
     this.dispatch = dispatch;
     this.socket.on('connect', () => {
@@ -11,6 +11,7 @@ export class Socket {
 
     this.messageReceived(messageReceivedFn)
     this.messageHistoryReceived(messageHistoryReceivedFn)
+    this.convosFn(convosFn)
   }
 
   getSocket() {
@@ -40,6 +41,14 @@ export class Socket {
     this.socket.on('messageHistory', (data) => {
       console.log('message history received', data);
       return this.dispatch(messageHistoryReceivedFn({'type': 'message', data}))
+    })
+  }
+
+  convosFn(convosFn) {
+    this.socket.on('convos', (data) => {
+      console.log('convos', data);
+
+      return this.dispatch(convosFn({type: 'message', data}))
     })
   }
 }
