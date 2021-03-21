@@ -1,4 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
+import equal from "fast-deep-equal/es6";
 
 // export const sendMessage = createAsyncThunk('messages/sendMessage', async (payload1, payload2) => {
 //   // const response = a
@@ -11,7 +12,13 @@ export const messageSlice = createSlice({
   initialState: {},
   reducers: {
     getMessageHistory: (state, action) => {
-      console.log('action history request sent', action);
+      if(state.hasOwnProperty(action.response.cid)) {
+        state[action.response.cid].messages = action.response.history;
+      } else {
+        state[action.response.cid] = {};
+        state[action.response.cid].messages = action.response.history;
+      }
+
     },
     sendMessage: (state, action) => {
       // do nothing since we need the server to respond with the message sent
@@ -35,29 +42,30 @@ export const messageSlice = createSlice({
         state[action.payload.data['cid']].messages = new Array(newMessage);
       }
     },
-    messageHistoryReceived: (state, action) => {
-      console.log('history rece', action);
-      state[action.payload.data.cid].messages = action.payload.data.history;
-    },
 
-    getConvos: () => {
-      console.log('get convos sent')
-    },
-
-    convos: (state, action) => {
-      const newConvos = action.payload.data.reduce((acc, convo) => {
-        return {
-          ...acc, 
-          [convo._id]: {
-            messages: convo.messages, 
-            users: convo.users,
-            nickname: convo.nickname,
+    getConvos: (state, action) => {
+      const newConvos = action.response.reduce((acc, convo) => {
+        if(
+          !state.hasOwnProperty(convo._id) ||
+          (state.hasOwnProperty(convo._id) && !equal(state[convo._id], convo))
+        ) {
+          console.log('convo diff occurred', state)
+          // compare to see if we need to replace it
+          return {
+            ...acc, 
+            [convo._id]: {
+              messages: convo.messages, 
+              users: convo?.usersData,
+              nickname: convo.nickname,
+            }
           }
+        } else {
+          return acc
         }
       }, {})
 
       return state = newConvos;
-    }
+    },
   },
   // extraReducers: {
   //   [sendMessage.pending]: (state, action) => {
@@ -84,7 +92,9 @@ export const {
   convos
 } = messageSlice.actions
 
-export const getMessages = (state) => { return state.messages }
+export const getMessages = (state, cid) => { 
+  return cid ? state.messages[cid] : state.messages
+}
 
 
 export default messageSlice.reducer;

@@ -1,11 +1,12 @@
 
-export const socketMiddleware = storeAPI => next => action => {
+export const socketMiddleware = storeAPI => next => async action => {
 
   if(action.payload?.type === 'socket') {
     console.log('is socket', action.payload.eventType)
     // console.log('middleware socket', action.payload.socket)
-    action.payload.socket.emitSocket(action.payload.eventType, action.payload.data);
-
+    action.response = null;
+    action.response = await action.payload.socket.emitSocket(action.payload.eventType, action.payload.data);
+    console.log('after promise line', action.response)
     delete action.payload.socket;
   }
 

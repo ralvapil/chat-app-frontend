@@ -8,6 +8,7 @@ import { selectUser } from "../../../features/auth/authSlice"
 import MobileChatListItem from "../MobileChatListItem/MobileChatListItem"
 import MobileChatMenuHeader from "../MobileChatMenuHeader/MobileChatMenuHeader"
 import { useSocket } from '../../Contexts/socketContext'; 
+import { current } from 'immer'
 
 export default function MobileChatListWindow() {
   const history = useHistory();
@@ -116,22 +117,31 @@ export default function MobileChatListWindow() {
   const chats = chatIdList.map((cid) => {
     const currentConvo = convos[cid]
     const lastMessage = currentConvo.messages[currentConvo.messages.length - 1].value;
-    const name = currentConvo.nickname;
+
+    const convoName = 
+      currentConvo?.nickname.length > 0 
+      ? currentConvo.nickname 
+      : currentConvo.users
+        .filter((convoUser) => user !== convoUser._id)
+        .map(
+          (convoUser) => `${convoUser?.firstName} ${convoUser?.lastName}`
+        )
+        .join(', ');
+
     const timestamp = '12:36';
 
     return <MobileChatListItem 
       preview={lastMessage} 
-      name={name}
+      name={convoName}
       timestamp={timestamp}
       handleConvoClick={() => handleConvoClick(cid)}
     />
   })
-
   return (
     <>
      <MobileChatMenuHeader 
-      selected='chats' 
-      handleMessageIconClick={handleMessageIconClick} 
+      selected='chats'
+      handleMessageIconClick={handleMessageIconClick}
       handleInboxIconClick={handleInboxIconClick}
      /> 
       <div>

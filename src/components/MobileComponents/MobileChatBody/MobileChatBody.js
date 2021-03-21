@@ -18,19 +18,20 @@ export default function MobileChatBody( { messages, cid, currentUser } ) {
   const messagesEndRef = useRef(null);
 
   useEffect(() => {
+    console.log('mesage changes')
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' })
   }, [messages])
 
   let prevMessageUserId = null;
-
-  const renderedMessages = messages.hasOwnProperty(cid) ? messages[cid].messages.map((message, idx) => {
+    console.log('messages here', messages)
+  const renderedMessages = messages?.messages ? messages.messages.map((message, idx) => {
     const messageJsx = <MobileChatMessage 
       key={idx} 
       name={message.name}
       timestamp={message.timestamp}
       isNotCurrentUser={message.user !== currentUser}
       userIsDifferentThanPrevious = {message.user !== prevMessageUserId}
-      isLastMessage={idx === messages[cid].length - 1}
+      isLastMessage={idx === messages.messages.length - 1}
     >
       {message.value}
     </MobileChatMessage>

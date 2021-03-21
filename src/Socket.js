@@ -1,7 +1,7 @@
 import { io } from "socket.io-client"; 
 
 export class Socket {
-  constructor(dispatch, messageReceivedFn, userId, messageHistoryReceivedFn, convosFn) {
+  constructor(dispatch, messageReceivedFn, userId) {
     this.socket = io("http://localhost:5000", { query: `userId=${userId}` });
     this.dispatch = dispatch;
     this.socket.on('connect', () => {
@@ -10,8 +10,6 @@ export class Socket {
     this.userId = userId;
 
     this.messageReceived(messageReceivedFn)
-    this.messageHistoryReceived(messageHistoryReceivedFn)
-    this.convosFn(convosFn)
   }
 
   getSocket() {
@@ -22,8 +20,12 @@ export class Socket {
     this.socket.disconnect();
   }
 
-  emitSocket(event, data) {
-    this.socket.emit(event, data);
+  async emitSocket (event, data)  {
+   const result = await new Promise(resolve => this.socket.emit(event, data, response => {
+      return resolve(response)
+    }));
+    console.log('inside emit', result)
+    return result;
   }
 
   messageReceived(messageReceivedFn) {
@@ -35,20 +37,5 @@ export class Socket {
         // 'socket': socket,
       }))
     });
-  }
-
-  messageHistoryReceived(messageHistoryReceivedFn) {
-    this.socket.on('messageHistory', (data) => {
-      console.log('message history received', data);
-      return this.dispatch(messageHistoryReceivedFn({'type': 'message', data}))
-    })
-  }
-
-  convosFn(convosFn) {
-    this.socket.on('convos', (data) => {
-      console.log('convos', data);
-
-      return this.dispatch(convosFn({type: 'message', data}))
-    })
   }
 }

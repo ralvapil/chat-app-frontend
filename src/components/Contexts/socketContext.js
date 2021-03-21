@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux'
 
 import { selectIsAuthorized, selectUser } from '../../features/auth/authSlice'
-import { messageReceived, messageHistoryReceived, convos } from '../../features/message/messageSlice'
+import { messageReceived } from '../../features/message/messageSlice'
 
 import { Socket } from "../../Socket";
 
@@ -18,7 +18,7 @@ function SocketProvider( {children} ) {
     if(user && isAuthorized) {
       console.log('socket is being created for', user);
   
-      const socketInstance = new Socket(dispatch, messageReceived, user, messageHistoryReceived, convos);
+      const socketInstance = new Socket(dispatch, messageReceived, user);
       setSocket(socketInstance);
 
       return () => socketInstance.closeSocket();

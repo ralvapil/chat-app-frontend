@@ -20,17 +20,14 @@ const StyledContainer = styled.div`
 export default function MobileChatWindow() {
 
   const {socket} = useSocket();
-
-  console.log('socket', socket)
   const { cid } = useParams();
   const [messageInput, setMessageInput] = useState('');
-  const messages = useSelector(getMessages);
+  const messages = useSelector((state) => getMessages(state, cid));
   const user = useSelector(selectUser);
-  
   const dispatch = useDispatch();
 
   useEffect(() => {
-    if(socket !== null) {
+    if(socket !== null && !messages) {
       dispatch(getMessageHistory({
         'type': 'socket',
         'eventType': 'messageHistory',
