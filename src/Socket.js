@@ -24,17 +24,14 @@ export class Socket {
    const result = await new Promise(resolve => this.socket.emit(event, data, response => {
       return resolve(response)
     }));
-    console.log('inside emit', result)
     return result;
   }
 
   messageReceived(messageReceivedFn) {
     this.socket.on('message', (data) => {
-      console.log('received', data)
       return this.dispatch(messageReceivedFn({
         'type': 'message',
         data,
-        // 'socket': socket,
       }))
     });
   }

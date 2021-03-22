@@ -1,6 +1,8 @@
 import React, { useEffect, useRef } from 'react'
 import styled from 'styled-components'
 import MobileChatMessage from '../MobileChatMessage/MobileChatMessage'
+import { useSelector } from 'react-redux'
+import { getMessages } from '../../../features/message/messageSlice'
 
 const StyledWrapper = styled.div`
     margin-top: 100px;
@@ -14,20 +16,19 @@ const StyledWrapper = styled.div`
 
 `
 
-export default function MobileChatBody( { messages, cid, currentUser } ) {
+export default function MobileChatBody( { cid, currentUser } ) {
   const messagesEndRef = useRef(null);
+  const messages = useSelector((state) => getMessages(state, cid));
 
   useEffect(() => {
-    console.log('mesage changes')
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' })
   }, [messages])
 
   let prevMessageUserId = null;
-    console.log('messages here', messages)
   const renderedMessages = messages?.messages ? messages.messages.map((message, idx) => {
     const messageJsx = <MobileChatMessage 
       key={idx} 
-      name={message.name}
+      name={message.senderName}
       timestamp={message.timestamp}
       isNotCurrentUser={message.user !== currentUser}
       userIsDifferentThanPrevious = {message.user !== prevMessageUserId}
@@ -35,8 +36,6 @@ export default function MobileChatBody( { messages, cid, currentUser } ) {
     >
       {message.value}
     </MobileChatMessage>
-      console.log('prevmess', prevMessageUserId)
-      console.log('message user', message.user)
     if(prevMessageUserId !== message.user) {
       prevMessageUserId = message.user;
     }

@@ -40,8 +40,6 @@ export default function MobileChatWindow() {
   }, [socket, dispatch, cid])
 
   const handleSend = () => {
-    console.log('sent', messageInput);
-
     dispatch(sendMessage({
       'type': 'socket',
       'eventType': 'message',
@@ -81,7 +79,7 @@ export default function MobileChatWindow() {
   return (
     <StyledContainer>  
       <MobileChatHeader cid={cid} onPhoneClick={handlePhoneIconClick} name={'Ramanan Alvapillai'}/>
-      <MobileChatBody messages={messages} cid={cid} currentUser={user}/>
+      <MobileChatBody cid={cid} currentUser={user}/>
       <MobileChatFooter 
         messageInput={messageInput} 
         onChange={handleMessageInputChange} 

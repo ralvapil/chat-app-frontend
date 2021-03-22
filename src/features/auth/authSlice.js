@@ -42,11 +42,9 @@ export const authSlice = createSlice({
   extraReducers: {
     [getUserStatus.pending]: (state, action) => {
       state.status = "loading";
-      console.log('action loading', action)
 
     },
     [getUserStatus.fulfilled]: (state, action) => {
-      console.log('action', action)
       state.status = "succeeded";
       // state.email = action.meta.arg.email;
       // state.token = action.payload;
@@ -55,7 +53,6 @@ export const authSlice = createSlice({
     },
     [getUserStatus.rejected]: (state, action) => {
       state.status = "failed";
-      console.log('action failed', action)
       state.isAuthorized = false;
 
       // state.token = null;

@@ -42,7 +42,6 @@ const StyledMessageText = styled.span`
 // `
 
 export default function MobileChatMessage( {name, timestamp, userIsDifferentThanPrevious, children, isNotCurrentUser, isLastMessage} ) {
-  console.log('is not', isNotCurrentUser)
   return (
     <StyledContainer 
       isNotCurrentUser={isNotCurrentUser} 

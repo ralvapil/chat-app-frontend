@@ -3,7 +3,7 @@ import { useHistory } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import styled from 'styled-components'
 
-import { getConvos, getMessages } from "../../../features/message/messageSlice"
+import { getConvos, getMessages, getLastUpdatedConvos } from "../../../features/message/messageSlice"
 import { selectUser } from "../../../features/auth/authSlice"
 import MobileChatListItem from "../MobileChatListItem/MobileChatListItem"
 import MobileChatMenuHeader from "../MobileChatMenuHeader/MobileChatMenuHeader"
@@ -17,11 +17,10 @@ export default function MobileChatListWindow() {
 
   const user = useSelector( selectUser )
   const convos = useSelector( getMessages )
-
-  console.log('socket instance', socket)
+  const lastUpdateConvos = useSelector( getLastUpdatedConvos )
 
   useEffect(() => {
-    if(socket !== null) {
+    if(socket !== null && lastUpdateConvos === null) {
       dispatch( 
         getConvos({
           'type': 'socket',
@@ -131,6 +130,7 @@ export default function MobileChatListWindow() {
     const timestamp = '12:36';
 
     return <MobileChatListItem 
+      key={cid}
       preview={lastMessage} 
       name={convoName}
       timestamp={timestamp}

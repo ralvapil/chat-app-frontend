@@ -9,62 +9,64 @@ import equal from "fast-deep-equal/es6";
 
 export const messageSlice = createSlice({
   name: 'message',
-  initialState: {},
+  initialState: {
+    lastUpdated: null,
+    data: {},
+  },
   reducers: {
     getMessageHistory: (state, action) => {
-      if(state.hasOwnProperty(action.response.cid)) {
-        state[action.response.cid].messages = action.response.history;
-      } else {
-        state[action.response.cid] = {};
-        state[action.response.cid].messages = action.response.history;
+      const convo = action.response;
+
+      const convoHistory = {
+        messages: convo.recentMsgs, 
+        users: convo?.users,
+        nickname: convo.nickname,
       }
 
+      if(state.hasOwnProperty(action.response._id)) {
+        if(!equal(state.data[action.response._id], convoHistory)) {
+          state.data[convo._id] = convoHistory;
+        }
+      } else {
+        state.data[convo._id] = convoHistory;
+      }
     },
     sendMessage: (state, action) => {
-      // do nothing since we need the server to respond with the message sent
+      // do nothing since we need the server to respond with the message sent in the 'messageReceived' reducer
     },
-    messageReceived: (state, action) => {
-      console.log('action', action.payload.data)
-      
+    messageReceived: (state, action) => {      
       const newMessage = {
         value: action.payload.data.value,
         user: action.payload.data.user,
         timestamp: action.payload.data.timestamp,
-        name: action.payload.data.name,
+        name: action.payload.data.senderName,
       };
 
-      console.log('new message', newMessage)
-
       // if the cid exists the add to it, else create a new key for it in the obj
-      if(state.hasOwnProperty([action.payload.data['cid']])) {
-        state[action.payload.data['cid']].messages.push(newMessage);
+      if(state.data.hasOwnProperty([action.payload.data['chat']])) {
+        state.data[action.payload.data['chat']].messages.push(newMessage);
       } else {
-        state[action.payload.data['cid']].messages = new Array(newMessage);
+        state.data[action.payload.data['chat']].messages = new Array(newMessage);
       }
+
+      // state.lastUpdated = new Date();
     },
 
     getConvos: (state, action) => {
       const newConvos = action.response.reduce((acc, convo) => {
-        if(
-          !state.hasOwnProperty(convo._id) ||
-          (state.hasOwnProperty(convo._id) && !equal(state[convo._id], convo))
-        ) {
-          console.log('convo diff occurred', state)
-          // compare to see if we need to replace it
-          return {
-            ...acc, 
-            [convo._id]: {
-              messages: convo.messages, 
-              users: convo?.usersData,
-              nickname: convo.nickname,
-            }
+        // console.log('convo diff occurred', state[convo._id])
+        // compare to see if we need to replace it
+        return {
+          ...acc, 
+          [convo._id]: {
+            messages: convo.recentMsgs, 
+            users: convo?.users,
+            nickname: convo.nickname,
           }
-        } else {
-          return acc
         }
       }, {})
-
-      return state = newConvos;
+      state.lastUpdated = new Date().toISOString();
+      state.data = newConvos;
     },
   },
   // extraReducers: {
@@ -93,7 +95,10 @@ export const {
 } = messageSlice.actions
 
 export const getMessages = (state, cid) => { 
-  return cid ? state.messages[cid] : state.messages
+  return cid ? state.messages.data[cid] : state.messages.data
+}
+export const getLastUpdatedConvos = (state) => {
+  return state.messages.lastUpdated
 }
 
 
