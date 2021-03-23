@@ -78,7 +78,7 @@ export default function MobileChatListItem( {preview, name, timestamp, handleCon
             {name}
           </StyledName>
           <StyledPreviewText>
-            {preview}
+            {preview.length > 23 ? preview.substring(0, 20) + '...' : preview}
           </StyledPreviewText>
         </StyledTextContainer>
         <StyledTimeStampContainer>
