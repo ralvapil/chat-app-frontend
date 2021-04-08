@@ -34,17 +34,26 @@ export const messageSlice = createSlice({
     sendMessage: (state, action) => {
       // do nothing since we need the server to respond with the message sent in the 'messageReceived' reducer
     },
-    messageReceived: (state, action) => {      
+    messageReceived: (state, action) => {   
+      const { user, message } = action.payload.data;
+      console.log('message', message, 'user', user)
       const newMessage = {
-        value: action.payload.data.value,
-        user: action.payload.data.user,
-        timestamp: action.payload.data.timestamp,
-        name: action.payload.data.senderName,
+        value: message.value,
+        user: message.user,
+        timestamp: message.timestamp,
+        name: message.senderName,
       };
+
+      console.log('prop exists?', action)
 
       // if the cid exists the add to it, else create a new key for it in the obj
       if(state.data.hasOwnProperty([action.payload.data['chat']])) {
-        state.data[action.payload.data['chat']].messages.push(newMessage);
+        const chatState = state.data[action.payload.data['chat']];
+
+        chatState.messages.push(newMessage);
+
+        const userIdx = chatState.users.findIndex((el) => user._id === el._id )
+        chatState.users[userIdx].unreadMsgCount = user.unreadMsgCount;
       } else {
         state.data[action.payload.data['chat']].messages = new Array(newMessage);
       }
@@ -68,6 +77,12 @@ export const messageSlice = createSlice({
       state.lastUpdated = new Date().toISOString();
       state.data = newConvos;
     },
+    sendReadMessages: (state, action) => {
+      // using cid update read count in slice
+      console.log('in send read messages', action);
+
+
+    }
   },
   // extraReducers: {
   //   [sendMessage.pending]: (state, action) => {
@@ -91,7 +106,8 @@ export const {
   sendMessage, 
   messageReceived, 
   getConvos,
-  convos
+  convos,
+  sendReadMessages,
 } = messageSlice.actions
 
 export const getMessages = (state, cid) => { 
