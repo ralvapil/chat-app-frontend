@@ -46,6 +46,14 @@ export const messageSlice = createSlice({
 
       console.log('prop exists?', action)
 
+      state.data = {
+        ...state.data,
+        users: [
+          ...state.users,
+        ]
+      }
+      }
+
       // if the cid exists the add to it, else create a new key for it in the obj
       if(state.data.hasOwnProperty([action.payload.data['chat']])) {
         const chatState = state.data[action.payload.data['chat']];
