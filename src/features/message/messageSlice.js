@@ -40,9 +40,14 @@ export const messageSlice = createSlice({
 
       if(state.data.hasOwnProperty(cid)) {
         state.data[cid].messages.push(message)
-      } 
-
-      // TODO add case for if cid does NOT exist, what do with message
+      } else {
+        //create a new key in the store for the convo
+        state.data[cid] = {
+          messages: [message],
+          users: message.chat.users,
+          nickname: message.chat.nickname
+        }
+      }
     },
     getConvos: (state, action) => {
       const newConvos = action.response.reduce((acc, convo) => {
