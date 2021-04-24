@@ -35,17 +35,19 @@ export const messageSlice = createSlice({
       // do nothing since we need the server to respond with the message sent in the 'messageReceived' reducer
     },
     messageReceived: (state, action) => {   
-      const { message } = action.payload.data;
+      const { message, user } = action.payload.data;
       const { chat: cid } = message;
 
       if(state.data.hasOwnProperty(cid)) {
         state.data[cid].messages.push(message)
+        state.data[cid].unreadMsgCount = user.unreadMsgCount
       } else {
         //create a new key in the store for the convo
         state.data[cid] = {
           messages: [message],
           users: message.chat.users,
-          nickname: message.chat.nickname
+          nickname: message.chat.nickname,
+          unreadMsgCount: user.unreadMsgCount
         }
       }
     },
