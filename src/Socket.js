@@ -21,6 +21,7 @@ export class Socket {
   }
 
   async emitSocket (event, data)  {
+    console.log('in emit for ', event)
    const result = await new Promise(resolve => this.socket.emit(event, data, response => {
       return resolve(response)
     }));

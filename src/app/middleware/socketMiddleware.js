@@ -1,6 +1,6 @@
 
 export const socketMiddleware = storeAPI => next => async action => {
-
+  console.log('action', action)
   if(action.payload?.type === 'socket') {
     // console.log('middleware socket', action.payload.socket)
     action.response = null;
