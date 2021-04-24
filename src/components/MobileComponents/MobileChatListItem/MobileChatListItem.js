@@ -22,17 +22,18 @@ const StyledTextContainer = styled.div`
 `
 
 const StyleProfilePicContainer = styled.div`
-  display: flex; 
-  flex-direction: row;
-  align-items: center;
-  justify-content: flex-start;
-  width: 25%;
   height: 100%;
+  padding-right: 10px;
 `
 
-const StyledTimeStampContainer = styled.span`
-  padding-top: 4px;
+const StyledMetaContainer = styled.div`
+  display: flex;
+  flex-direction: column;
   width: 20%;
+  align-items: flex-end;
+`
+
+const StyledTimeStamp = styled.span`
   font-size: 12px;
   font-weight: 300;
   text-align: right;
@@ -48,7 +49,7 @@ const StyledName = styled.div`
 const StyledPreviewText = styled.div`
   padding-top: 5px;
   font-size: 14px;
-  font-weight: 300;
+  font-weight: ${props => (props.isUnread ? 500 : 300)};
   color: #676767;
 `
 
@@ -65,7 +66,20 @@ const StyledSubContainer = styled.div`
   display: flex;
 `
 
-export default function MobileChatListItem( {preview, name, timestamp, handleConvoClick} ) {
+const StyledUnReadMsgCount = styled.div`
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: rgba(251, 109, 98, 0.7);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  margin-top: 6px;
+`
+
+export default function MobileChatListItem( {preview, name, timestamp, handleConvoClick, unreadMsgCount} ) {
 
   return (
     <StyledContainer onClick={handleConvoClick}>
@@ -77,15 +91,19 @@ export default function MobileChatListItem( {preview, name, timestamp, handleCon
           <StyledName>
             {name}
           </StyledName>
-          <StyledPreviewText>
+          <StyledPreviewText isUnread={unreadMsgCount > 0}>
             {preview.length > 23 ? preview.substring(0, 20) + '...' : preview}
           </StyledPreviewText>
         </StyledTextContainer>
-        <StyledTimeStampContainer>
-          <div>
+        <StyledMetaContainer>
+          <StyledTimeStamp>
             {timestamp}
-          </div>
-        </StyledTimeStampContainer>
+          </StyledTimeStamp>
+          {
+            unreadMsgCount > 0 ? <StyledUnReadMsgCount>{unreadMsgCount}</StyledUnReadMsgCount> : ''
+          }
+          
+        </StyledMetaContainer>
       </StyledSubContainer>
     </StyledContainer>
   )

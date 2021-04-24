@@ -115,7 +115,7 @@ export default function MobileChatListWindow() {
   const chats = chatIdList.map((cid) => {
     const currentConvo = convos[cid]
     const lastMessage = currentConvo.messages[currentConvo.messages.length - 1].value;
-
+    
     const convoName = 
       currentConvo?.nickname.length > 0 
       ? currentConvo.nickname 
@@ -134,6 +134,7 @@ export default function MobileChatListWindow() {
       name={convoName}
       timestamp={timestamp}
       handleConvoClick={() => handleConvoClick(cid)}
+      unreadMsgCount={currentConvo.unreadMsgCount || 0}
     />
   })
   return (
