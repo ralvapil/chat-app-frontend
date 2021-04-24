@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from 'react-router-dom'
 import styled from 'styled-components'
@@ -13,10 +13,9 @@ import {
   sendMessage, 
   messageReceived, 
   getMessages,
-  sendReadMessages,
 } from '../../../features/message/messageSlice'
 import { selectUser } from '../../../features/auth/authSlice'
-
+import { useInFocus } from '../../../features/hooks/useInFocus'
 import { useSocket } from '../../Contexts/socketContext'; 
 
 const StyledContainer = styled.div`
@@ -28,42 +27,11 @@ export default function MobileChatWindow() {
 
   const {socket} = useSocket();
   const { cid } = useParams();
-  const [messageInput, setMessageInput] = useState('');
   const messages = useSelector((state) => getMessages(state, cid));
   const user = useSelector(selectUser);
+  // const inFocus = useInFocus();
   const dispatch = useDispatch();
-
-  const onFocus = useCallback(
-    () => {
-      if(socket !== null && messages) {
-        console.log('in onfocus', messages)
-        return (
-          dispatch(sendReadMessages({
-          'type': 'socket',
-          'eventType': 'readMessage',
-          'data': { 
-            lastMessage_id: messages.messages[messages.messages.length - 1]._id,
-            userId: user,
-            cid
-          },
-          'socket': socket,
-        }))
-        )
-      }
-    },
-    [user, cid, socket, dispatch, messages],
-  )
-
-  useEffect(() => {
-    window.addEventListener('focus', onFocus);
-    return () => {
-      window.removeEventListener('focus', onFocus);
-    }
-  }, [onFocus])
-
-  useEffect(() => {
-    onFocus();
-  }, [onFocus])
+  const [messageInput, setMessageInput] = useState('');
 
   useEffect(() => {
     if(socket !== null && !messages) {
@@ -81,7 +49,7 @@ export default function MobileChatWindow() {
   const handleSend = () => {
     dispatch(sendMessage({
       'type': 'socket',
-      'eventType': 'message',
+      'eventType': 'sendMessage',
       'data': { 
         message: messageInput, 
         userId: user,
