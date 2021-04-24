@@ -8,7 +8,6 @@ import { selectUser } from "../../../features/auth/authSlice"
 import MobileChatListItem from "../MobileChatListItem/MobileChatListItem"
 import MobileChatMenuHeader from "../MobileChatMenuHeader/MobileChatMenuHeader"
 import { useSocket } from '../../Contexts/socketContext'; 
-import { current } from 'immer'
 
 export default function MobileChatListWindow() {
   const history = useHistory();
@@ -20,8 +19,8 @@ export default function MobileChatListWindow() {
   const lastUpdateConvos = useSelector( getLastUpdatedConvos )
 
   useEffect(() => {
-    if(socket !== null && lastUpdateConvos === null) {
-      dispatch( 
+    if(socket && !lastUpdateConvos) {
+      dispatch(
         getConvos({
           'type': 'socket',
           'eventType': 'getConvos',
@@ -32,7 +31,7 @@ export default function MobileChatListWindow() {
         }) 
       )
     }
-  }, [dispatch, user, socket])
+  }, [dispatch, user, socket, lastUpdateConvos])
 
   // const data = [
   //   { 
