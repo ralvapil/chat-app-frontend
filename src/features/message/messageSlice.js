@@ -1,4 +1,4 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, current } from '@reduxjs/toolkit';
 import equal from "fast-deep-equal/es6";
 
 // export const sendMessage = createAsyncThunk('messages/sendMessage', async (payload1, payload2) => {
@@ -35,40 +35,15 @@ export const messageSlice = createSlice({
       // do nothing since we need the server to respond with the message sent in the 'messageReceived' reducer
     },
     messageReceived: (state, action) => {   
-      const { user, message } = action.payload.data;
-      console.log('message', message, 'user', user)
-      const newMessage = {
-        value: message.value,
-        user: message.user,
-        timestamp: message.timestamp,
-        name: message.senderName,
-      };
+      const { message } = action.payload.data;
+      const { chat: cid } = message;
 
-      console.log('prop exists?', action)
+      if(state.data.hasOwnProperty(cid)) {
+        state.data[cid].messages.push(message)
+      } 
 
-      state.data = {
-        ...state.data,
-        users: [
-          ...state.users,
-        ]
-      }
-      }
-
-      // if the cid exists the add to it, else create a new key for it in the obj
-      if(state.data.hasOwnProperty([action.payload.data['chat']])) {
-        const chatState = state.data[action.payload.data['chat']];
-
-        chatState.messages.push(newMessage);
-
-        const userIdx = chatState.users.findIndex((el) => user._id === el._id )
-        chatState.users[userIdx].unreadMsgCount = user.unreadMsgCount;
-      } else {
-        state.data[action.payload.data['chat']].messages = new Array(newMessage);
-      }
-
-      // state.lastUpdated = new Date();
+      // TODO add case for if cid does NOT exist, what do with message
     },
-
     getConvos: (state, action) => {
       const newConvos = action.response.reduce((acc, convo) => {
         // console.log('convo diff occurred', state[convo._id])
@@ -91,7 +66,6 @@ export const messageSlice = createSlice({
 
 
     }
-  },
   // extraReducers: {
   //   [sendMessage.pending]: (state, action) => {
   //     state.status = 'loading';
@@ -106,6 +80,7 @@ export const messageSlice = createSlice({
   //     state.error = action.error.message
   //   }
   // }
+  }
 });
 
 export const { 
