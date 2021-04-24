@@ -9,13 +9,13 @@ import MobileChatFooter from '../MobileChatFooter/MobileChatFooter'
 
 import { 
   getMessageHistory, 
-  messageHistoryReceived, 
   sendMessage, 
-  messageReceived, 
   getMessages,
+  getConvos,
+  getLastUpdatedConvos,
 } from '../../../features/message/messageSlice'
 import { selectUser } from '../../../features/auth/authSlice'
-import { useInFocus } from '../../../features/hooks/useInFocus'
+// import { useInFocus } from '../../../features/hooks/useInFocus'
 import { useSocket } from '../../Contexts/socketContext'; 
 
 const StyledContainer = styled.div`
@@ -29,22 +29,26 @@ export default function MobileChatWindow() {
   const { cid } = useParams();
   const messages = useSelector((state) => getMessages(state, cid));
   const user = useSelector(selectUser);
+  const lastUpdateConvos = useSelector( getLastUpdatedConvos )
+
   // const inFocus = useInFocus();
   const dispatch = useDispatch();
   const [messageInput, setMessageInput] = useState('');
 
   useEffect(() => {
-    if(socket !== null && !messages) {
-      dispatch(getMessageHistory({
-        'type': 'socket',
-        'eventType': 'messageHistory',
-        'data': { 
-          cid
-        },
-        'socket': socket,
-      }));
+    if(socket && !lastUpdateConvos) {
+      dispatch(
+        getConvos({
+          'type': 'socket',
+          'eventType': 'getConvos',
+          'data': { 
+            user
+          },
+          'socket': socket,
+        }) 
+      )
     }
-  }, [socket, dispatch, cid])
+  }, [dispatch, user, socket, lastUpdateConvos])
 
   const handleSend = () => {
     dispatch(sendMessage({
