@@ -52,15 +52,15 @@ export const messageSlice = createSlice({
       }
     },
     getConvos: (state, action) => {
+      const { user } = action.payload;
       const newConvos = action.response.reduce((acc, convo) => {
-        // console.log('convo diff occurred', state[convo._id])
-        // compare to see if we need to replace it
         return {
           ...acc, 
           [convo._id]: {
             messages: convo.recentMsgs, 
             users: convo?.users,
             nickname: convo.nickname,
+            unreadMsgCount: convo.users.filter((convoUser) => convoUser.user === user)[0].unreadMsgCount
           }
         }
       }, {})
@@ -70,8 +70,6 @@ export const messageSlice = createSlice({
     sendReadMessages: (state, action) => {
       // using cid update read count in slice
       console.log('in send read messages', action);
-
-
     }
   // extraReducers: {
   //   [sendMessage.pending]: (state, action) => {
