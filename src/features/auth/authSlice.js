@@ -5,7 +5,7 @@ export const getUserStatus = createAsyncThunk(
   "auth/getUserStatus",
   async () => {
     const response = await api.get(
-      "http://localhost:5000/userStatus"
+      "http://localhost:5000/auth/getUserStatus"
     );
 
     return response;
@@ -42,7 +42,6 @@ export const authSlice = createSlice({
   extraReducers: {
     [getUserStatus.pending]: (state, action) => {
       state.status = "loading";
-
     },
     [getUserStatus.fulfilled]: (state, action) => {
       state.status = "succeeded";
