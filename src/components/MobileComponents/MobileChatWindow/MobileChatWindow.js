@@ -13,9 +13,11 @@ import {
   getMessages,
   getConvos,
   getLastUpdatedConvos,
+  getUnreadMsgCount,
+  sendReadMessages,
 } from '../../../features/message/messageSlice'
 import { selectUser } from '../../../features/auth/authSlice'
-// import { useInFocus } from '../../../features/hooks/useInFocus'
+import { useInFocus } from '../../../features/hooks/useInFocus'
 import { useSocket } from '../../Contexts/socketContext'; 
 
 const StyledContainer = styled.div`
@@ -29,12 +31,13 @@ export default function MobileChatWindow() {
   const { cid } = useParams();
   const messages = useSelector((state) => getMessages(state, cid));
   const user = useSelector(selectUser);
+  const unreadMsgCount = useSelector((state) => getUnreadMsgCount(state, cid))
   const lastUpdateConvos = useSelector( getLastUpdatedConvos )
 
   // const inFocus = useInFocus();
   const dispatch = useDispatch();
   const [messageInput, setMessageInput] = useState('');
-
+  
   useEffect(() => {
     if(socket && !lastUpdateConvos) {
       dispatch(
@@ -49,6 +52,24 @@ export default function MobileChatWindow() {
       )
     }
   }, [dispatch, user, socket, lastUpdateConvos])
+
+  useEffect(() => {
+    if(socket && unreadMsgCount > 0) {
+      console.log('seen', user)
+      dispatch(
+        sendReadMessages({
+          type: 'socket',
+          eventType: 'readMessage',
+          data: {
+            user,
+            message: messages.messages[messages.messages.length - 1],
+            cid,
+          },
+          socket
+        })
+      )
+    }
+  }, [socket, unreadMsgCount, messages, dispatch, cid, user])
 
   const handleSend = () => {
     dispatch(sendMessage({

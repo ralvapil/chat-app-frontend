@@ -1,12 +1,6 @@
 import { createSlice, current } from '@reduxjs/toolkit';
 import equal from "fast-deep-equal/es6";
 
-// export const sendMessage = createAsyncThunk('messages/sendMessage', async (payload1, payload2) => {
-//   // const response = a
-//   console.log('in send message', payload1, payload2);
-//   // return 'test123'
-// })
-
 export const messageSlice = createSlice({
   name: 'message',
   initialState: {
@@ -31,9 +25,11 @@ export const messageSlice = createSlice({
         state.data[convo._id] = convoHistory;
       }
     },
+
     sendMessage: (state, action) => {
       // do nothing since we need the server to respond with the message sent in the 'messageReceived' reducer
     },
+
     messageReceived: (state, action) => {   
       const { message, user } = action.payload.data;
       const { chat: cid } = message;
@@ -51,6 +47,7 @@ export const messageSlice = createSlice({
         }
       }
     },
+
     getConvos: (state, action) => {
       const { user } = action.payload;
       const newConvos = action.response.reduce((acc, convo) => {
@@ -60,31 +57,31 @@ export const messageSlice = createSlice({
             messages: convo.recentMsgs, 
             users: convo?.users,
             nickname: convo.nickname,
-            unreadMsgCount: convo.users.filter((convoUser) => convoUser.user === user)[0].unreadMsgCount
+            unreadMsgCount: convo.users.filter((convoUser) => convoUser.user === user)[0].unreadMsgCount,
+            _id: convo._id,
           }
         }
       }, {})
       state.lastUpdated = new Date().toISOString();
       state.data = newConvos;
     },
+
     sendReadMessages: (state, action) => {
-      // using cid update read count in slice
-      console.log('in send read messages', action);
+      const chat = action.response;
+      const {user} = action.payload;
+
+      // update chat data in slice
+      const data = {
+        messages: chat.recentMsgs,
+        users: chat.users,
+        nickname: chat.nickname,
+        unreadMsgCount: chat.users.filter((convoUser) => convoUser.user === user)[0].unreadMsgCount,
+        _id: chat._id,
+      }
+
+      state.data[chat._id] = data;
     }
-  // extraReducers: {
-  //   [sendMessage.pending]: (state, action) => {
-  //     state.status = 'loading';
-  //   },
-  //   [sendMessage.fulfilled]: (state, action) => {
-  //     state.status = 'succeeded'
-  //     // Add any fetched posts to the array
-  //     state.posts = state.posts.concat(action.payload)
-  //   },
-  //   [sendMessage.rejected]: (state, action) => {
-  //     state.status = 'failed'
-  //     state.error = action.error.message
-  //   }
-  // }
+    
   }
 });
 
@@ -104,6 +101,10 @@ export const getMessages = (state, cid) => {
 export const getLastUpdatedConvos = (state) => {
   return state.messages.lastUpdated
 }
+export const getUnreadMsgCount = (state, cid) => {
+  return state.messages?.data[cid]?.unreadMsgCount
+}
+
 
 
 export default messageSlice.reducer;
