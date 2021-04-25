@@ -1,11 +1,12 @@
 import React from 'react'
 import styled from 'styled-components'
-import { InboxOutlined, MessageOutlined } from '@ant-design/icons';
+import { UserOutlined, MessageOutlined, PlusCircleOutlined } from '@ant-design/icons';
 
 const StyledHeader = styled.h1`
     font-size: 32px;
     color: #2D3F65;
     font-weight: 400;
+    margin-bottom: 0px;
   `
 
   const StyledHeaderContainer = styled.div`
@@ -22,7 +23,7 @@ const StyledHeader = styled.h1`
     align-items: center;
     justify-content: space-around;
     height: 90px;
-    padding-top: 5%;
+    margin-top: 40px;
   `
 
   const StyledButtonSubContainer = styled.div`
@@ -33,9 +34,24 @@ const StyledHeader = styled.h1`
     height: 100%;
   `
 
+  const StyledAddButtonSubContainer = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  height: 100%;
+`
+
   const StyledHeaderSubContainer = styled.div`
-    height: 140px;
+    height: 100%;
     width: 86%;
+    padding-top: 10px;
+  `
+
+  const StyledTopContainer = styled.div`
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
   `
 
   const StyledMessageOutlined = styled(MessageOutlined)`
@@ -43,18 +59,28 @@ const StyledHeader = styled.h1`
     font-size: 36px;
   `
 
-  const StyledInboxOutlined = styled(InboxOutlined)`
+  const StyledInboxOutlined = styled(UserOutlined)`
     color: ${props => props.selected !== 'chats' ? 'rgba(251, 109, 98, 0.7)' : 'rgba(221, 221, 221, 0.6)'};
-    font-size: 42px;
+    font-size: 40px;
+  `
+  
+  const StyledPlusCircleOutlined = styled(PlusCircleOutlined)`
+    color: rgba(221, 221, 221, 0.6);
+    font-size: 34px;
   `
 
 export default function MobileChatMenuHeader( {selected = 'chats', handleMessageIconClick, handleInboxIconClick}) {
   return (
     <StyledHeaderContainer>
       <StyledHeaderSubContainer>
-        <StyledHeader>
-          Chats
-        </StyledHeader>
+        <StyledTopContainer>
+          <StyledHeader>
+            Chats
+          </StyledHeader>
+          <StyledAddButtonSubContainer>
+            <StyledPlusCircleOutlined />
+          </StyledAddButtonSubContainer>
+        </StyledTopContainer>
         <StyledButtonContainer>
           <StyledButtonSubContainer onClick={handleMessageIconClick}>
             <StyledMessageOutlined selected={selected} />

@@ -10,7 +10,7 @@ export default function MobileChatRequestList() {
   }
 
   const handleInboxIconClick = () => {
-    history.push('/requests')
+    history.push('/contacts')
   }
 
   return (

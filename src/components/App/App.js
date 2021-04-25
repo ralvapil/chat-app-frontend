@@ -11,7 +11,7 @@ import { selectIsAuthorized } from '../../features/auth/authSlice';
 import DesktopChatWindow from '../DesktopComponents/DesktopChatWindow/DesktopChatWindow'
 import MobileChatListWindow from '../MobileComponents/MobileChatListWindow/MobileChatListWindow'
 import MobileChatWindow from '../MobileComponents/MobileChatWindow/MobileChatWindow';
-import MobileChatRequestList from '../MobileComponents/MobileChatRequestList/MobileChatRequestList'
+import MobileContactList from '../MobileComponents/MobileContactList/MobileContactList'
 import { SocketProvider } from '../Contexts/socketContext'
 
 import Login from '../SharedComponents/Login/Login';
@@ -47,9 +47,9 @@ function App() {
                   isDesktopOrLaptop ? <DesktopChatWindow /> : <MobileChatListWindow />
                 }
               </ProtectedRoute>
-              <ProtectedRoute path="/requests">
+              <ProtectedRoute path="/contacts">
                 {
-                  <MobileChatRequestList /> 
+                  <MobileContactList /> 
                 }
               </ProtectedRoute>
             </SocketProvider>

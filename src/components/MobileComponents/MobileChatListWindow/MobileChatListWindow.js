@@ -107,7 +107,7 @@ export default function MobileChatListWindow() {
   }
 
   const handleInboxIconClick = () => {
-    history.push('/requests')
+    history.push('/contacts')
   }
 
   const chatIdList = Object.keys(convos);
