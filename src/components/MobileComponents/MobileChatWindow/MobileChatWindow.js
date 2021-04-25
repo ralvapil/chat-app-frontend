@@ -17,7 +17,6 @@ import {
   sendReadMessages,
 } from '../../../features/message/messageSlice'
 import { selectUser } from '../../../features/auth/authSlice'
-import { useInFocus } from '../../../features/hooks/useInFocus'
 import { useSocket } from '../../Contexts/socketContext'; 
 
 const StyledContainer = styled.div`
@@ -34,7 +33,6 @@ export default function MobileChatWindow() {
   const unreadMsgCount = useSelector((state) => getUnreadMsgCount(state, cid))
   const lastUpdateConvos = useSelector( getLastUpdatedConvos )
 
-  // const inFocus = useInFocus();
   const dispatch = useDispatch();
   const [messageInput, setMessageInput] = useState('');
   
@@ -55,7 +53,6 @@ export default function MobileChatWindow() {
 
   useEffect(() => {
     if(socket && unreadMsgCount > 0) {
-      console.log('seen', user)
       dispatch(
         sendReadMessages({
           type: 'socket',
