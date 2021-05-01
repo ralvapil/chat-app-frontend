@@ -12,6 +12,7 @@ import DesktopChatWindow from '../DesktopComponents/DesktopChatWindow/DesktopCha
 import MobileChatListWindow from '../MobileComponents/MobileChatListWindow/MobileChatListWindow'
 import MobileChatWindow from '../MobileComponents/MobileChatWindow/MobileChatWindow';
 import MobileContactList from '../MobileComponents/MobileContactList/MobileContactList'
+import MobileAddContact from '../MobileComponents/MobileAddContact/MobileAddContact'
 import { SocketProvider } from '../Contexts/socketContext'
 
 import Login from '../SharedComponents/Login/Login';
@@ -50,6 +51,11 @@ function App() {
               <ProtectedRoute path="/contacts">
                 {
                   <MobileContactList /> 
+                }
+              </ProtectedRoute>
+              <ProtectedRoute path="/contact/add">
+                {
+                  <MobileAddContact /> 
                 }
               </ProtectedRoute>
             </SocketProvider>

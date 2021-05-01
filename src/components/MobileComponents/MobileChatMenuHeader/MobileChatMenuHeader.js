@@ -1,6 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import { UserOutlined, MessageOutlined, PlusCircleOutlined } from '@ant-design/icons';
+import Dropdown from '../../SharedComponents/Dropdown/Dropdown'
 
 const StyledHeader = styled.h1`
     font-size: 32px;
@@ -39,6 +40,7 @@ const StyledHeader = styled.h1`
   align-items: center;
   justify-content: space-around;
   height: 100%;
+  position: relative;
 `
 
   const StyledHeaderSubContainer = styled.div`
@@ -78,7 +80,7 @@ export default function MobileChatMenuHeader( {selected = 'chats', handleMessage
             Chats
           </StyledHeader>
           <StyledAddButtonSubContainer>
-            <StyledPlusCircleOutlined />
+            <Dropdown />
           </StyledAddButtonSubContainer>
         </StyledTopContainer>
         <StyledButtonContainer>
