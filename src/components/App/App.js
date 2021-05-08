@@ -13,6 +13,8 @@ import MobileChatListWindow from '../MobileComponents/MobileChatListWindow/Mobil
 import MobileChatWindow from '../MobileComponents/MobileChatWindow/MobileChatWindow';
 import MobileContactList from '../MobileComponents/MobileContactList/MobileContactList'
 import MobileAddContact from '../MobileComponents/MobileAddContact/MobileAddContact'
+import MobileNewChat from '../MobileComponents/MobileNewChat/MobileNewChat'
+
 import { SocketProvider } from '../Contexts/socketContext'
 
 import Login from '../SharedComponents/Login/Login';
@@ -56,6 +58,11 @@ function App() {
               <ProtectedRoute path="/contact/add">
                 {
                   <MobileAddContact /> 
+                }
+              </ProtectedRoute>
+              <ProtectedRoute path="/new-chat/">
+                {
+                  <MobileNewChat /> 
                 }
               </ProtectedRoute>
             </SocketProvider>

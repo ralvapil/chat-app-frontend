@@ -1,7 +1,7 @@
 import { io } from "socket.io-client"; 
 
 export class Socket {
-  constructor(dispatch, messageReceivedFn, userId) {
+  constructor(dispatch, messageReceivedFn, newConvosPushedFn, userId) {
     this.socket = io("http://localhost:5000", { query: `userId=${userId}` });
     this.dispatch = dispatch;
     this.socket.on('connect', () => {
@@ -9,6 +9,7 @@ export class Socket {
     })
     this.userId = userId;
 
+    this.convosReceived(newConvosPushedFn)
     this.messageReceived(messageReceivedFn)
   }
 
@@ -26,6 +27,15 @@ export class Socket {
       return resolve(response)
     }));
     return result;
+  }
+
+  convosReceived(newConvosPushedFn) {
+    this.socket.on('newConvosPushed', (data) => {
+      return this.dispatch(newConvosPushedFn({
+        'type': 'newConvosPushed',
+        data
+      }))
+    })
   }
 
   messageReceived(messageReceivedFn) {

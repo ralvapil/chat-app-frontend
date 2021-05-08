@@ -58,6 +58,30 @@ export const messageSlice = createSlice({
       state.data = newConvos;
     },
 
+    newConvosPushed: (state, action) => {
+      const { user } = action.payload;
+      const newConvos = action.response.reduce((acc, convo) => {
+        return {
+          ...acc, 
+          [convo._id]: {
+            messages: convo.recentMsgs, 
+            users: convo?.users,
+            nickname: convo.nickname,
+            unreadMsgCount: convo.users.filter((convoUser) => convoUser.user === user)[0].unreadMsgCount,
+            _id: convo._id,
+          }
+        }
+      }, {})
+      state.lastUpdated = new Date().toISOString();
+      state.data = newConvos;
+    },
+
+    createChat: (state, action) => {
+      console.log('action in create chat', action)
+
+      //TODO this needs to be implemented
+    },
+
     sendReadMessages: (state, action) => {
       const chat = action.response;
       const {user} = action.payload;
@@ -83,6 +107,7 @@ export const {
   sendMessage, 
   messageReceived, 
   getConvos,
+  newConvosPushed,
   convos,
   sendReadMessages,
 } = messageSlice.actions

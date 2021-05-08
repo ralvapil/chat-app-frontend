@@ -20,7 +20,7 @@ const StyledPlusCircleOutlined = styled(PlusCircleOutlined)`
 `
 
 export default function Dropdown() {
-  const [ isOpen, setIsOpen ] = useState(true);
+  const [ isOpen, setIsOpen ] = useState(false);
 
   return (
     <div>

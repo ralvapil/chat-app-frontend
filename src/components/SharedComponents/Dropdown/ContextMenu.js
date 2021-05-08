@@ -41,7 +41,7 @@ export default function ContextMenu() {
   return(
     <List>
       <Item onClick={() => history.push('/contact/add')}>Add Contact</Item>
-      <Item>test2</Item>
+      <Item onClick={() => history.push('/new-chat')}>New Chat</Item>
       <Item>test3</Item>
     </List>
   )
