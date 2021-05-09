@@ -30,9 +30,9 @@ const List = styled.ul`
   border-radius: 4px;
   box-shadow: 0 2px 1px -1px rgb(0 0 0 / 20%), 0 1px 1px 0 rgb(0 0 0 / 14%), 0 1px 3px 0 rgb(0 0 0 / 12%);
   z-index: 15;
-  position: absolute;
-  left: -233px;
-  top: 32px;
+  position: fixed;
+  bottom: calc(96px + calc(68px / 2) + 2px);
+  right: calc((100vw/ 2) - calc(250px / 2));
 `
 
 export default function ContextMenu() {

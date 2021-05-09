@@ -1,5 +1,17 @@
 @import '~antd/dist/antd.css';
 
+@font-face {
+  font-family: 'Gibson-Regular';
+  src: local('Gibson-Regular'),
+    url(../../assets/fonts/gibson-regular.ttf) format('truetype');
+}
+
+@font-face {
+  font-family: 'Gibson-Light';
+  src: local('Gibson-Light'),
+    url(../../assets/fonts/gibson-light.ttf) format('truetype');
+}
+
 body {
-  font-family: Rubik, sans-serif !important;
+  font-family: Gibson, sans-serif !important;
 }

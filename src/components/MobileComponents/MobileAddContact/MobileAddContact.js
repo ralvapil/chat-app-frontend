@@ -1,4 +1,5 @@
 import { useState } from "react"
+import { useHistory } from "react-router-dom"
 import { useDispatch, useSelector } from 'react-redux'
 import { addContact, getAddContactsError, getAddContactsStatus } from '../../../features/contact/contactSlice'
 import { selectUser } from '../../../features/auth/authSlice'
@@ -14,6 +15,7 @@ export default function MobileAddContact() {
   const status = useSelector(getAddContactsStatus);
 
   const { socket } = useSocket();
+  const history = useHistory();
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -36,7 +38,8 @@ export default function MobileAddContact() {
 
   return(
     <form onSubmit={handleSubmit}>
-      <div>Add a contact</div>
+      <button onClick={() => history.push('/chats')}>Back</button>
+      <div>Add a Contact</div>
       <label>Email Address</label>
       <input type="text" name="email" id="email" value={email} onChange={(e) => setEmail(e.target.value)}/>
       {

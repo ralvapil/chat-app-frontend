@@ -143,7 +143,7 @@ export default function MobileNewChat() {
 
   return (
     <form onSubmit={handleSubmit}>
-      test
+      <button onClick={() => history.push('/chats')}>Back</button>
       <div>
         <label {...getLabelProps()}>Contacts:</label>
         <div style={comboboxWrapperStyles}>

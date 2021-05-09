@@ -4,19 +4,19 @@ import { UserOutlined, MessageOutlined, PlusCircleOutlined } from '@ant-design/i
 import Dropdown from '../../SharedComponents/Dropdown/Dropdown'
 
 const StyledHeader = styled.h1`
-    font-size: 32px;
-    color: #2D3F65;
+    font-size: 24px;
+    color: #23293f;
     font-weight: 400;
     margin-bottom: 0px;
   `
 
   const StyledHeaderContainer = styled.div`
-    height: 180px;
+    height: 80px;
     width: 100%;
     display: flex;
     align-items: center;
     justify-content: center;
-    border-bottom: 1px solid rgba(225,225,225, 0.3);
+    background: #fcfcfc;
   `
 
   const StyledButtonContainer = styled.div`
@@ -44,9 +44,16 @@ const StyledHeader = styled.h1`
 `
 
   const StyledHeaderSubContainer = styled.div`
-    height: 100%;
-    width: 86%;
-    padding-top: 10px;
+    height: 70%;
+    width: 94%;
+    background: white;
+    border-radius: 16px;
+    border: 1px solid #f9f9f9;
+    box-shadow: -2px -2px 5px 0px rgba(200, 200, 200, 0.2);
+    box-shadow: 2px 2px 5px 0px rgba(200, 200, 200, 0.2);
+    display: flex;
+    align-items: center;
+    padding-left: 18px;
   `
 
   const StyledTopContainer = styled.div`
@@ -75,22 +82,9 @@ export default function MobileChatMenuHeader( {selected = 'chats', handleMessage
   return (
     <StyledHeaderContainer>
       <StyledHeaderSubContainer>
-        <StyledTopContainer>
-          <StyledHeader>
-            Chats
-          </StyledHeader>
-          <StyledAddButtonSubContainer>
-            <Dropdown />
-          </StyledAddButtonSubContainer>
-        </StyledTopContainer>
-        <StyledButtonContainer>
-          <StyledButtonSubContainer onClick={handleMessageIconClick}>
-            <StyledMessageOutlined selected={selected} />
-          </StyledButtonSubContainer>
-          <StyledButtonSubContainer onClick={handleInboxIconClick}>
-            <StyledInboxOutlined selected={selected} />
-          </StyledButtonSubContainer>
-        </StyledButtonContainer>
+        <StyledHeader>
+          Chats
+        </StyledHeader>
       </StyledHeaderSubContainer>
   </StyledHeaderContainer>
   )

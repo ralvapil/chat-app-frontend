@@ -9,6 +9,7 @@ import { selectUser } from "../../../features/auth/authSlice"
 import MobileChatListItem from "../MobileChatListItem/MobileChatListItem"
 import MobileChatMenuHeader from "../MobileChatMenuHeader/MobileChatMenuHeader"
 import { useSocket } from '../../Contexts/socketContext'; 
+import MobileChatListFooterMenu from '../MobileChatListFooterMenu/MobileChatListFooterMenu'
 
 export default function MobileChatListWindow() {
   const history = useHistory();
@@ -171,9 +172,15 @@ export default function MobileChatListWindow() {
       handleMessageIconClick={handleMessageIconClick}
       handleInboxIconClick={handleInboxIconClick}
      /> 
-      <div>
+      <div style={{maxHeight: 'calc(100vh - 94px - 80px)', overflow: 'scroll'}}>
+        {chats}
+        {chats}
+        {chats}
+        {chats}
+        {chats}
         {chats}
       </div>
+      <MobileChatListFooterMenu />
     </>
   )
 }

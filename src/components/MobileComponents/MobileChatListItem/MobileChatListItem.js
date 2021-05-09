@@ -7,9 +7,7 @@ const StyledContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  /* border: 1px solid rgba(225,225,225, 0.1)  */
-  /* margin-left: 30px; */
-  /* margin-right: 30px; */
+  background: #fcfcfc;
 `
 
 const StyledTextContainer = styled.div`
@@ -56,14 +54,14 @@ const StyledPreviewText = styled.div`
 const ProfilePicPlaceholder = styled.div`
   background: lightgrey;
   border-radius: 50%;
-  height: 70px;
-  width: 70px;
+  height: 44px;
+  width: 44px;
 `
 
 const ProfilePic = styled.img`
   border-radius: 50%;
-  height: 70px;
-  width: 70px;
+  height: 44px;
+  width: 44px;
   border: 1px solid white;
 `
 

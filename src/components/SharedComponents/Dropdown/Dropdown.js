@@ -3,14 +3,15 @@ import { PlusCircleOutlined } from '@ant-design/icons';
 import styled from 'styled-components'
 import ContextMenu from './ContextMenu'
 
-const StyledAddButtonSubContainer = styled.div`
-  // display: flex;
-  // align-items: center;
-  // justify-content: space-around;
-  // height: 100%;
-  height: 40px;
-  width: 40px;
+const StyledAddButton = styled.button`
+  background: rgb(0,106,255);
   border-radius: 50%;
+  width: 68px;
+  height: 68px;
+  border: none;
+  position: absolute;
+  bottom: calc(96px - calc(68px / 2)); // height of footer minus half of self height
+  right: calc((100vw/ 2) - calc(68px / 2)); // width of screen minus half of self width;
 `
 
 const StyledPlusCircleOutlined = styled(PlusCircleOutlined)`
@@ -23,13 +24,11 @@ export default function Dropdown() {
   const [ isOpen, setIsOpen ] = useState(false);
 
   return (
-    <div onBlur={() => setIsOpen(false)}>
-      <StyledAddButtonSubContainer onClick={() => setIsOpen(!isOpen)}>
-        <StyledPlusCircleOutlined />
-      </StyledAddButtonSubContainer>
+    <>
+      <StyledAddButton onClick={() => setIsOpen(!isOpen)} />
       {
         isOpen ? <ContextMenu /> : ''
       }
-    </div>
+    </>
   )
 }
