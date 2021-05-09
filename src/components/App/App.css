@@ -1,5 +1,5 @@
 @import '~antd/dist/antd.css';
-
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap');
 @font-face {
   font-family: 'Gibson-Regular';
   src: local('Gibson-Regular'),
@@ -12,6 +12,16 @@
     url(../../assets/fonts/gibson-light.ttf) format('truetype');
 }
 
+@font-face {
+  font-family: 'Gibson-Semi-Bold';
+  src: local('Gibson-Semi-Bold'),
+    url(../../assets/fonts/Gibson-SemiBold.otf) format('opentype');
+}
+
 body {
-  font-family: Gibson, sans-serif !important;
+  font-family: Roboto, sans-serif !important;
+  font-smooth: always;
+  -webkit-font-smoothing: subpixel-antialiased;
+  -moz-osx-font-smoothing: auto;
+  background-color: #fcfcfc;
 }

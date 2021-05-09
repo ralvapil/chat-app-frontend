@@ -3,25 +3,21 @@ import styled from 'styled-components'
 
 const StyledContainer = styled.div`
   width: 100%;
-  height: 110px;
+  height: 90px;
   display: flex;
   align-items: center;
   justify-content: center;
   background: #fcfcfc;
+  border-bottom: 2px solid #f8f8f8;
 `
 
 const StyledTextContainer = styled.div`
   display: flex;
   flex-direction: column;
   width: 60%;
-  padding-top: 4px;
-  padding-bottom: 5px;
-  padding-left: 15px;
-`
-
-const StyleProfilePicContainer = styled.div`
+  padding-left: 22px;
   height: 100%;
-  padding-right: 10px;
+  justify-content: center;
 `
 
 const StyledMetaContainer = styled.div`
@@ -29,6 +25,8 @@ const StyledMetaContainer = styled.div`
   flex-direction: column;
   width: 20%;
   align-items: flex-end;
+  justify-content: center;
+  height: 100%;
 `
 
 const StyledTimeStamp = styled.span`
@@ -36,46 +34,52 @@ const StyledTimeStamp = styled.span`
   font-weight: 300;
   text-align: right;
   color: #676767;
+  margin-bottom: 6px;
 `
 
-const StyledName = styled.div`
-  font-size: 17px;
-  font-weight: 500;
-  color: #2D3F65;
+const StyledName = styled.p`
+  font-size: 18px;
+  color: #55596a;
+  margin: 0;
+  padding-bottom: 3px;
+  font-weight: ${props => (props.isUnread ? 500 : 300)};
 `
 
 const StyledPreviewText = styled.div`
-  padding-top: 5px;
   font-size: 14px;
   font-weight: ${props => (props.isUnread ? 500 : 300)};
-  color: #676767;
+  color: ${props => (props.isUnread ? '#55596a' : '#b4b7c1')} ;
+  font-family: Roboto;
 `
 
 const ProfilePicPlaceholder = styled.div`
   background: lightgrey;
   border-radius: 50%;
-  height: 44px;
-  width: 44px;
+  height: 50px;
+  width: 50px;
 `
 
 const ProfilePic = styled.img`
   border-radius: 50%;
-  height: 44px;
-  width: 44px;
+  height: 50px;
+  width: 50px;
   border: 1px solid white;
 `
 
 const StyledSubContainer = styled.div`
   height: 70px;
-  width: 86%;
+  width: 94%;
   display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
 `
 
 const StyledUnReadMsgCount = styled.div`
-  width: 28px;
-  height: 28px;
+  width: 20px;
+  height: 20px;
   border-radius: 50%;
-  background: rgba(251, 109, 98, 0.7);
+  background: rgb(0, 106, 255);
   color: white;
   display: flex;
   align-items: center;
@@ -84,20 +88,25 @@ const StyledUnReadMsgCount = styled.div`
   margin-top: 6px;
 `
 
+const StyledUnReadPlaceholder = styled.div`
+  width: 20px;
+  height: 20px;
+  // margin-top: 6px;
+`
+
 export default function MobileChatListItem( {preview, name, timestamp, handleConvoClick, unreadMsgCount, picture, isGroup} ) {
+  const isUnread = unreadMsgCount > 0;
 
   return (
     <StyledContainer onClick={handleConvoClick}>
       <StyledSubContainer>
-        <StyleProfilePicContainer>
           <>
             {
               isGroup ? <ProfilePicPlaceholder/> : <ProfilePic src={picture} alt="Profile" />
             }
           </>
-        </StyleProfilePicContainer>
         <StyledTextContainer>
-          <StyledName>
+          <StyledName isUnread={isUnread}>
             {name}
           </StyledName>
           <StyledPreviewText isUnread={unreadMsgCount > 0}>
@@ -109,7 +118,7 @@ export default function MobileChatListItem( {preview, name, timestamp, handleCon
             {timestamp}
           </StyledTimeStamp>
           {
-            unreadMsgCount > 0 ? <StyledUnReadMsgCount>{unreadMsgCount}</StyledUnReadMsgCount> : ''
+            unreadMsgCount > 0 ? <StyledUnReadMsgCount>{unreadMsgCount}</StyledUnReadMsgCount> : <StyledUnReadPlaceholder />
           }
           
         </StyledMetaContainer>

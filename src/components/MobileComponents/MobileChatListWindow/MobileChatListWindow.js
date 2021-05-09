@@ -172,7 +172,7 @@ export default function MobileChatListWindow() {
       handleMessageIconClick={handleMessageIconClick}
       handleInboxIconClick={handleInboxIconClick}
      /> 
-      <div style={{maxHeight: 'calc(100vh - 94px - 80px)', overflow: 'scroll'}}>
+      <div style={{maxHeight: 'calc(100vh - 94px - 80px)', overflow: 'scroll',}}>
         {chats}
         {chats}
         {chats}

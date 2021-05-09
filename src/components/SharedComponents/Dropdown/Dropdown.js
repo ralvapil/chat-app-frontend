@@ -2,6 +2,9 @@ import { useState } from 'react'
 import { PlusCircleOutlined } from '@ant-design/icons';
 import styled from 'styled-components'
 import ContextMenu from './ContextMenu'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faPencilAlt } from '@fortawesome/free-solid-svg-icons'
+import { Edit2 } from 'react-feather'
 
 const StyledAddButton = styled.button`
   background: rgb(0,106,255);
@@ -12,6 +15,10 @@ const StyledAddButton = styled.button`
   position: absolute;
   bottom: calc(96px - calc(68px / 2)); // height of footer minus half of self height
   right: calc((100vw/ 2) - calc(68px / 2)); // width of screen minus half of self width;
+`
+
+const StyledPencilIcon = styled(Edit2)`
+  color: white;
 `
 
 const StyledPlusCircleOutlined = styled(PlusCircleOutlined)`
@@ -25,7 +32,9 @@ export default function Dropdown() {
 
   return (
     <>
-      <StyledAddButton onClick={() => setIsOpen(!isOpen)} />
+      <StyledAddButton onClick={() => setIsOpen(!isOpen)}>
+        <StyledPencilIcon size="30"/>
+      </StyledAddButton>
       {
         isOpen ? <ContextMenu /> : ''
       }
