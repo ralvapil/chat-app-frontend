@@ -51,9 +51,10 @@ export default function MobileChatRequestList() {
     // then do the history re locate to the chat
     
     if(!chatId) {
+      console.log('no chat id', chatId)
       chatId = await socket.emitSocket('createChat', {
         user: user,
-        contacts: [contactUserId]
+        members: [contactUserId]
       })
     }
 

@@ -3,6 +3,7 @@ import { useHistory } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import styled from 'styled-components'
 
+import { getContacts, selectContacts, selectLastUpdated } from '../../../features/contact/contactSlice'
 import { getConvos, getMessages, getLastUpdatedConvos } from "../../../features/message/messageSlice"
 import { selectUser } from "../../../features/auth/authSlice"
 import MobileChatListItem from "../MobileChatListItem/MobileChatListItem"
@@ -15,8 +16,12 @@ export default function MobileChatListWindow() {
   const { socket } = useSocket();
 
   const user = useSelector( selectUser )
+  console.log('user', user)
   const convos = useSelector( getMessages )
+  const contacts = useSelector(selectContacts);
+
   const lastUpdateConvos = useSelector( getLastUpdatedConvos )
+  const lastupdatedContacts = useSelector(selectLastUpdated);
 
   useEffect(() => {
     if(socket && !lastUpdateConvos) {
@@ -32,6 +37,21 @@ export default function MobileChatListWindow() {
       )
     }
   }, [dispatch, user, socket, lastUpdateConvos])
+
+  useEffect(() => {
+    if(socket && !lastupdatedContacts) {
+      dispatch(
+        getContacts({
+          type: 'socket',
+          eventType: 'getContacts',
+          data: { 
+            user
+          },
+          socket,
+        })
+      )
+    }
+  },[user, socket, dispatch, lastupdatedContacts])
 
   // const data = [
   //   { 
@@ -114,13 +134,18 @@ export default function MobileChatListWindow() {
 
   const chats = chatIdList.map((cid) => {
     const currentConvo = convos[cid]
-    const lastMessage = currentConvo.messages[currentConvo.messages.length - 1].value;
-    
+    const lastMessage = currentConvo?.messages[currentConvo.messages?.length - 1]?.value ? 
+      currentConvo.messages[currentConvo.messages.length - 1]?.value : 
+      '';
+
+    const contact = currentConvo.isGroup ? null : currentConvo.users.find((convoUser) =>  user !== convoUser.user);
+    const pictureUrl = contacts[contact.user]?.picture
+      console.log('url', pictureUrl)
     const convoName = 
-      currentConvo?.nickname.length > 0 
+      currentConvo?.nickname?.length > 0 
       ? currentConvo.nickname 
       : currentConvo.users
-        .filter((convoUser) => user !== convoUser._id)
+        .filter((convoUser) =>  user !== convoUser.user)
         .map(
           (convoUser) => `${convoUser?.firstName} ${convoUser?.lastName}`
         )
@@ -135,6 +160,8 @@ export default function MobileChatListWindow() {
       timestamp={timestamp}
       handleConvoClick={() => handleConvoClick(cid)}
       unreadMsgCount={currentConvo.unreadMsgCount || 0}
+      picture={pictureUrl}
+      isGroup={currentConvo.isGroup}
     />
   })
   return (

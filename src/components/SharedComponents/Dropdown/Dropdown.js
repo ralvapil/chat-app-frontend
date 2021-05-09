@@ -23,7 +23,7 @@ export default function Dropdown() {
   const [ isOpen, setIsOpen ] = useState(false);
 
   return (
-    <div>
+    <div onBlur={() => setIsOpen(false)}>
       <StyledAddButtonSubContainer onClick={() => setIsOpen(!isOpen)}>
         <StyledPlusCircleOutlined />
       </StyledAddButtonSubContainer>

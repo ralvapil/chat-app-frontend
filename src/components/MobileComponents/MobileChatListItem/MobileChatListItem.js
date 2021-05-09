@@ -53,11 +53,18 @@ const StyledPreviewText = styled.div`
   color: #676767;
 `
 
-const ProfilePic = styled.div`
+const ProfilePicPlaceholder = styled.div`
   background: lightgrey;
   border-radius: 50%;
   height: 70px;
   width: 70px;
+`
+
+const ProfilePic = styled.img`
+  border-radius: 50%;
+  height: 70px;
+  width: 70px;
+  border: 1px solid white;
 `
 
 const StyledSubContainer = styled.div`
@@ -79,13 +86,17 @@ const StyledUnReadMsgCount = styled.div`
   margin-top: 6px;
 `
 
-export default function MobileChatListItem( {preview, name, timestamp, handleConvoClick, unreadMsgCount} ) {
+export default function MobileChatListItem( {preview, name, timestamp, handleConvoClick, unreadMsgCount, picture, isGroup} ) {
 
   return (
     <StyledContainer onClick={handleConvoClick}>
       <StyledSubContainer>
         <StyleProfilePicContainer>
-          <ProfilePic />
+          <>
+            {
+              isGroup ? <ProfilePicPlaceholder/> : <ProfilePic src={picture} alt="Profile" />
+            }
+          </>
         </StyleProfilePicContainer>
         <StyledTextContainer>
           <StyledName>

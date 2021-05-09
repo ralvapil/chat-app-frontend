@@ -31,11 +31,12 @@ export const contactSlice = createSlice({
       const newContactList = action.response.reduce((acc, contact) => {
         return {
           ...acc, 
-          [contact._id]: {
+          [contact.user]: {
             firstName: contact.firstName,
             lastName:  contact.lastName,
             user: contact.user,
-            chat_id: contact?.chat?._id.length ?  contact.chat._id : null
+            chat_id: contact?.chat?._id.length ?  contact.chat._id : null,
+            picture: contact.picture
           }
         }
       }, {})

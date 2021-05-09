@@ -42,14 +42,16 @@ export const messageSlice = createSlice({
 
     getConvos: (state, action) => {
       const { user } = action.payload;
+      console.log('action', action)
       const newConvos = action.response.reduce((acc, convo) => {
         return {
           ...acc, 
           [convo._id]: {
-            messages: convo.recentMsgs, 
+            messages: convo.recentMsgs,
             users: convo?.users,
             nickname: convo.nickname,
             unreadMsgCount: convo.users.filter((convoUser) => convoUser.user === user)[0].unreadMsgCount,
+            isGroup: convo.isGroup,
             _id: convo._id,
           }
         }
@@ -59,8 +61,9 @@ export const messageSlice = createSlice({
     },
 
     newConvosPushed: (state, action) => {
-      const { user } = action.payload;
-      const newConvos = action.response.reduce((acc, convo) => {
+      const { user, convos } = action.payload.data;
+      console.log('action', action)
+      const newConvos = convos.reduce((acc, convo) => {
         return {
           ...acc, 
           [convo._id]: {
@@ -68,6 +71,7 @@ export const messageSlice = createSlice({
             users: convo?.users,
             nickname: convo.nickname,
             unreadMsgCount: convo.users.filter((convoUser) => convoUser.user === user)[0].unreadMsgCount,
+            isGroup: convo.isGroup,
             _id: convo._id,
           }
         }
@@ -92,6 +96,7 @@ export const messageSlice = createSlice({
         users: chat.users,
         nickname: chat.nickname,
         unreadMsgCount: chat.users.filter((convoUser) => convoUser.user === user)[0].unreadMsgCount,
+        isGroup: chat.isGroup,
         _id: chat._id,
       }
 
