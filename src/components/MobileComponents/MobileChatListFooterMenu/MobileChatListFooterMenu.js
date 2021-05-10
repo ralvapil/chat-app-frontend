@@ -1,10 +1,11 @@
 import React from 'react'
 import styled from 'styled-components'
+import { useHistory, useLocation } from 'react-router-dom'
 import Dropdown from '../../SharedComponents/Dropdown/Dropdown'
 import { MessageCircle, User } from 'react-feather'
 
 const Container = styled.div`
-  height: 96px;
+  height: 84px;
   width: 100%;
   background: #fcfcfc;
   position: fixed;
@@ -12,7 +13,7 @@ const Container = styled.div`
 `
 
 const InnerContainer = styled.div`
-  height: 96px;
+  height: 100%;
   width: 100%;
   background: white;
   border-radius: 24px 24px 0px 0px;
@@ -31,12 +32,12 @@ const StyledItemContainer = styled.div`
 `
 
 const StyledFooterChatIcon = styled(MessageCircle)`
-  color: #4b38ff;
+  color: ${props => props.pathname === '/chats' ? 'dodgerblue' : '#cfd0d7'};
 `
 
 const StyledFooterUserIcon = styled(User)`
-  color: #cfd0d7; 
-`
+  color: ${props => props.pathname === '/contacts' ? 'dodgerblue' : '#cfd0d7'};
+` 
 
 const StyledMenuButtonsContainer = styled.div`
   display: flex;
@@ -47,26 +48,34 @@ const StyledMenuButtonsContainer = styled.div`
   height: 100%;
 `
 
-const StyledFooterIconLabel = styled.label`
-  color: ${props => props.section === 'chats' ? 'rgb(0,106,255)' : '#cfd0d7'};
+const StyledFooterChatIconLabel = styled.label`
+  color: ${props => props.pathname === '/chats' ? 'rgb(0,106,255)' : '#cfd0d7'};
   font-size: 12px;
   padding-top: 6px;
-  font-family: Gibson-Regular;
 `
 
-export default function MobileChatListFooterMenu() {
+const StyledFooterContactIconLabel = styled.label`
+  color: ${props => props.pathname === '/contacts' ? 'rgb(0,106,255)' : '#cfd0d7'};
+  font-size: 12px;
+  padding-top: 6px;
+`
+
+export default function MobileChatListFooterMenu(section) {
+  const history = useHistory();
+  const { pathname } = useLocation();
+
   return (
     <Container>
       <InnerContainer>
         <Dropdown />
         <StyledMenuButtonsContainer>
-          <StyledItemContainer>
-            <StyledFooterChatIcon size='20' strokeWidth="3"/>
-            <StyledFooterIconLabel section="chats" >Chats</StyledFooterIconLabel>
+          <StyledItemContainer onClick={() => history.push(`/chats`)}>
+            <StyledFooterChatIcon pathname={pathname} size='20' strokeWidth="3"/>
+            <StyledFooterChatIconLabel pathname={pathname} >Chats</StyledFooterChatIconLabel>
           </StyledItemContainer>
-          <StyledItemContainer>
-            <StyledFooterUserIcon size='20' strokeWidth="3"/>
-            <StyledFooterIconLabel section="contacts">Contacts</StyledFooterIconLabel>
+          <StyledItemContainer onClick={() => history.push(`/contacts`)}>
+            <StyledFooterUserIcon pathname={pathname} size='20' strokeWidth="3"/>
+            <StyledFooterContactIconLabel pathname={pathname} >Contacts</StyledFooterContactIconLabel>
           </StyledItemContainer>
         </StyledMenuButtonsContainer>
       </InnerContainer>

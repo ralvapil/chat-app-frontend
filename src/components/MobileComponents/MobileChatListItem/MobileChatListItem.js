@@ -38,11 +38,11 @@ const StyledTimeStamp = styled.span`
 `
 
 const StyledName = styled.p`
-  font-size: 18px;
+  font-size: 15px;
+  font-weight: 500;
   color: #55596a;
   margin: 0;
   padding-bottom: 3px;
-  font-weight: ${props => (props.isUnread ? 500 : 300)};
 `
 
 const StyledPreviewText = styled.div`
@@ -68,7 +68,7 @@ const ProfilePic = styled.img`
 
 const StyledSubContainer = styled.div`
   height: 70px;
-  width: 94%;
+  width: 100%;
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -120,7 +120,6 @@ export default function MobileChatListItem( {preview, name, timestamp, handleCon
           {
             unreadMsgCount > 0 ? <StyledUnReadMsgCount>{unreadMsgCount}</StyledUnReadMsgCount> : <StyledUnReadPlaceholder />
           }
-          
         </StyledMetaContainer>
       </StyledSubContainer>
     </StyledContainer>

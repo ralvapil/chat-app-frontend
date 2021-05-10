@@ -188,7 +188,7 @@ export default function MobileNewChat() {
           type: 'socket',
           eventType: 'getContacts',
           data: { 
-            user
+            user: user.id
           },
           socket,
         })
@@ -251,10 +251,9 @@ export default function MobileNewChat() {
   })
 
   const handleSubmit = async (e) => {
-
     e.preventDefault();
     if(selectedItems.length > 0) {
-      const chatId = await socket.emitSocket('createChat', {user, members: selectedItems})
+      const chatId = await socket.emitSocket('createChat', {user: user.id, members: selectedItems})
 
       history.push(`/chat/${chatId}`)
     }
@@ -266,7 +265,7 @@ export default function MobileNewChat() {
     <form onSubmit={handleSubmit}>
       <TopContainer>
         <SubContainer>
-          <StyledBackButton onClick={() => history.push('/chats')}>
+          <StyledBackButton type="button" onClick={() => history.goBack()}>
             <StyledBack/>
           </StyledBackButton>
           <StyledHeader >New Chat</StyledHeader>

@@ -55,12 +55,12 @@ function App() {
                   <MobileContactList /> 
                 }
               </ProtectedRoute>
-              <ProtectedRoute path="/contact/add">
+              <ProtectedRoute path="/contact-add">
                 {
                   <MobileAddContact /> 
                 }
               </ProtectedRoute>
-              <ProtectedRoute path="/new-chat/">
+              <ProtectedRoute path="/new-chat">
                 {
                   <MobileNewChat /> 
                 }

@@ -22,7 +22,8 @@ export const authSlice = createSlice({
     email: null,
     status: "idle",
     error: null,
-    userId: null,
+    user: null,
+    picture: '',
   },
   reducers: {
     login: (state) => {
@@ -49,6 +50,7 @@ export const authSlice = createSlice({
       // state.token = action.payload;
       state.isAuthorized = true;
       state.user = action.payload.user
+      state.picture = action.payload.picture
     },
     [getUserStatus.rejected]: (state, action) => {
       state.status = "failed";
@@ -65,6 +67,6 @@ export const { login, logout, handleInvalidToken } = authSlice.actions;
 export const selectToken = (state) => state.auth.token;
 export const selectIsAuthorized = (state) => state.auth.isAuthorized;
 export const selectError = (state) => state.auth.error;
-export const selectUser = (state) => state.auth.user;
+export const selectUser = (state) => ({ id: state.auth.user, picture: state.auth.picture });
 
 export default authSlice.reducer;

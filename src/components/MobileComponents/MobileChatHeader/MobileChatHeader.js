@@ -1,57 +1,90 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
+import {useHistory } from 'react-router-dom'
 import styled from 'styled-components'
-import { LeftOutlined, PhoneOutlined } from '@ant-design/icons';
+import { ArrowLeft } from 'react-feather'
 
 const StyledWrapper = styled.div`
   position: fixed;
   top: 0;
   height: 100px;
   width: 100%;
-  padding-left: 10px;
-  padding-right: 10px;
-  background: #fff;
-  border-bottom: 1px solid rgba(155, 155, 155, 0.1);
-  font-size: 16px;
+  background: #FCFCFC;
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  /* box-shadow: 0 1px 1px rgba(0,0,0,0.01), 
-              0 2px 2px rgba(0,0,0,0.01), 
-              0 4px 4px rgba(0,0,0,0.01), 
-              0 6px 8px rgba(0,0,0,0.01),
-              0 8px 16px rgba(0,0,0,0.01); */
+  justify-content: center
 `;
 
-const StyledNameText = styled.h1`
-  font-size: 20px;
-  font-weight: 400;
-  color: #2D3F65;
-  /* font-family: Roboto; */
+const StyledBack = styled(ArrowLeft)`
+  color: #55596a;
 `
-
-const StyledHeaderButtonWrapper = styled.div`
-  height: 30px;
-  width: 30px;
+const StyledBackButton = styled.button`
+  border: none;
+  border-radius: 50%;
+  width: 36px;
+  height: 36px;
   display: flex;
   align-items: center;
   justify-content: center;
+  background: none;
+  position: fixed;
+  left: 22px;
+  top: 31px;
 `
 
-export default function MobileChatHeader( { cid, onPhoneClick, name } ) {
+const StyledSubContainer = styled.div`
+  height: 70%;
+  width: 94%;
+  background: white;
+  border-radius: 16px;
+  border: 1px solid #f9f9f9;
+  box-shadow: -2px -2px 5px 0px rgba(200, 200, 200, 0.2);
+  box-shadow: 2px 2px 5px 0px rgba(200, 200, 200, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: start;
+  padding-left: 56px;
+`
+
+const StyledNameText = styled.h1`
+  font-size: 15px;
+  font-weight: 500;
+  color: #2D3F65;
+  margin: 0;
+  padding-left: 8px;
+`
+
+const ProfilePicPlaceholder = styled.div`
+  background: lightgrey;
+  border-radius: 50%;
+  height: 50px;
+  width: 50px;
+`
+
+const ProfilePic = styled.img`
+  border-radius: 50%;
+  height: 34px;
+  width: 34px;
+  border: 1px solid white;
+`
+
+export default function MobileChatHeader( { cid, onPhoneClick, isGroup, name, pictureUrl } ) {
+  const history = useHistory();
+
   return (
     <StyledWrapper>
-      <Link to='/chats'>
-        <StyledHeaderButtonWrapper>
-          <LeftOutlined style={{color: '#FB6D62', fontSize: '20px'}}/>
-        </StyledHeaderButtonWrapper>
-      </Link>
-      <StyledNameText>
-        {name}
-      </StyledNameText>
-      <StyledHeaderButtonWrapper onClick={onPhoneClick}>
-        <PhoneOutlined style={{color: '#FB6D62', fontSize: '20px'}}/>
-      </StyledHeaderButtonWrapper>
+      <StyledSubContainer>
+        <StyledBackButton onClick={() => history.push('/chats')}>
+          <StyledBack/>
+        </StyledBackButton>
+          <>
+            {
+              isGroup ? <ProfilePicPlaceholder/> : <ProfilePic src={pictureUrl} alt="Profile" />
+            }
+          </>
+        <StyledNameText>
+          {name}
+        </StyledNameText>
+      </StyledSubContainer>
     </StyledWrapper>
   )
 }

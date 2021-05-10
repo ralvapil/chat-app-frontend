@@ -17,6 +17,7 @@ import {
   sendReadMessages,
 } from '../../../features/message/messageSlice'
 import { selectUser } from '../../../features/auth/authSlice'
+import { getContacts, selectContacts, selectLastUpdated } from '../../../features/contact/contactSlice'
 import { useSocket } from '../../Contexts/socketContext'; 
 
 const StyledContainer = styled.div`
@@ -32,10 +33,12 @@ export default function MobileChatWindow() {
   const user = useSelector(selectUser);
   const unreadMsgCount = useSelector((state) => getUnreadMsgCount(state, cid))
   const lastUpdateConvos = useSelector( getLastUpdatedConvos )
+  const lastUpdateContacts = useSelector(selectLastUpdated);
+  const contacts = useSelector(selectContacts);
 
   const dispatch = useDispatch();
   const [messageInput, setMessageInput] = useState('');
-  
+
   useEffect(() => {
     if(socket && !lastUpdateConvos) {
       dispatch(
@@ -43,13 +46,14 @@ export default function MobileChatWindow() {
           'type': 'socket',
           'eventType': 'getConvos',
           'data': { 
-            user
+            user: user.id
           },
           'socket': socket,
         }) 
       )
     }
   }, [dispatch, user, socket, lastUpdateConvos])
+
 
   useEffect(() => {
     if(socket && unreadMsgCount > 0) {
@@ -58,7 +62,7 @@ export default function MobileChatWindow() {
           type: 'socket',
           eventType: 'readMessage',
           data: {
-            user,
+            user: user.id,
             message: messages.messages[messages.messages.length - 1],
             cid,
           },
@@ -68,13 +72,28 @@ export default function MobileChatWindow() {
     }
   }, [socket, unreadMsgCount, messages, dispatch, cid, user])
 
+  useEffect(() => {
+    if(socket && !lastUpdateContacts) {
+      dispatch(
+        getContacts({
+          type: 'socket',
+          eventType: 'getContacts',
+          data: { 
+            user: user.id
+          },
+          socket,
+        })
+      )
+    }
+  },[user, socket, dispatch, lastUpdateContacts])
+
   const handleSend = () => {
     dispatch(sendMessage({
       'type': 'socket',
       'eventType': 'sendMessage',
       'data': { 
         message: messageInput, 
-        userId: user,
+        userId: user.id,
         cid
       },
       'socket': socket,
@@ -105,10 +124,34 @@ export default function MobileChatWindow() {
     }));
   }
 
+  if(!messages) {
+    return <div>Loading...</div>;
+  }
+
+  const contact = messages.isGroup ? null : messages.users.find((convoUser) =>  user.id !== convoUser.user);
+
+  const pictureUrl = contacts[contact.user]?.picture;
+  const name = 
+  messages?.nickname?.length > 0 
+  ? messages.nickname 
+  : messages.users
+    .filter((convoUser) =>  user.id !== convoUser.user)
+    .map(
+      (convoUser) => `${convoUser?.firstName} ${convoUser?.lastName}`
+    )
+    .join(', ');
+
   return (
     <StyledContainer onFocus={()=> console.log('imfocused')}>  
-      <MobileChatHeader cid={cid} onPhoneClick={handlePhoneIconClick} name={'Ramanan Alvapillai'}/>
-      <MobileChatBody cid={cid} currentUser={user}/>
+      <MobileChatHeader 
+        cid={cid} 
+        onPhoneClick={handlePhoneIconClick}
+        isGroup={messages?.isGroup} 
+        contact={contact} 
+        pictureUrl={pictureUrl}
+        name={name}
+      />
+      <MobileChatBody cid={cid} currentUser={user} contacts={contacts}/>
       <MobileChatFooter 
         messageInput={messageInput} 
         onChange={handleMessageInputChange} 

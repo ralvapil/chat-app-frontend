@@ -101,8 +101,15 @@ export const messageSlice = createSlice({
       }
 
       state.data[chat._id] = data;
-    }
+    },
 
+    messageSentDiffDevice: (state, action) => {
+      console.log('received message from ohter device', action)
+      const { message, unreadMsgCount, cid } = action.payload.data;
+
+      state.data[cid].messages.push(message);
+      state.data[cid].unreadMsgCount = unreadMsgCount
+    }
   }
 });
 
@@ -113,6 +120,7 @@ export const {
   messageReceived, 
   getConvos,
   newConvosPushed,
+  messageSentDiffDevice,
   convos,
   sendReadMessages,
 } = messageSlice.actions

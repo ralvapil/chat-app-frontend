@@ -53,7 +53,16 @@ const StyledHeader = styled.h1`
     box-shadow: 2px 2px 5px 0px rgba(200, 200, 200, 0.2);
     display: flex;
     align-items: center;
+    justify-content: space-between;
     padding-left: 18px;
+    padding-right: 18px;
+  `
+
+  const ProfilePic = styled.img`
+    border-radius: 50%;
+    height: 36px;
+    width: 36px;
+    border: 1px solid white;
   `
 
   const StyledTopContainer = styled.div`
@@ -78,13 +87,14 @@ const StyledHeader = styled.h1`
     font-size: 34px;
   `
 
-export default function MobileChatMenuHeader( {selected = 'chats', handleMessageIconClick, handleInboxIconClick}) {
+export default function MobileChatMenuHeader({heading, myPictureUrl}) {
   return (
     <StyledHeaderContainer>
       <StyledHeaderSubContainer>
         <StyledHeader>
-          Chats
+          {heading}
         </StyledHeader>
+        <ProfilePic src={myPictureUrl} alt="My Picture" />
       </StyledHeaderSubContainer>
   </StyledHeaderContainer>
   )

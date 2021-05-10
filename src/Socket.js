@@ -1,7 +1,13 @@
 import { io } from "socket.io-client"; 
 
 export class Socket {
-  constructor(dispatch, messageReceivedFn, newConvosPushedFn, userId) {
+  constructor(
+    dispatch, 
+    messageReceivedFn, 
+    newConvosPushedFn, 
+    messageSentDiffDeviceFn, 
+    userId
+  ) {
     this.socket = io("http://localhost:5000", { query: `userId=${userId}` });
     this.dispatch = dispatch;
     this.socket.on('connect', () => {
@@ -11,6 +17,7 @@ export class Socket {
 
     this.convosReceived(newConvosPushedFn)
     this.messageReceived(messageReceivedFn)
+    this.messageSentDiffDevice(messageSentDiffDeviceFn)
   }
 
   getSocket() {
@@ -45,5 +52,14 @@ export class Socket {
         data,
       }))
     });
+  }
+
+  messageSentDiffDevice(messageSentDiffDeviceFn) {
+    this.socket.on('messageSentDifferentDevice', (data) => {
+      return this.dispatch(messageSentDiffDeviceFn({
+        type: 'message',
+        data
+      }))
+    })
   }
 }

@@ -29,7 +29,7 @@ export default function MobileAddContact() {
         'eventType': 'addContact',
         'data': { 
           email,
-          user
+          user: user.id
         },
         'socket': socket,
       })

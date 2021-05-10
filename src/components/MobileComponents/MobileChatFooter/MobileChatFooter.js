@@ -8,40 +8,60 @@ const StyledWrapper = styled.div`
   position: fixed;
   bottom: 0;
   width: 100vw;
+  min-height: 70px;
+  width: 100%;
+  background: white;
+  border-radius: 24px 24px 0px 0px;
+  border: 1px solid #f9f9f9;
+  box-shadow: 0px -2px 5px 0px rgba(200, 200, 200, 0.2);
   padding-top: 15px;
   padding-bottom: 15px;
-  /* background: #fcfcfc; */
-  border-top: 1px solid rgba(155, 155, 155, 0.1);
   display: flex;
   align-items: center;
-  height: 90px;
-  background: rgba(221, 221, 221, 0.3);
+  justify-content: center;
 `;
 
 const StyleContainer = styled.div`
-  flex-grow: 1;
   display: flex;
   align-items: center;
-  padding-left: 20px;
-  padding-right: 10px;
+  justify-content: center;
+  border: 1px solid red;
+  width: 94%;
+  border: 1px solid rgba(221, 221, 221, 0.4);
+  border-radius: 30px;
+  background: #FCFCFC;
 `
 
 const StyledTextArea = styled(TextareaAutosize)`
   width: 80%;
-  min-height: 20px;
-  border: 1px solid rgba(221, 221, 221, 0.4);
-  border-radius: 10px;
-  padding: 12px 15px 12px 15px;
+  min-height: 40px;
+  padding: 9px 15px 8px 20px;
+  border-radius: 20px;
   resize: none;
   outline: none;
+  background: #FCFCFC;
+  flex-grow: 2;
+  border: none;
+  display: flex;
+  align-items: center;
+
+  ::placeholder {
+    color: #b4b7c1;
+  }
 `
 
-const StyledButtonWrapper = styled.div`
+const StyledButtonWrapper = styled.button`
   width: 20%;
   display: flex;
   align-items: center;
   justify-content: center;
   padding-left: 10px;
+  padding-right: 10px;
+  background: none;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: none;
 `
 
 export default function MobileChatFooter({ messageInput, onChange, handleEnterPress }) {
@@ -57,9 +77,10 @@ export default function MobileChatFooter({ messageInput, onChange, handleEnterPr
           value={messageInput}
           onChange={onChange}
           onKeyPress={handleEnterPress}
+          placeholder="Type here"
         />
         <StyledButtonWrapper>
-          <SendOutlined style={{ fontSize: '25px', color: '#FB6D62' }}/>
+          <SendOutlined style={{ fontSize: '18px', color: '#adadad' }}/>
         </StyledButtonWrapper>
       </StyleContainer>
     </StyledWrapper>

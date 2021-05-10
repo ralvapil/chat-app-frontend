@@ -31,7 +31,7 @@ export default function MobileChatListWindow() {
           'type': 'socket',
           'eventType': 'getConvos',
           'data': { 
-            user
+            user: user.id
           },
           'socket': socket,
         }) 
@@ -46,7 +46,7 @@ export default function MobileChatListWindow() {
           type: 'socket',
           eventType: 'getContacts',
           data: { 
-            user
+            user: user.id
           },
           socket,
         })
@@ -139,14 +139,14 @@ export default function MobileChatListWindow() {
       currentConvo.messages[currentConvo.messages.length - 1]?.value : 
       '';
 
-    const contact = currentConvo.isGroup ? null : currentConvo.users.find((convoUser) =>  user !== convoUser.user);
+    const contact = currentConvo.isGroup ? null : currentConvo.users.find((convoUser) =>  user.id !== convoUser.user);
     const pictureUrl = contacts[contact.user]?.picture
       console.log('url', pictureUrl)
     const convoName = 
       currentConvo?.nickname?.length > 0 
       ? currentConvo.nickname 
       : currentConvo.users
-        .filter((convoUser) =>  user !== convoUser.user)
+        .filter((convoUser) =>  user.id !== convoUser.user)
         .map(
           (convoUser) => `${convoUser?.firstName} ${convoUser?.lastName}`
         )
@@ -168,9 +168,8 @@ export default function MobileChatListWindow() {
   return (
     <>
      <MobileChatMenuHeader 
-      selected='chats'
-      handleMessageIconClick={handleMessageIconClick}
-      handleInboxIconClick={handleInboxIconClick}
+      myPictureUrl={user.picture}
+      heading="Chats"
      /> 
       <div style={{maxHeight: 'calc(100vh - 94px - 80px)', overflow: 'scroll',}}>
         {chats}

@@ -7,6 +7,7 @@ const StyledContainer = styled.div`
   max-width: 80%;
   display: inline-block;
   align-self: ${props => props.isNotCurrentUser ? "flex-start" : "flex-end"};
+  position: relative;
 `
 
 const StyledName = styled.div`
@@ -18,20 +19,35 @@ const StyledName = styled.div`
 `
 
 const StyledMessageBody = styled.div`
-  padding: 12px 20px 12px;
+  padding: 14px 24px;
   background: #3e78ff;
-  /* border-radius: 3px 12px 3px 12px; */
-  border-radius: 10px;
-
-  /* border-radius: 25px; */
+  border-radius: 30px;
   display: inline-block;
-  background:  ${props => props.isNotCurrentUser ? "rgba(251, 109,98, 0.26)" : "rgba(221, 221, 221, 0.26)"};
+  background-color:  ${props => props.isNotCurrentUser ? "#f4eeff" : "#f1f7ff"};
   float: ${props => props.isNotCurrentUser ? "left" : "right"};
 `
 
 const StyledMessageText = styled.span`
-  color: #676767;
+  background-color:  ${props => props.isNotCurrentUser ? "#f4eeff" : "#f1f7ff"};
+  color:  ${props => props.isNotCurrentUser ? "#8b4cff" :"rgb(0,106,255)"}; 
   font-size: 14px;
+`
+
+const StyledProPicIcon = styled.img`
+  border-radius: 50%;
+  height: 20px;
+  width: 20px;
+  border-color: white;
+  position: absolute;
+  top: -6px;
+  {${props => {
+    if(props.isNotCurrentUser) {
+      return 'left: -2px;'
+    }
+
+    return 'right: -2px;'
+  }}
+
 `
 
 // const StyledTimeStamp = styled.div`
@@ -41,7 +57,16 @@ const StyledMessageText = styled.span`
 //   text-align: right;
 // `
 
-export default function MobileChatMessage( {name, timestamp, userIsDifferentThanPrevious, children, isNotCurrentUser, isLastMessage} ) {
+export default function MobileChatMessage({
+  name, 
+  timestamp,
+  userIsDifferentThanPrevious, 
+  children, 
+  isNotCurrentUser, 
+  isLastMessage,
+  pictureUrl
+}) {
+
   return (
     <StyledContainer 
       isNotCurrentUser={isNotCurrentUser} 
@@ -49,10 +74,10 @@ export default function MobileChatMessage( {name, timestamp, userIsDifferentThan
       isLastMessage={isLastMessage}
     >
       {
-        userIsDifferentThanPrevious ? <StyledName isNotCurrentUser={isNotCurrentUser}>{name}</StyledName> : ''
+        userIsDifferentThanPrevious ? <StyledProPicIcon src={pictureUrl} isNotCurrentUser={isNotCurrentUser}/> : ''
       }
       <StyledMessageBody isNotCurrentUser={isNotCurrentUser}>
-        <StyledMessageText>
+        <StyledMessageText isNotCurrentUser={isNotCurrentUser}>
           {children}
         </StyledMessageText>
       </StyledMessageBody>
