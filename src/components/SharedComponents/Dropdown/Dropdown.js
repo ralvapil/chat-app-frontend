@@ -1,10 +1,11 @@
-import { useState } from 'react'
+import { useHistory } from 'react-router-dom'
+
 import { PlusCircleOutlined } from '@ant-design/icons';
 import styled from 'styled-components'
 import ContextMenu from './ContextMenu'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPencilAlt } from '@fortawesome/free-solid-svg-icons'
-import { Edit2 } from 'react-feather'
+import { Edit2, UserPlus } from 'react-feather'
 
 const StyledAddButton = styled.button`
   background: rgb(0,106,255);
@@ -28,16 +29,13 @@ const StyledPlusCircleOutlined = styled(PlusCircleOutlined)`
 `
 
 export default function Dropdown() {
-  const [ isOpen, setIsOpen ] = useState(false);
+  const history = useHistory();
 
   return (
     <>
-      <StyledAddButton onClick={() => setIsOpen(!isOpen)}>
+      <StyledAddButton onClick={() => history.push('/new-chat')}>
         <StyledPencilIcon size="30"/>
       </StyledAddButton>
-      {
-        isOpen ? <ContextMenu /> : ''
-      }
     </>
   )
 }
