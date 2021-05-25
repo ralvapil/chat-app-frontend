@@ -1,18 +1,11 @@
-<<<<<<< HEAD
-import React from "react";
-import styled from "styled-components";
+import React from 'react';
+import styled from 'styled-components';
 import {
   UserOutlined,
   MessageOutlined,
   PlusCircleOutlined,
-} from "@ant-design/icons";
-import Dropdown from "../../SharedComponents/components/Dropdown/Dropdown";
-=======
-import React from 'react'
-import styled from 'styled-components'
-import { UserOutlined, MessageOutlined, PlusCircleOutlined } from '@ant-design/icons';
-import Dropdown from '../../SharedComponents/components/Dropdown/Dropdown'
->>>>>>> 69d9e975d8c5cad03c1b2af696cf4c4cb8b0b0b0
+} from '@ant-design/icons';
+import Dropdown from '../../SharedComponents/components/Dropdown/Dropdown';
 
 const StyledHeader = styled.h1`
   font-size: 24px;
@@ -21,7 +14,6 @@ const StyledHeader = styled.h1`
   margin-bottom: 0px;
 `;
 
-<<<<<<< HEAD
 const StyledHeaderContainer = styled.div`
   height: 80px;
   width: 100%;
@@ -30,16 +22,6 @@ const StyledHeaderContainer = styled.div`
   justify-content: center;
   background: none;
 `;
-=======
-  const StyledHeaderContainer = styled.div`
-    height: 80px;
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: none;
-  `
->>>>>>> 69d9e975d8c5cad03c1b2af696cf4c4cb8b0b0b0
 
 const StyledButtonContainer = styled.div`
   display: flex;
@@ -65,7 +47,6 @@ const StyledAddButtonSubContainer = styled.div`
   position: relative;
 `;
 
-<<<<<<< HEAD
 const StyledHeaderSubContainer = styled.div`
   height: 70%;
   width: 94%;
@@ -80,22 +61,6 @@ const StyledHeaderSubContainer = styled.div`
   padding-left: 18px;
   padding-right: 18px;
 `;
-=======
-  const StyledHeaderSubContainer = styled.div`
-    height: 70%;
-    width: 94%;
-    background: white;
-    border-radius: 16px;
-    border: 1px solid #f9f9f9;
-    box-shadow: -2px -2px 5px 0px rgba(200, 200, 200, 0.6);
-    box-shadow: 2px 2px 5px 0px rgba(200, 200, 200, 0.6);
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding-left: 18px;
-    padding-right: 18px;
-  `
->>>>>>> 69d9e975d8c5cad03c1b2af696cf4c4cb8b0b0b0
 
 const ProfilePic = styled.img`
   border-radius: 50%;
@@ -113,17 +78,17 @@ const StyledTopContainer = styled.div`
 
 const StyledMessageOutlined = styled(MessageOutlined)`
   color: ${(props) =>
-    props.selected === "chats"
-      ? "rgba(251, 109, 98, 0.7)"
-      : "rgba(221, 221, 221, 0.6)"};
+    props.selected === 'chats'
+      ? 'rgba(251, 109, 98, 0.7)'
+      : 'rgba(221, 221, 221, 0.6)'};
   font-size: 36px;
 `;
 
 const StyledInboxOutlined = styled(UserOutlined)`
   color: ${(props) =>
-    props.selected !== "chats"
-      ? "rgba(251, 109, 98, 0.7)"
-      : "rgba(221, 221, 221, 0.6)"};
+    props.selected !== 'chats'
+      ? 'rgba(251, 109, 98, 0.7)'
+      : 'rgba(221, 221, 221, 0.6)'};
   font-size: 40px;
 `;
 

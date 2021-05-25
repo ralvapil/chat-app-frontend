@@ -1,21 +1,15 @@
-<<<<<<< HEAD
-import React from "react";
-import styled from "styled-components";
-import { getFormattedTimestamp } from "../../../utils/format";
-=======
-import React from 'react'
-import styled from 'styled-components'
-import { getFormattedTimestamp } from '../../../utils/format'
->>>>>>> 69d9e975d8c5cad03c1b2af696cf4c4cb8b0b0b0
+import React from 'react';
+import styled from 'styled-components';
+import { getFormattedTimestamp } from '../../../utils/format';
 
 const StyledContainer = styled.div`
   margin-top: ${(props) =>
-    props.userIsDifferentThanPrevious ? "15px" : "2px"};
-  margin-bottom: ${(props) => (props.isLastMessage ? "15px" : "0")};
+    props.userIsDifferentThanPrevious ? '15px' : '2px'};
+  margin-bottom: ${(props) => (props.isLastMessage ? '15px' : '0')};
   max-width: 80%;
   display: inline-block;
   align-self: ${(props) =>
-    props.isNotCurrentUser ? "flex-start" : "flex-end"};
+    props.isNotCurrentUser ? 'flex-start' : 'flex-end'};
   position: relative;
 `;
 
@@ -23,7 +17,7 @@ const StyledName = styled.div`
   color: grey;
   padding-left: 15px;
   font-size: 13px;
-  text-align: ${(props) => (props.isNotCurrentUser ? "left" : "right")};
+  text-align: ${(props) => (props.isNotCurrentUser ? 'left' : 'right')};
   padding-right: 14px;
 `;
 
@@ -32,37 +26,24 @@ const StyledMessageBody = styled.div`
   background: #3e78ff;
   border-radius: 30px;
   display: inline-block;
-<<<<<<< HEAD
   background-color: ${(props) =>
-    props.isNotCurrentUser ? "#f4eeff" : "#f1f7ff"};
-  float: ${(props) => (props.isNotCurrentUser ? "left" : "right")};
+    props.isNotCurrentUser ? '#f4eeff' : '#f1f7ff'};
+  float: ${(props) => (props.isNotCurrentUser ? 'left' : 'right')};
   display: flex;
   align-items: center;
   justify-content: center;
 `;
-=======
-  background-color:  ${props => props.isNotCurrentUser ? "#f4eeff" : "#f1f7ff"};
-  float: ${props => props.isNotCurrentUser ? "left" : "right"};
-  display: flex;
-  align-items: center;
-  justify-content: center;
-`
->>>>>>> 69d9e975d8c5cad03c1b2af696cf4c4cb8b0b0b0
 
 const StyledTimestamp = styled.div`
   font-size: 9px;
   padding-left: 10px;
   color: #c2c2c2;
-<<<<<<< HEAD
 `;
-=======
-`
->>>>>>> 69d9e975d8c5cad03c1b2af696cf4c4cb8b0b0b0
 
 const StyledMessageText = styled.span`
   background-color: ${(props) =>
-    props.isNotCurrentUser ? "#f4eeff" : "#f1f7ff"};
-  color: ${(props) => (props.isNotCurrentUser ? "#8b4cff" : "rgb(0,106,255)")};
+    props.isNotCurrentUser ? '#f4eeff' : '#f1f7ff'};
+  color: ${(props) => (props.isNotCurrentUser ? '#8b4cff' : 'rgb(0,106,255)')};
   font-size: 14px;
 `;
 
@@ -75,15 +56,15 @@ const StyledProPicIcon = styled.img`
   top: -6px;
   {${(props) => {
     if (props.isNotCurrentUser) {
-      return "left: -2px;";
+      return 'left: -2px;';
     }
 
-    return "right: -2px;";
+    return 'right: -2px;';
   }}
 
 `;
 
-// const StyledTimeStamp = styled.div`
+// Const StyledTimeStamp = styled.div`
 //   color: grey;
 //   font-size: 10px;
 //   padding-top: 3px;
@@ -111,7 +92,7 @@ export default function MobileChatMessage({
           isNotCurrentUser={isNotCurrentUser}
         />
       ) : (
-        ""
+        ''
       )}
       <StyledMessageBody isNotCurrentUser={isNotCurrentUser}>
         <StyledMessageText isNotCurrentUser={isNotCurrentUser}>

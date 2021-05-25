@@ -1,27 +1,15 @@
-<<<<<<< HEAD
-import React from "react";
-import styled from "styled-components";
-import TextareaAutosize from "react-textarea-autosize";
-import { SendOutlined } from "@ant-design/icons";
-import { useMediaQuery } from "react-responsive";
-=======
-import React from 'react'
-import styled from 'styled-components'
+import React from 'react';
+import styled from 'styled-components';
 import TextareaAutosize from 'react-textarea-autosize';
 import { SendOutlined } from '@ant-design/icons';
 import { useMediaQuery } from 'react-responsive';
->>>>>>> 69d9e975d8c5cad03c1b2af696cf4c4cb8b0b0b0
 
 const StyledWrapper = styled.div`
   position: fixed;
   bottom: 0;
   min-height: 70px;
-<<<<<<< HEAD
   width: ${(props) =>
-    props.isDesktopOrLaptop ? "calc(100vw - 400px)" : "100%"};
-=======
-  width: ${props => props.isDesktopOrLaptop ? 'calc(100vw - 400px)' : '100%'};
->>>>>>> 69d9e975d8c5cad03c1b2af696cf4c4cb8b0b0b0
+    props.isDesktopOrLaptop ? 'calc(100vw - 400px)' : '100%'};
   background: white;
   border-radius: 24px 24px 0px 0px;
   border: 1px solid #f9f9f9;
@@ -42,11 +30,7 @@ const StyleContainer = styled.div`
   border: 1px solid rgba(221, 221, 221, 0.4);
   border-radius: 30px;
   background: #fff;
-<<<<<<< HEAD
 `;
-=======
-`
->>>>>>> 69d9e975d8c5cad03c1b2af696cf4c4cb8b0b0b0
 
 const StyledTextArea = styled(TextareaAutosize)`
   width: 80%;
@@ -64,11 +48,7 @@ const StyledTextArea = styled(TextareaAutosize)`
   ::placeholder {
     color: #b4b7c1;
   }
-<<<<<<< HEAD
 `;
-=======
-`
->>>>>>> 69d9e975d8c5cad03c1b2af696cf4c4cb8b0b0b0
 
 const StyledButtonWrapper = styled.button`
   width: 20%;
@@ -82,33 +62,19 @@ const StyledButtonWrapper = styled.button`
   height: 40px;
   border-radius: 50%;
   border: none;
-<<<<<<< HEAD
 `;
 
 export default function Footer({ messageInput, onChange, handleEnterPress }) {
   const isDesktopOrLaptop = useMediaQuery({
-    query: "(min-device-width: 1224px)",
+    query: '(min-device-width: 1224px)',
   });
-=======
-`
-
-export default function Footer({ messageInput, onChange, handleEnterPress }) {
-  const isDesktopOrLaptop = useMediaQuery({
-    query: '(min-device-width: 1224px)'
-  })
->>>>>>> 69d9e975d8c5cad03c1b2af696cf4c4cb8b0b0b0
 
   return (
     <StyledWrapper isDesktopOrLaptop={isDesktopOrLaptop}>
       <StyleContainer>
         <StyledTextArea
-<<<<<<< HEAD
           rows={1}
           cols={30}
-=======
-          rows={1} 
-          cols={30} 
->>>>>>> 69d9e975d8c5cad03c1b2af696cf4c4cb8b0b0b0
           id="msg"
           name="msg"
           value={messageInput}
@@ -117,17 +83,9 @@ export default function Footer({ messageInput, onChange, handleEnterPress }) {
           placeholder="Type here"
         />
         <StyledButtonWrapper>
-<<<<<<< HEAD
-          <SendOutlined style={{ fontSize: "18px", color: "#adadad" }} />
+          <SendOutlined style={{ fontSize: '18px', color: '#adadad' }} />
         </StyledButtonWrapper>
       </StyleContainer>
     </StyledWrapper>
   );
-=======
-          <SendOutlined style={{ fontSize: '18px', color: '#adadad' }}/>
-        </StyledButtonWrapper>
-      </StyleContainer>
-    </StyledWrapper>
-  )
->>>>>>> 69d9e975d8c5cad03c1b2af696cf4c4cb8b0b0b0
 }

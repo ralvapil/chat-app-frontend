@@ -1,41 +1,22 @@
-<<<<<<< HEAD
-import React, { useState, useEffect } from "react";
-import styled from "styled-components";
-import { useCombobox, useMultipleSelection } from "downshift";
-import { useSelector, useDispatch } from "react-redux";
-import { useHistory } from "react-router-dom";
-import { ArrowLeft } from "react-feather";
+import React, { useState, useEffect } from 'react';
+import styled from 'styled-components';
+import { useCombobox, useMultipleSelection } from 'downshift';
+import { useSelector, useDispatch } from 'react-redux';
+import { useHistory } from 'react-router-dom';
+import { ArrowLeft } from 'react-feather';
 
 import {
   getContacts,
   selectContacts,
   selectLastUpdated,
-} from "../../../features/contact/contactSlice";
-import { selectUser } from "../../../features/auth/authSlice";
-import { useSocket } from "../../Contexts/socketContext";
+} from '../../../features/contact/contactSlice';
+import { selectUser } from '../../../features/auth/authSlice';
+import { useSocket } from '../../Contexts/socketContext';
 
-// import img from '../../../assets/img/onlineMessaging.svg'
+// Import img from '../../../assets/img/onlineMessaging.svg'
 // import img from '../../../assets/img/socialNetworking.svg'
-import img from "../../../assets/img/messagingApp.svg";
-import img2 from "../../../assets/img/workChat.svg";
-=======
-import React, {useState, useEffect} from 'react'
-import styled from 'styled-components'
-import { useCombobox, useMultipleSelection } from 'downshift'
-import { useSelector, useDispatch } from 'react-redux'
-import { useHistory } from 'react-router-dom'
-import { ArrowLeft } from 'react-feather'
-
-import { getContacts, selectContacts, selectLastUpdated } from '../../../features/contact/contactSlice'
-import { selectUser } from '../../../features/auth/authSlice'
-import { useSocket } from '../../Contexts/socketContext'; 
-
-// import img from '../../../assets/img/onlineMessaging.svg'
-// import img from '../../../assets/img/socialNetworking.svg'
-import img from '../../../assets/img/messagingApp.svg'
-import img2 from '../../../assets/img/workChat.svg'
-
->>>>>>> 69d9e975d8c5cad03c1b2af696cf4c4cb8b0b0b0
+import img from '../../../assets/img/messagingApp.svg';
+import img2 from '../../../assets/img/workChat.svg';
 
 const StyledBack = styled(ArrowLeft)`
   color: #55596a;
@@ -49,11 +30,7 @@ const StyledHeader = styled.h1`
   text-align: center;
   position: absolute;
   top: 30px;
-<<<<<<< HEAD
 `;
-=======
-`
->>>>>>> 69d9e975d8c5cad03c1b2af696cf4c4cb8b0b0b0
 
 const StyledBackButton = styled.button`
   border: none;
@@ -106,15 +83,9 @@ const StyledSelectedItem = styled.span`
   padding: 8px;
   border-radius: 18px;
   background-color: #f1f7ff;
-<<<<<<< HEAD
   color: rgb(0, 106, 255);
   margin-top: 10px;
 `;
-=======
-  color: rgb(0,106,255);
-  margin-top: 10px;
-`
->>>>>>> 69d9e975d8c5cad03c1b2af696cf4c4cb8b0b0b0
 
 const SelectedName = styled.p`
   margin: 0;
@@ -160,11 +131,7 @@ const TopContainer = styled.div`
   align-items: center;
   flex-direction: column;
   position: relative;
-<<<<<<< HEAD
 `;
-=======
-`
->>>>>>> 69d9e975d8c5cad03c1b2af696cf4c4cb8b0b0b0
 
 const SubContainer = styled.div`
   height: 90%;
@@ -174,11 +141,7 @@ const SubContainer = styled.div`
   align-items: center;
   justify-content: center;
   margin-top: 82px;
-<<<<<<< HEAD
 `;
-=======
-`
->>>>>>> 69d9e975d8c5cad03c1b2af696cf4c4cb8b0b0b0
 
 const BottomContainer = styled.div`
   width: 100%;
@@ -187,18 +150,11 @@ const BottomContainer = styled.div`
   z-index: 5;
   background: #fff;
   position: relative;
-<<<<<<< HEAD
 `;
 
 const InputAndSelections = styled.div`
   padding: ${(props) =>
-    props.numOfItems < 2 ? "0px 10px 10px 10px" : "10px 10px 10px 10px"};
-=======
-`
-
-const InputAndSelections = styled.div`
-  padding: ${props => props.numOfItems < 2 ? '0px 10px 10px 10px' : '10px 10px 10px 10px'};
->>>>>>> 69d9e975d8c5cad03c1b2af696cf4c4cb8b0b0b0
+    props.numOfItems < 2 ? '0px 10px 10px 10px' : '10px 10px 10px 10px'};
   border: 1px solid #f4f4f4;
   border-radius: 30px;
   background: white;
@@ -207,11 +163,7 @@ const InputAndSelections = styled.div`
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-<<<<<<< HEAD
 `;
-=======
-`
->>>>>>> 69d9e975d8c5cad03c1b2af696cf4c4cb8b0b0b0
 
 const StyledInput = styled.input`
   margin-top: 5px;
@@ -223,17 +175,12 @@ const StyledInput = styled.input`
   color: #23293f;
   background: white;
   flex-grow: 2;
-<<<<<<< HEAD
 `;
-=======
-`
->>>>>>> 69d9e975d8c5cad03c1b2af696cf4c4cb8b0b0b0
 
 const StyledLabel = styled.label`
   font-size: 12px;
   color: #23293f;
   font-weight: 500;
-<<<<<<< HEAD
 `;
 
 const StyledImage = styled.img`
@@ -254,31 +201,9 @@ const StyledBottomImage = styled.img`
   width: 180px;
   z-index: -2;
 `;
-=======
-  `
-
-const StyledImage = styled.img`
-  padding-top: 50px;
-  position: fixed;
-  z-index: -3;
-  right: 30px;
-  top: 0px;
-  // top: -200px;
-  // right: -200px;
-  width: 74px;
-`
-
-const StyledBottomImage = styled.img`
-  position: absolute;
-  top: 50px;
-  left: calc(calc(100vw - 180px)/2);
-  width: 180px;
-  z-index: -2;
-`
->>>>>>> 69d9e975d8c5cad03c1b2af696cf4c4cb8b0b0b0
 
 export default function MobileNewChat() {
-  const [inputValue, setInputValue] = useState("");
+  const [inputValue, setInputValue] = useState('');
   const [isFocused, setIsFocused] = useState(false);
   const contacts = useSelector(selectContacts);
   const history = useHistory();
@@ -293,8 +218,8 @@ export default function MobileNewChat() {
     if (socket && !lastUpdated) {
       dispatch(
         getContacts({
-          type: "socket",
-          eventType: "getContacts",
+          type: 'socket',
+          eventType: 'getContacts',
           data: {
             user: user.id,
           },
@@ -348,7 +273,7 @@ export default function MobileNewChat() {
         case useCombobox.stateChangeTypes.ItemClick:
         case useCombobox.stateChangeTypes.InputBlur:
           if (selectedItem) {
-            setInputValue("");
+            setInputValue('');
             addSelectedItem(selectedItem);
             selectItem(null);
           }
@@ -363,33 +288,23 @@ export default function MobileNewChat() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (selectedItems.length > 0) {
-      const chatId = await socket.emitSocket("createChat", {
+      const chatId = await socket.emitSocket('createChat', {
         user: user.id,
         members: selectedItems,
       });
 
       history.push(`/chat/${chatId}`);
     }
-<<<<<<< HEAD
   };
-=======
-  }
-
->>>>>>> 69d9e975d8c5cad03c1b2af696cf4c4cb8b0b0b0
 
   return (
     <form onSubmit={handleSubmit}>
       <TopContainer>
-<<<<<<< HEAD
         <StyledHeader>Make a chat</StyledHeader>
-=======
-        <StyledHeader >Make a chat</StyledHeader>
->>>>>>> 69d9e975d8c5cad03c1b2af696cf4c4cb8b0b0b0
         <SubContainer>
           <StyledBackButton type="button" onClick={() => history.goBack()}>
             <StyledBack />
           </StyledBackButton>
-<<<<<<< HEAD
           <StyledImage src={img} alt="addFriendImage" />
           <StyledLabel {...getLabelProps()}>
             Add members to your new chat
@@ -432,50 +347,17 @@ export default function MobileNewChat() {
       </TopContainer>
       <BottomContainer>
         <StyledBottomImage src={img2} />
-=======
-          <StyledImage src={img} alt='addFriendImage'/>
-          <StyledLabel {...getLabelProps()}>Add members to your new chat</StyledLabel>
-            <InputAndSelections {...getComboboxProps()} onFocus={() => setIsFocused(true)} numOfItems={selectedItems.length}>
-              {selectedItems.map((selectedItem, index) => (
-                // <StyledSelectedItemWrapper>
-                  <StyledSelectedItem
-                    key={`selected-item-${index}`}
-                    {...getSelectedItemProps({selectedItem, index})}
-                  >
-                    <SelectedProPic src={contacts[selectedItem]?.picture}/>
-                    <SelectedName>
-                      {`${contacts[selectedItem]?.firstName} ${contacts[selectedItem]?.lastName}`}
-                    </SelectedName>
-                    <StyledSelectItemRemoveIcon
-                      onClick={() => removeSelectedItem(selectedItem)}
-                    >
-                      &#10005;
-                    </StyledSelectItemRemoveIcon>
-                  </StyledSelectedItem>
-                // </StyledSelectedItemWrapper>
-              ))}
-              <StyledInput 
-                {...getInputProps(getDropdownProps({preventKeyAction: isOpen}))}
-                placeholder="Search"
-              />
-            </InputAndSelections>
-          <StyledCreateButton disabled={selectedItems?.length < 1} type="submit">Create</StyledCreateButton>
-        </SubContainer>
-      </TopContainer>
-      <BottomContainer>
-        <StyledBottomImage src={img2}/>
->>>>>>> 69d9e975d8c5cad03c1b2af696cf4c4cb8b0b0b0
         <ContactList {...getMenuProps()}>
           {getFilteredItems(contactIds).map((contactId, index) => {
             const test = 50;
-            let arr = [];
+            const arr = [];
 
             for (let i = 0; i < test; i++) {
               arr[i] = (
                 <ContactListItem
                   style={
                     highlightedIndex === index
-                      ? { backgroundColor: "#bde4ff" }
+                      ? { backgroundColor: '#bde4ff' }
                       : {}
                   }
                   key={`${contacts[contactId]}${index}`}
@@ -488,6 +370,7 @@ export default function MobileNewChat() {
                 </ContactListItem>
               );
             }
+
             return arr;
           })}
         </ContactList>

@@ -1,18 +1,18 @@
-import React, { useEffect } from "react";
-import { useHistory } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-import style from "styled-components";
+import React, { useEffect } from 'react';
+import { useHistory } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import style from 'styled-components';
 
 import {
   getContacts,
   selectContacts,
   selectLastUpdated,
-} from "../../../features/contact/contactSlice";
-import { selectUser } from "../../../features/auth/authSlice";
-import { createChat } from "../../../features/message/messageSlice";
-import { useSocket } from "../../Contexts/socketContext";
-import MobileChatMenuHeader from "../MobileChatMenuHeader/MobileChatMenuHeader";
-import MobileChatListFooterMenu from "../MobileChatListFooterMenu/MobileChatListFooterMenu";
+} from '../../../features/contact/contactSlice';
+import { selectUser } from '../../../features/auth/authSlice';
+import { createChat } from '../../../features/message/messageSlice';
+import { useSocket } from '../../Contexts/socketContext';
+import MobileChatMenuHeader from '../MobileChatMenuHeader/MobileChatMenuHeader';
+import MobileChatListFooterMenu from '../MobileChatListFooterMenu/MobileChatListFooterMenu';
 
 const StyleContact = style.div`
   padding-left: 20px;
@@ -53,8 +53,8 @@ export default function MobileChatRequestList() {
     if (socket && !lastupdatedContacts) {
       dispatch(
         getContacts({
-          type: "socket",
-          eventType: "getContacts",
+          type: 'socket',
+          eventType: 'getContacts',
           data: {
             user: user.id,
           },
@@ -65,33 +65,23 @@ export default function MobileChatRequestList() {
   }, [user, socket, dispatch, lastupdatedContacts]);
 
   const handleMessageIconClick = () => {
-    history.push("/chats");
+    history.push('/chats');
   };
 
   const handleInboxIconClick = () => {
-    history.push("/contacts");
+    history.push('/contacts');
   };
 
   const handleContactClick = async (contactUserId, chatId) => {
-<<<<<<< HEAD
-=======
-
->>>>>>> 69d9e975d8c5cad03c1b2af696cf4c4cb8b0b0b0
-    //TODO: this needs to be made into a determined call
+    // TODO: this needs to be made into a determined call
 
     // it will already know if a chat exists, so it will need to be
     // a request to create the chcat if not exists
     // then return back the chat id
     // then do the history re locate to the chat
-<<<<<<< HEAD
 
     if (!chatId) {
-      chatId = await socket.emitSocket("createChat", {
-=======
-    
-    if(!chatId) {
       chatId = await socket.emitSocket('createChat', {
->>>>>>> 69d9e975d8c5cad03c1b2af696cf4c4cb8b0b0b0
         user: user.id,
         members: [contactUserId],
       });
@@ -99,16 +89,15 @@ export default function MobileChatRequestList() {
 
     return history.push(`/chat/${chatId}`);
 
-    // chat doesnt exist in store
+    // Chat doesnt exist in store
     // send request to create it
   };
 
   const contactIds = Object.keys(contacts);
-<<<<<<< HEAD
   const contactList = contactIds?.length
     ? contactIds.map((contactId) => {
         const test = 50;
-        let arr = [];
+        const arr = [];
         const contact = contacts[contactId];
 
         for (let i = 0; i < test; i++) {
@@ -127,36 +116,13 @@ export default function MobileChatRequestList() {
 
         return arr;
       })
-    : "";
-=======
-  const contactList = contactIds?.length ? contactIds.map((contactId) => {
-
-    const test = 50;
-    let arr = [];
-    const contact = contacts[contactId];
-
-    for(let i = 0; i  < test; i++) {
-        arr[i] = (
-          <StyleContact key={contactId} onClick={() => handleContactClick(contact.user, contact?.chat_id)}>
-            <StyledProPic src={contact.picture} />
-            <StyledName>
-              {`${contact.firstName} ${contact.lastName}`}
-            </StyledName>
-          </StyleContact>
-        )
-    }
-
-    return (
-      arr
-    )
-  }) : '';
->>>>>>> 69d9e975d8c5cad03c1b2af696cf4c4cb8b0b0b0
+    : '';
 
   return (
     <>
       <MobileChatMenuHeader heading="Contacts" myPictureUrl={user.picture} />
       <div
-        style={{ maxHeight: "calc(100vh - 94px - 80px)", overflow: "scroll" }}
+        style={{ maxHeight: 'calc(100vh - 94px - 80px)', overflow: 'scroll' }}
       >
         {contactList}
       </div>

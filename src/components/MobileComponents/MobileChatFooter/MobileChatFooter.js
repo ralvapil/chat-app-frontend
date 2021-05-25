@@ -1,7 +1,7 @@
-import React from "react";
-import styled from "styled-components";
-import TextareaAutosize from "react-textarea-autosize";
-import { SendOutlined } from "@ant-design/icons";
+import React from 'react';
+import styled from 'styled-components';
+import TextareaAutosize from 'react-textarea-autosize';
+import { SendOutlined } from '@ant-design/icons';
 
 const StyledWrapper = styled.div`
   position: fixed;
@@ -29,11 +29,7 @@ const StyleContainer = styled.div`
   border: 1px solid rgba(221, 221, 221, 0.4);
   border-radius: 30px;
   background: #fff;
-<<<<<<< HEAD
 `;
-=======
-`
->>>>>>> 69d9e975d8c5cad03c1b2af696cf4c4cb8b0b0b0
 
 const StyledTextArea = styled(TextareaAutosize)`
   width: 80%;
@@ -86,7 +82,7 @@ export default function MobileChatFooter({
           placeholder="Type here"
         />
         <StyledButtonWrapper>
-          <SendOutlined style={{ fontSize: "18px", color: "#adadad" }} />
+          <SendOutlined style={{ fontSize: '18px', color: '#adadad' }} />
         </StyledButtonWrapper>
       </StyleContainer>
     </StyledWrapper>
