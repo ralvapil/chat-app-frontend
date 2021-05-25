@@ -6,6 +6,8 @@ export class Socket {
     messageReceivedFn, 
     newConvosPushedFn, 
     messageSentDiffDeviceFn, 
+    memberIsTypingFn,
+    memberIsTypingEndFn,
     userId
   ) {
     this.socket = io("http://localhost:5000", { query: `userId=${userId}` });
@@ -18,6 +20,9 @@ export class Socket {
     this.convosReceived(newConvosPushedFn)
     this.messageReceived(messageReceivedFn)
     this.messageSentDiffDevice(messageSentDiffDeviceFn)
+    this.memberIsTyping(memberIsTypingFn)
+    this.memberIsTypingEnd(memberIsTypingEndFn)
+
   }
 
   getSocket() {
@@ -59,6 +64,24 @@ export class Socket {
       return this.dispatch(messageSentDiffDeviceFn({
         type: 'message',
         data
+      }))
+    })
+  }
+
+  memberIsTyping(memberIsTypingFn) {
+    this.socket.on('memberIsTyping', (data) => {
+      return this.dispatch(memberIsTypingFn({
+        type: 'message',
+        data,
+      }))
+    })
+  }
+
+  memberIsTypingEnd(memberIsTypingEndFn) {
+    this.socket.on('memberEndTyping', (data) => {
+      return this.dispatch(memberIsTypingEndFn({
+        type: 'message',
+        data,
       }))
     })
   }

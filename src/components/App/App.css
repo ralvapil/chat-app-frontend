@@ -23,5 +23,9 @@ body {
   font-smooth: always;
   -webkit-font-smoothing: subpixel-antialiased;
   -moz-osx-font-smoothing: auto;
-  background-color: #fcfcfc;
+  background-color: #fff;
+}
+
+html {
+  scroll-behavior: smooth;
 }

@@ -1,12 +1,13 @@
 import React from 'react'
 import styled from 'styled-components'
 import { useHistory, useLocation } from 'react-router-dom'
-import Dropdown from '../../SharedComponents/components/Dropdown/Dropdown'
+import Dropdown from '../../Dropdown/Dropdown'
 import { MessageCircle, User } from 'react-feather'
+import { useMediaQuery } from 'react-responsive'
 
 const Container = styled.div`
-  height: 84px;
-  width: 100%;
+  height:  ${props => props.isDesktopOrLaptop ? '74px' : '84px'};
+  width: ${props => props.isDesktopOrLaptop ? '400px' : '100%'};
   background:#fff;
   position: fixed;
   bottom: 0;
@@ -18,7 +19,7 @@ const InnerContainer = styled.div`
   background: white;
   border-radius: 24px 24px 0px 0px;
   border: 1px solid #f9f9f9;
-  box-shadow: 0px -2px 5px 0px rgba(200, 200, 200, 0.6);
+  box-shadow: 0px -2px 5px 0px rgba(200, 200, 200, 0.4);
   position: relative;
 `
 
@@ -29,10 +30,11 @@ const StyledItemContainer = styled.div`
   flex-direction: column;
   width: 100%;
   height: 100%;
+  cursor: pointer;
 `
 
 const StyledFooterChatIcon = styled(MessageCircle)`
-  color: ${props => props.pathname === '/chats' ? 'dodgerblue' : '#cfd0d7'};
+  color: ${props => props.pathname === '/chats' || props.pathname.substring(0, 5) === '/chat' ? 'dodgerblue' : '#cfd0d7'};
 `
 
 const StyledFooterUserIcon = styled(User)`
@@ -49,7 +51,7 @@ const StyledMenuButtonsContainer = styled.div`
 `
 
 const StyledFooterChatIconLabel = styled.label`
-  color: ${props => props.pathname === '/chats' ? 'rgb(0,106,255)' : '#cfd0d7'};
+  color: ${props => props.pathname === '/chats' || props.pathname.substring(0, 5) === '/chat' ? 'rgb(0,106,255)' : '#cfd0d7'};
   font-size: 12px;
   padding-top: 6px;
 `
@@ -60,12 +62,15 @@ const StyledFooterContactIconLabel = styled.label`
   padding-top: 6px;
 `
 
-export default function MobileChatListFooterMenu(section) {
+export default function Footer() {
   const history = useHistory();
   const { pathname } = useLocation();
+  const isDesktopOrLaptop = useMediaQuery({
+    query: '(min-device-width: 1224px)'
+  })
 
   return (
-    <Container>
+    <Container isDesktopOrLaptop={isDesktopOrLaptop}>
       <InnerContainer>
         <Dropdown />
         <StyledMenuButtonsContainer>

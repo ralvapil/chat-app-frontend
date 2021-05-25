@@ -2,12 +2,13 @@ import React from 'react'
 import {useHistory } from 'react-router-dom'
 import styled from 'styled-components'
 import { ArrowLeft } from 'react-feather'
+import { useMediaQuery } from 'react-responsive';
 
 const StyledWrapper = styled.div`
   position: fixed;
   top: 0;
   height: 100px;
-  width: 100%;
+  width: ${props => props.isDesktopOrLaptop ? 'calc(100vw - 400px)' : '100%'};
   background: #fff;
   display: flex;
   align-items: center;
@@ -33,7 +34,7 @@ const StyledBackButton = styled.button`
 
 const StyledSubContainer = styled.div`
   height: 70%;
-  width: 94%;
+  width:  ${props => props.isDesktopOrLaptop ? 'calc(100% - 30px)' : '94%'};
   background: white;
   border-radius: 16px;
   border: 1px solid #f9f9f9;
@@ -67,15 +68,20 @@ const ProfilePic = styled.img`
   border: 1px solid white;
 `
 
-export default function MobileChatHeader( { cid, onPhoneClick, isGroup, name, pictureUrl } ) {
+export default function Header( { isGroup, name, pictureUrl } ) {
   const history = useHistory();
+  const isDesktopOrLaptop = useMediaQuery({
+    query: '(min-device-width: 1224px)'
+  })
 
   return (
-    <StyledWrapper>
-      <StyledSubContainer>
-        <StyledBackButton onClick={() => history.push('/chats')}>
+    <StyledWrapper isDesktopOrLaptop={isDesktopOrLaptop}>
+      <StyledSubContainer isDesktopOrLaptop={isDesktopOrLaptop}>
+        {
+          isDesktopOrLaptop ? '' : <StyledBackButton onClick={() => history.push('/chats')}>
           <StyledBack/>
         </StyledBackButton>
+        }
           <>
             {
               isGroup ? <ProfilePicPlaceholder/> : <ProfilePic src={pictureUrl} alt="Profile" />

@@ -1,14 +1,8 @@
 import React, { useEffect } from 'react'
 import { useHistory } from 'react-router-dom'
-import { useDispatch, useSelector } from "react-redux";
 import style from 'styled-components'
-
-import { getContacts, selectContacts, selectLastUpdated } from '../../../features/contact/contactSlice'
-import { selectUser } from '../../../features/auth/authSlice'
-import { createChat } from '../../../features/message/messageSlice'
-import { useSocket } from '../../Contexts/socketContext'; 
-import MobileChatMenuHeader from "../MobileChatMenuHeader/MobileChatMenuHeader"
-import MobileChatListFooterMenu from '../MobileChatListFooterMenu/MobileChatListFooterMenu';
+import Header from "../ChatList/Header/Header"
+import Footer from '../ChatList/Footer/Footer';
 
 const StyleContact = style.div`
   padding-left: 20px;
@@ -19,6 +13,13 @@ const StyleContact = style.div`
   display: flex;
   flex-direction: row;
   align-items: center;
+  cursor: pointer;
+`
+
+const List = style.div`
+  max-height: calc(100vh - 94px - 80px);
+  overflow: scroll;
+  overflow-x: hidden;
 `
 
 const StyledProPic = style.img`
@@ -36,29 +37,8 @@ const StyledName = style.span`
   
 `
 
-export default function MobileChatRequestList() {
+export default function ContactList({ user, socket, contacts }) {
   const history = useHistory();
-  const dispatch = useDispatch();
-  const { socket } = useSocket();
-
-  const user = useSelector(selectUser);
-  const contacts = useSelector(selectContacts);
-  const lastupdatedContacts = useSelector(selectLastUpdated);
-
-  useEffect(() => {
-    if(socket && !lastupdatedContacts) {
-      dispatch(
-        getContacts({
-          type: 'socket',
-          eventType: 'getContacts',
-          data: { 
-            user: user.id
-          },
-          socket,
-        })
-      )
-    }
-  },[user, socket, dispatch, lastupdatedContacts])
 
   const handleMessageIconClick = () => {
     history.push('/chats')
@@ -115,14 +95,14 @@ export default function MobileChatRequestList() {
 
   return (
     <>
-      <MobileChatMenuHeader 
+      <Header 
         heading="Contacts"
         myPictureUrl={user.picture}
       /> 
-      <div style={{maxHeight: 'calc(100vh - 94px - 80px)', overflow: 'scroll',}}>
+      <List>
         {contactList}
-      </div>
-      <MobileChatListFooterMenu section="contacts"/>
+      </List>
+      <Footer section="contacts"/>
     </>
   )
 }

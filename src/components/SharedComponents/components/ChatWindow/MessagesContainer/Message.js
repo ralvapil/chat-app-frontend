@@ -1,6 +1,5 @@
 import React from 'react'
 import styled from 'styled-components'
-import { getFormattedTimestamp } from '../../../utils/format'
 
 const StyledContainer = styled.div`
   margin-top: ${props => props.userIsDifferentThanPrevious ? '15px' : '2px'};
@@ -9,14 +8,6 @@ const StyledContainer = styled.div`
   display: inline-block;
   align-self: ${props => props.isNotCurrentUser ? "flex-start" : "flex-end"};
   position: relative;
-`
-
-const StyledName = styled.div`
-  color: grey;
-  padding-left: 15px;
-  font-size: 13px;
-  text-align: ${props => props.isNotCurrentUser ? "left" : "right"};
-  padding-right: 14px;
 `
 
 const StyledMessageBody = styled.div`
@@ -57,18 +48,10 @@ const StyledProPicIcon = styled.img`
 
     return 'right: -2px;'
   }}
-
 `
 
-// const StyledTimeStamp = styled.div`
-//   color: grey;
-//   font-size: 10px;
-//   padding-top: 3px;
-//   text-align: right;
-// `
 
-export default function MobileChatMessage({
-  name, 
+export default function Message({
   timestamp,
   userIsDifferentThanPrevious, 
   children, 

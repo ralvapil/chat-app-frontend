@@ -1,5 +1,5 @@
 import React from 'react';
-import chattingSrc from '../../../assets/img/chatting.png';
+import chattingSrc from '../../../../assets/img/chatting.png';
 import styled from 'styled-components';
 import GoogleButton from 'react-google-button'
 

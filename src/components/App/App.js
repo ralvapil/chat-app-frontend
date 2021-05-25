@@ -8,7 +8,7 @@ import { useMediaQuery } from "react-responsive";
 import { useSelector } from 'react-redux'
 
 import { selectIsAuthorized } from '../../features/auth/authSlice';
-import DesktopChatWindow from '../DesktopComponents/DesktopChatWindow/DesktopChatWindow'
+import DesktopWindow from '../DesktopComponents/DesktopWindow/DesktopWindow'
 import MobileChatListWindow from '../MobileComponents/MobileChatListWindow/MobileChatListWindow'
 import MobileChatWindow from '../MobileComponents/MobileChatWindow/MobileChatWindow';
 import MobileContactList from '../MobileComponents/MobileContactList/MobileContactList'
@@ -17,8 +17,8 @@ import MobileNewChat from '../MobileComponents/MobileNewChat/MobileNewChat'
 
 import { SocketProvider } from '../Contexts/socketContext'
 
-import Login from '../SharedComponents/Login/Login';
-import ProtectedRoute from '../SharedComponents/ProtectedRoute/ProtectedRoute';
+import Login from '../SharedComponents/components/Login/Login';
+import ProtectedRoute from '../SharedComponents/components/ProtectedRoute/ProtectedRoute';
 
 import './App.css';
 
@@ -42,17 +42,17 @@ function App() {
             <SocketProvider>
               <ProtectedRoute path="/chat/:cid" >
                 {
-                  isDesktopOrLaptop ? <DesktopChatWindow /> : <MobileChatWindow />
+                  isDesktopOrLaptop ? <DesktopWindow /> : <MobileChatWindow />
                 }
               </ProtectedRoute>
               <ProtectedRoute path="/chats">
                 {
-                  isDesktopOrLaptop ? <DesktopChatWindow /> : <MobileChatListWindow />
+                  isDesktopOrLaptop ? <DesktopWindow /> : <MobileChatListWindow />
                 }
               </ProtectedRoute>
               <ProtectedRoute path="/contacts">
                 {
-                  <MobileContactList /> 
+                  isDesktopOrLaptop ? <DesktopWindow /> : <MobileContactList />
                 }
               </ProtectedRoute>
               <ProtectedRoute path="/contact-add">

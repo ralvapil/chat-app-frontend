@@ -53,6 +53,7 @@ export const messageSlice = createSlice({
             unreadMsgCount: convo.users.filter((convoUser) => convoUser.user === user)[0].unreadMsgCount,
             isGroup: convo.isGroup,
             _id: convo._id,
+            isTyping: Array.isArray(state?.data?.[convo._id]?.isTyping) ? [...state?.data?.[convo._id]?.isTyping] : [],
           }
         }
       }, {})
@@ -67,12 +68,13 @@ export const messageSlice = createSlice({
         return {
           ...acc, 
           [convo._id]: {
-            messages: convo.recentMsgs, 
+            messages: convo.recentMsgs,
             users: convo?.users,
             nickname: convo.nickname,
             unreadMsgCount: convo.users.filter((convoUser) => convoUser.user === user)[0].unreadMsgCount,
             isGroup: convo.isGroup,
             _id: convo._id,
+            isTyping: Array.isArray(state?.data?.[convo._id]?.isTyping) ? [...state?.data?.[convo._id]?.isTyping] : []
           }
         }
       }, {})
@@ -98,9 +100,73 @@ export const messageSlice = createSlice({
         unreadMsgCount: chat.users.filter((convoUser) => convoUser.user === user)[0].unreadMsgCount,
         isGroup: chat.isGroup,
         _id: chat._id,
+        isTyping: Array.isArray(state?.data?.[chat._id]?.isTyping) ? [...state?.data?.[chat._id]?.isTyping] : [],
       }
 
       state.data[chat._id] = data;
+    },
+
+    sendIsTyping: (state, action) => {
+      console.log('is typing send', action);
+    },
+
+    memberIsTyping: (state, action) => {
+      const { cid, user } = action.payload.data;
+
+      if(current(state.data).hasOwnProperty(cid)) {
+        if(Array.isArray(state.data[cid].isTyping)) {
+          if(!state.data[cid].isTyping.includes(user)) {
+            state.data[cid].isTyping.push(user);
+          }
+        } else {
+          // create array
+          state.data[cid].isTyping = [user]
+        }
+      } else {
+        // create cid entry
+        state.data[cid] = {
+          messages: [],
+          users: [],
+          nickname: '',
+          unreadMsgCount: 0,
+          isGroup: true,
+          _id: cid,
+          isTyping: [user]
+        }
+      }
+
+      console.log('member is typing', action);
+      console.log('test', current(state))
+    },
+
+    memberIsTypingEnd: (state, action) => {
+      const { cid, user } = action.payload.data;
+
+      if(current(state.data).hasOwnProperty(cid)) {
+        if(Array.isArray(state.data[cid].isTyping)) {
+          if(state.data[cid].isTyping.includes(user)) {
+            const idx = state.data[cid].isTyping.indexOf(user);
+
+            state.data[cid].isTyping.splice(idx, 1);
+          }
+        } else {
+          // create array
+          state.data[cid].isTyping = []
+        }
+      } else {
+        // create cid entry
+        state.data[cid] = {
+          messages: [],
+          users: [],
+          nickname: '',
+          unreadMsgCount: 0,
+          isGroup: true,
+          _id: cid,
+          isTyping: [user]
+        }
+      }
+
+      console.log('member end typihng', action);
     },
 
     messageSentDiffDevice: (state, action) => {
@@ -123,6 +189,8 @@ export const {
   messageSentDiffDevice,
   convos,
   sendReadMessages,
+  memberIsTyping,
+  memberIsTypingEnd,
 } = messageSlice.actions
 
 export const getMessages = (state, cid) => { 
@@ -133,6 +201,9 @@ export const getLastUpdatedConvos = (state) => {
 }
 export const getUnreadMsgCount = (state, cid) => {
   return state.messages?.data[cid]?.unreadMsgCount
+}
+export const getIsTyping = (state, cid) => {
+  return state.messages?.data[cid]?.isTyping 
 }
 
 

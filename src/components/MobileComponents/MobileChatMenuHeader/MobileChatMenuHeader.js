@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import { UserOutlined, MessageOutlined, PlusCircleOutlined } from '@ant-design/icons';
-import Dropdown from '../../SharedComponents/Dropdown/Dropdown'
+import Dropdown from '../../SharedComponents/components/Dropdown/Dropdown'
 
 const StyledHeader = styled.h1`
     font-size: 24px;
@@ -16,7 +16,7 @@ const StyledHeader = styled.h1`
     display: flex;
     align-items: center;
     justify-content: center;
-    background: #fcfcfc;
+    background: none;
   `
 
   const StyledButtonContainer = styled.div`
@@ -49,8 +49,8 @@ const StyledHeader = styled.h1`
     background: white;
     border-radius: 16px;
     border: 1px solid #f9f9f9;
-    box-shadow: -2px -2px 5px 0px rgba(200, 200, 200, 0.2);
-    box-shadow: 2px 2px 5px 0px rgba(200, 200, 200, 0.2);
+    box-shadow: -2px -2px 5px 0px rgba(200, 200, 200, 0.6);
+    box-shadow: 2px 2px 5px 0px rgba(200, 200, 200, 0.6);
     display: flex;
     align-items: center;
     justify-content: space-between;

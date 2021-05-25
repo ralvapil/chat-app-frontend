@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import { getFormattedTimestamp } from '../../../utils/format'
+import { getFormattedTimestamp } from '../../../../../utils/format'
 
 const StyledContainer = styled.div`
   width: 100%;
@@ -10,6 +10,7 @@ const StyledContainer = styled.div`
   justify-content: center;
   background: #fff;
   border-bottom: 2px solid #f8f8f8;
+  cursor: pointer;
 `
 
 const StyledTextContainer = styled.div`
@@ -95,7 +96,7 @@ const StyledUnReadPlaceholder = styled.div`
   // margin-top: 6px;
 `
 
-export default function MobileChatListItem( {preview, name, timestamp, handleConvoClick, unreadMsgCount, picture, isGroup} ) {
+export default function ListItem( {preview, name, timestamp, handleConvoClick, unreadMsgCount, picture, isGroup} ) {
 
 
   const isUnread = unreadMsgCount > 0;

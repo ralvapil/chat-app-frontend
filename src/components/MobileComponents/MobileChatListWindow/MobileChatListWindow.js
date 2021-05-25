@@ -1,124 +1,28 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import { useHistory } from 'react-router-dom'
-import { useDispatch, useSelector } from 'react-redux'
+import useMessengerData from '../../SharedComponents/hooks/useMessengerData'
 import styled from 'styled-components'
 
-import { getContacts, selectContacts, selectLastUpdated } from '../../../features/contact/contactSlice'
-import { getConvos, getMessages, getLastUpdatedConvos } from "../../../features/message/messageSlice"
-import { selectUser } from "../../../features/auth/authSlice"
+import { getTimestampInstance } from '../../../utils/format'
 import MobileChatListItem from "../MobileChatListItem/MobileChatListItem"
 import MobileChatMenuHeader from "../MobileChatMenuHeader/MobileChatMenuHeader"
-import { useSocket } from '../../Contexts/socketContext'; 
 import MobileChatListFooterMenu from '../MobileChatListFooterMenu/MobileChatListFooterMenu'
+
+const List = styled.div`
+  maxHeight: calc(100vh - 94px - 80px);
+  overflow: scroll;
+  overflow-x: hidden;
+`
 
 export default function MobileChatListWindow() {
   const history = useHistory();
-  const dispatch = useDispatch();
-  const { socket } = useSocket();
-
-  const user = useSelector( selectUser )
-  console.log('user', user)
-  const convos = useSelector( getMessages )
-  const contacts = useSelector(selectContacts);
-
-  const lastUpdateConvos = useSelector( getLastUpdatedConvos )
-  const lastupdatedContacts = useSelector(selectLastUpdated);
-
-  useEffect(() => {
-    if(socket && !lastUpdateConvos) {
-      dispatch(
-        getConvos({
-          'type': 'socket',
-          'eventType': 'getConvos',
-          'data': { 
-            user: user.id
-          },
-          'socket': socket,
-        }) 
-      )
-    }
-  }, [dispatch, user, socket, lastUpdateConvos])
-
-  useEffect(() => {
-    if(socket && !lastupdatedContacts) {
-      dispatch(
-        getContacts({
-          type: 'socket',
-          eventType: 'getContacts',
-          data: { 
-            user: user.id
-          },
-          socket,
-        })
-      )
-    }
-  },[user, socket, dispatch, lastupdatedContacts])
-
-  // const data = [
-  //   { 
-  //     preview: 'This is preview text',
-  //     name: 'Roderick Amfee',
-  //     timestamp: '12:46',
-  //   },
-  //   { 
-  //     preview: 'This is preview text',
-  //     name: 'Roderick Amfee',
-  //     timestamp: '12:46',
-  //   },
-  //   { 
-  //     preview: 'This is preview text',
-  //     name: 'Roderick Amfee',
-  //     timestamp: '12:46',
-  //   },
-  //   { 
-  //     preview: 'This is preview text',
-  //     name: 'Roderick Amfee',
-  //     timestamp: '12:46',
-  //   },
-  //   { 
-  //     preview: 'This is preview text',
-  //     name: 'Roderick Amfee',
-  //     timestamp: '12:46',
-  //   },
-  //   {       
-  //     preview: 'This is preview text',
-  //     name: 'Roderick Amfee',
-  //     timestamp: '12:46',
-  //   },
-  //   { 
-  //     preview: 'This is preview text',
-  //     name: 'Roderick Amfee',
-  //     timestamp: '12:46',
-  //   },
-  //   { 
-  //     preview: 'This is preview text',
-  //     name: 'Roderick Amfee',
-  //     timestamp: '12:46',
-  //   },
-  //   { 
-  //     preview: 'This is preview text',
-  //     name: 'Roderick Amfee',
-  //     timestamp: '12:46',
-  //   },
-  //   { 
-  //     preview: 'This is preview text',
-  //     name: 'Roderick Amfee',
-  //     timestamp: '12:46',
-  //   },
-  //   { 
-  //     preview: 'This is preview text',
-  //     name: 'Roderick Amfee',
-  //     timestamp: '12:46',
-  //   },
-  //   { 
-  //     preview: 'This is preview text',
-  //     name: 'Roderick Amfee',
-  //     timestamp: '12:46',
-  //   },
-  // ];
-
-
-
+  const {
+    socket,
+    user,
+    dispatch,
+    convos,
+  } = useMessengerData();
+  
   const handleConvoClick = (cid) => {
     history.push(`/chat/${cid}`)
   }
@@ -136,12 +40,15 @@ export default function MobileChatListWindow() {
   const chats = chatIdList.map((cid) => {
     const currentConvo = convos[cid]
     const lastMessage = currentConvo?.messages[currentConvo.messages?.length - 1]?.value ? 
-      currentConvo.messages[currentConvo.messages.length - 1]?.value : 
+      currentConvo.messages[currentConvo.messages.length - 1] : 
       '';
 
+    const isTypingUser = currentConvo?.isTyping.length > 0 ? currentConvo.isTyping[currentConvo.isTyping.length - 1] : '';
+    
+    const preview = isTypingUser?.length > 0 ? `${currentConvo.users.find((convoUser) => convoUser.user === isTypingUser).firstName} is typing...` : lastMessage.value
+
     const contact = currentConvo.isGroup ? null : currentConvo.users.find((convoUser) =>  user.id !== convoUser.user);
-    const pictureUrl = contacts[contact.user]?.picture
-      console.log('url', pictureUrl)
+    const pictureUrl = currentConvo.users.length <= 2 ? currentConvo.users.find((convoUser) =>  user.id !== convoUser.user).picture : 'https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/chihuahua-dog-running-across-grass-royalty-free-image-1580743445.jpg?crop=0.446xw:1.00xh;0.254xw,0&resize=480:*'
     const convoName = 
       currentConvo?.nickname?.length > 0 
       ? currentConvo.nickname 
@@ -152,11 +59,11 @@ export default function MobileChatListWindow() {
         )
         .join(', ');
 
-    const timestamp = '12:36';
+    const timestamp = getTimestampInstance(lastMessage?.timestamp)
 
     return <MobileChatListItem 
       key={cid}
-      preview={lastMessage} 
+      preview={preview} 
       name={convoName}
       timestamp={timestamp}
       handleConvoClick={() => handleConvoClick(cid)}
@@ -170,15 +77,15 @@ export default function MobileChatListWindow() {
      <MobileChatMenuHeader 
       myPictureUrl={user.picture}
       heading="Chats"
-     /> 
-      <div style={{maxHeight: 'calc(100vh - 94px - 80px)', overflow: 'scroll',}}>
+     />
+      <List>
         {chats}
         {chats}
         {chats}
         {chats}
         {chats}
         {chats}
-      </div>
+      </List>
       <MobileChatListFooterMenu />
     </>
   )

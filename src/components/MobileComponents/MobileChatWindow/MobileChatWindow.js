@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from 'react-router-dom'
 import styled from 'styled-components'
@@ -15,6 +15,7 @@ import {
   getLastUpdatedConvos,
   getUnreadMsgCount,
   sendReadMessages,
+  getIsTyping,
 } from '../../../features/message/messageSlice'
 import { selectUser } from '../../../features/auth/authSlice'
 import { getContacts, selectContacts, selectLastUpdated } from '../../../features/contact/contactSlice'
@@ -27,6 +28,8 @@ const StyledContainer = styled.div`
 
 export default function MobileChatWindow() {
 
+  const isTyping = useRef();
+  const timeout = useRef();
   const {socket} = useSocket();
   const { cid } = useParams();
   const messages = useSelector((state) => getMessages(state, cid));
@@ -35,6 +38,17 @@ export default function MobileChatWindow() {
   const lastUpdateConvos = useSelector( getLastUpdatedConvos )
   const lastUpdateContacts = useSelector(selectLastUpdated);
   const contacts = useSelector(selectContacts);
+  const membersIsTyping = useSelector((state) => getIsTyping(state, cid));
+  console.log('is rerenders')
+
+  // useEffect(() => {
+    
+
+  //   return () => {
+  //     cleanup
+  //   }
+  // }, [input])
+  
 
   const dispatch = useDispatch();
   const [messageInput, setMessageInput] = useState('');
@@ -109,8 +123,23 @@ export default function MobileChatWindow() {
     }
   }
 
+  const sendHasEndedTyping = () => {
+    isTyping.current = false;
+    socket.emitSocket('typingEnd', { user: user.id, cid: cid })
+  }
+
   const handleMessageInputChange = (e) => { 
-    setMessageInput(() => setMessageInput(e.target.value));
+    if(!isTyping.current) {
+      isTyping.current = true;
+      socket.emitSocket('typing', { user: user.id, cid: cid});
+      timeout.current = setTimeout(sendHasEndedTyping, 500)
+      // setMessageInput(() => setMessageInput(e.target.value));
+    } else {
+      clearTimeout(timeout.current);
+      timeout.current = setTimeout(sendHasEndedTyping, 500)
+    }
+
+    setMessageInput(e.target.value);
   }
 
   const handlePhoneIconClick = () => {
@@ -124,13 +153,13 @@ export default function MobileChatWindow() {
     }));
   }
 
-  if(!messages) {
+  if(!messages?.users) {
     return <div>Loading...</div>;
   }
 
   const contact = messages.isGroup ? null : messages.users.find((convoUser) =>  user.id !== convoUser.user);
 
-  const pictureUrl = contacts[contact.user]?.picture;
+  const pictureUrl = messages.users.find((convoUser) => user.id !== convoUser.user).picture;
   const name = 
   messages?.nickname?.length > 0 
   ? messages.nickname 
@@ -142,16 +171,15 @@ export default function MobileChatWindow() {
     .join(', ');
 
   return (
-    <StyledContainer onFocus={()=> console.log('imfocused')}>  
+    <StyledContainer>  
       <MobileChatHeader 
         cid={cid} 
         onPhoneClick={handlePhoneIconClick}
         isGroup={messages?.isGroup} 
-        contact={contact} 
         pictureUrl={pictureUrl}
         name={name}
       />
-      <MobileChatBody cid={cid} currentUser={user} contacts={contacts}/>
+      <MobileChatBody cid={cid} currentUser={user} contacts={contacts} membersIsTyping={membersIsTyping}/>
       <MobileChatFooter 
         messageInput={messageInput} 
         onChange={handleMessageInputChange} 
