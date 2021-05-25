@@ -1,15 +1,16 @@
-import React from 'react'
-import styled from 'styled-components'
+import React from "react";
+import styled from "styled-components";
+import { getFormattedTimestamp } from "../../../utils/format";
 
 const StyledContainer = styled.div`
   width: 100%;
-  height: 90px;
+  height: 82px;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: #fcfcfc;
+  background: #fff;
   border-bottom: 2px solid #f8f8f8;
-`
+`;
 
 const StyledTextContainer = styled.div`
   display: flex;
@@ -18,7 +19,7 @@ const StyledTextContainer = styled.div`
   padding-left: 22px;
   height: 100%;
   justify-content: center;
-`
+`;
 
 const StyledMetaContainer = styled.div`
   display: flex;
@@ -27,7 +28,7 @@ const StyledMetaContainer = styled.div`
   align-items: flex-end;
   justify-content: center;
   height: 100%;
-`
+`;
 
 const StyledTimeStamp = styled.span`
   font-size: 12px;
@@ -35,45 +36,45 @@ const StyledTimeStamp = styled.span`
   text-align: right;
   color: #676767;
   margin-bottom: 6px;
-`
+`;
 
 const StyledName = styled.p`
-  font-size: 15px;
+  font-size: 17px;
   font-weight: 500;
   color: #55596a;
   margin: 0;
   padding-bottom: 3px;
-`
+`;
 
 const StyledPreviewText = styled.div`
   font-size: 14px;
-  font-weight: ${props => (props.isUnread ? 500 : 300)};
-  color: ${props => (props.isUnread ? '#55596a' : '#b4b7c1')} ;
+  font-weight: ${(props) => (props.isUnread ? 500 : 300)};
+  color: ${(props) => (props.isUnread ? "#55596a" : "#b4b7c1")};
   font-family: Roboto;
-`
+`;
 
 const ProfilePicPlaceholder = styled.div`
   background: lightgrey;
   border-radius: 50%;
   height: 50px;
   width: 50px;
-`
+`;
 
 const ProfilePic = styled.img`
   border-radius: 50%;
   height: 50px;
   width: 50px;
   border: 1px solid white;
-`
+`;
 
 const StyledSubContainer = styled.div`
-  height: 70px;
+  height: 65px;
   width: 100%;
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: center;
-`
+`;
 
 const StyledUnReadMsgCount = styled.div`
   width: 20px;
@@ -86,42 +87,51 @@ const StyledUnReadMsgCount = styled.div`
   justify-content: center;
   font-size: 12px;
   margin-top: 6px;
-`
+`;
 
 const StyledUnReadPlaceholder = styled.div`
   width: 20px;
   height: 20px;
   // margin-top: 6px;
-`
+`;
 
-export default function MobileChatListItem( {preview, name, timestamp, handleConvoClick, unreadMsgCount, picture, isGroup} ) {
+export default function MobileChatListItem({
+  preview,
+  name,
+  timestamp,
+  handleConvoClick,
+  unreadMsgCount,
+  picture,
+  isGroup,
+}) {
   const isUnread = unreadMsgCount > 0;
+  const formattedTimestamp = timestamp ? getFormattedTimestamp(timestamp) : "";
 
   return (
     <StyledContainer onClick={handleConvoClick}>
       <StyledSubContainer>
-          <>
-            {
-              isGroup ? <ProfilePicPlaceholder/> : <ProfilePic src={picture} alt="Profile" />
-            }
-          </>
+        <>
+          {isGroup ? (
+            <ProfilePicPlaceholder />
+          ) : (
+            <ProfilePic src={picture} alt="Profile" />
+          )}
+        </>
         <StyledTextContainer>
-          <StyledName isUnread={isUnread}>
-            {name}
-          </StyledName>
+          <StyledName isUnread={isUnread}>{name}</StyledName>
           <StyledPreviewText isUnread={unreadMsgCount > 0}>
-            {preview.length > 23 ? preview.substring(0, 20) + '...' : preview}
+            {preview?.length > 23 ? preview.substring(0, 20) + "..." : preview}
           </StyledPreviewText>
         </StyledTextContainer>
         <StyledMetaContainer>
-          <StyledTimeStamp>
-            {timestamp}
-          </StyledTimeStamp>
-          {
-            unreadMsgCount > 0 ? <StyledUnReadMsgCount>{unreadMsgCount}</StyledUnReadMsgCount> : <StyledUnReadPlaceholder />
-          }
+          <StyledTimeStamp>{formattedTimestamp}</StyledTimeStamp>
+          {unreadMsgCount > 0 ? (
+            <StyledUnReadMsgCount>{unreadMsgCount}</StyledUnReadMsgCount>
+          ) : (
+            <StyledUnReadPlaceholder />
+          )}
         </StyledMetaContainer>
       </StyledSubContainer>
     </StyledContainer>
-  )
+  );
 }

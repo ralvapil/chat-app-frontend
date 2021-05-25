@@ -1,12 +1,10 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { api } from '../../utils/api'
+import { api } from "../../utils/api";
 
 export const getUserStatus = createAsyncThunk(
   "auth/getUserStatus",
   async () => {
-    const response = await api.get(
-      "http://localhost:5000/auth/getUserStatus"
-    );
+    const response = await api.get("http://localhost:5000/auth/getUserStatus");
 
     return response;
   }
@@ -23,12 +21,12 @@ export const authSlice = createSlice({
     status: "idle",
     error: null,
     user: null,
-    picture: '',
+    picture: "",
   },
   reducers: {
     login: (state) => {
       state.isAuthorized = true;
-      state.error = ""; 
+      state.error = "";
     },
     logout: (state) => {
       state.isAuthorized = false;
@@ -49,8 +47,8 @@ export const authSlice = createSlice({
       // state.email = action.meta.arg.email;
       // state.token = action.payload;
       state.isAuthorized = true;
-      state.user = action.payload.user
-      state.picture = action.payload.picture
+      state.user = action.payload.user;
+      state.picture = action.payload.picture;
     },
     [getUserStatus.rejected]: (state, action) => {
       state.status = "failed";
@@ -67,6 +65,9 @@ export const { login, logout, handleInvalidToken } = authSlice.actions;
 export const selectToken = (state) => state.auth.token;
 export const selectIsAuthorized = (state) => state.auth.isAuthorized;
 export const selectError = (state) => state.auth.error;
-export const selectUser = (state) => ({ id: state.auth.user, picture: state.auth.picture });
+export const selectUser = (state) => ({
+  id: state.auth.user,
+  picture: state.auth.picture,
+});
 
 export default authSlice.reducer;

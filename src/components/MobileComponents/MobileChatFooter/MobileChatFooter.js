@@ -1,8 +1,7 @@
-import React from 'react'
-import styled from 'styled-components'
-import TextareaAutosize from 'react-textarea-autosize';
-import { SendOutlined } from '@ant-design/icons';
-
+import React from "react";
+import styled from "styled-components";
+import TextareaAutosize from "react-textarea-autosize";
+import { SendOutlined } from "@ant-design/icons";
 
 const StyledWrapper = styled.div`
   position: fixed;
@@ -13,7 +12,7 @@ const StyledWrapper = styled.div`
   background: white;
   border-radius: 24px 24px 0px 0px;
   border: 1px solid #f9f9f9;
-  box-shadow: 0px -2px 5px 0px rgba(200, 200, 200, 0.2);
+  box-shadow: 0px -2px 5px 0px rgba(200, 200, 200, 0.6);
   padding-top: 15px;
   padding-bottom: 15px;
   display: flex;
@@ -29,8 +28,8 @@ const StyleContainer = styled.div`
   width: 94%;
   border: 1px solid rgba(221, 221, 221, 0.4);
   border-radius: 30px;
-  background: #FCFCFC;
-`
+  background: #fff;
+`;
 
 const StyledTextArea = styled(TextareaAutosize)`
   width: 80%;
@@ -39,7 +38,7 @@ const StyledTextArea = styled(TextareaAutosize)`
   border-radius: 20px;
   resize: none;
   outline: none;
-  background: #FCFCFC;
+  background: #fff;
   flex-grow: 2;
   border: none;
   display: flex;
@@ -48,7 +47,7 @@ const StyledTextArea = styled(TextareaAutosize)`
   ::placeholder {
     color: #b4b7c1;
   }
-`
+`;
 
 const StyledButtonWrapper = styled.button`
   width: 20%;
@@ -62,16 +61,19 @@ const StyledButtonWrapper = styled.button`
   height: 40px;
   border-radius: 50%;
   border: none;
-`
+`;
 
-export default function MobileChatFooter({ messageInput, onChange, handleEnterPress }) {
-  
+export default function MobileChatFooter({
+  messageInput,
+  onChange,
+  handleEnterPress,
+}) {
   return (
     <StyledWrapper>
       <StyleContainer>
         <StyledTextArea
-          rows={1} 
-          cols={30} 
+          rows={1}
+          cols={30}
           id="msg"
           name="msg"
           value={messageInput}
@@ -80,9 +82,9 @@ export default function MobileChatFooter({ messageInput, onChange, handleEnterPr
           placeholder="Type here"
         />
         <StyledButtonWrapper>
-          <SendOutlined style={{ fontSize: '18px', color: '#adadad' }}/>
+          <SendOutlined style={{ fontSize: "18px", color: "#adadad" }} />
         </StyledButtonWrapper>
       </StyleContainer>
     </StyledWrapper>
-  )
+  );
 }

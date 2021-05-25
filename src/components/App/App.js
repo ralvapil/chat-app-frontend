@@ -1,71 +1,59 @@
-import {   
+import {
   BrowserRouter as Router,
   Switch,
   Route,
   Redirect,
-} from 'react-router-dom'
+} from "react-router-dom";
 import { useMediaQuery } from "react-responsive";
-import { useSelector } from 'react-redux'
+import { useSelector } from "react-redux";
 
-import { selectIsAuthorized } from '../../features/auth/authSlice';
-import DesktopChatWindow from '../DesktopComponents/DesktopChatWindow/DesktopChatWindow'
-import MobileChatListWindow from '../MobileComponents/MobileChatListWindow/MobileChatListWindow'
-import MobileChatWindow from '../MobileComponents/MobileChatWindow/MobileChatWindow';
-import MobileContactList from '../MobileComponents/MobileContactList/MobileContactList'
-import MobileAddContact from '../MobileComponents/MobileAddContact/MobileAddContact'
-import MobileNewChat from '../MobileComponents/MobileNewChat/MobileNewChat'
+import { selectIsAuthorized } from "../../features/auth/authSlice";
+import DesktopWindow from "../DesktopComponents/DesktopWindow/DesktopWindow";
+import MobileChatListWindow from "../MobileComponents/MobileChatListWindow/MobileChatListWindow";
+import MobileChatWindow from "../MobileComponents/MobileChatWindow/MobileChatWindow";
+import MobileContactList from "../MobileComponents/MobileContactList/MobileContactList";
+import MobileAddContact from "../MobileComponents/MobileAddContact/MobileAddContact";
+import MobileNewChat from "../MobileComponents/MobileNewChat/MobileNewChat";
 
-import { SocketProvider } from '../Contexts/socketContext'
+import { SocketProvider } from "../Contexts/socketContext";
 
-import Login from '../SharedComponents/Login/Login';
-import ProtectedRoute from '../SharedComponents/ProtectedRoute/ProtectedRoute';
+import Login from "../SharedComponents/components/Login/Login";
+import ProtectedRoute from "../SharedComponents/components/ProtectedRoute/ProtectedRoute";
 
-import './App.css';
+import "./App.css";
 
 function App() {
   const isDesktopOrLaptop = useMediaQuery({
-    query: '(min-device-width: 1224px)'
-  })
+    query: "(min-device-width: 1224px)",
+  });
 
   // run an api call to check if this person is authorized
   const isAuthorized = useSelector(selectIsAuthorized);
 
   return (
-    <div className="App" style={{maxHeight: '100vh'}}>
+    <div className="App" style={{ maxHeight: "100vh" }}>
       <Router>
         <Switch>
           <Route path="/login">
-            {
-              isAuthorized ? <Redirect to='/chat' /> : <Login />
-            }
+            {isAuthorized ? <Redirect to="/chat" /> : <Login />}
           </Route>
-            <SocketProvider>
-              <ProtectedRoute path="/chat/:cid" >
-                {
-                  isDesktopOrLaptop ? <DesktopChatWindow /> : <MobileChatWindow />
-                }
-              </ProtectedRoute>
-              <ProtectedRoute path="/chats">
-                {
-                  isDesktopOrLaptop ? <DesktopChatWindow /> : <MobileChatListWindow />
-                }
-              </ProtectedRoute>
-              <ProtectedRoute path="/contacts">
-                {
-                  <MobileContactList /> 
-                }
-              </ProtectedRoute>
-              <ProtectedRoute path="/contact-add">
-                {
-                  <MobileAddContact /> 
-                }
-              </ProtectedRoute>
-              <ProtectedRoute path="/new-chat">
-                {
-                  <MobileNewChat /> 
-                }
-              </ProtectedRoute>
-            </SocketProvider>
+          <SocketProvider>
+            <ProtectedRoute path="/chat/:cid">
+              {isDesktopOrLaptop ? <DesktopWindow /> : <MobileChatWindow />}
+            </ProtectedRoute>
+            <ProtectedRoute path="/chats">
+              {isDesktopOrLaptop ? <DesktopWindow /> : <MobileChatListWindow />}
+            </ProtectedRoute>
+            <ProtectedRoute path="/contacts">
+              {isDesktopOrLaptop ? <DesktopWindow /> : <MobileContactList />}
+            </ProtectedRoute>
+            <ProtectedRoute path="/contact-add">
+              {<MobileAddContact />}
+            </ProtectedRoute>
+            <ProtectedRoute path="/new-chat">
+              {<MobileNewChat />}
+            </ProtectedRoute>
+          </SocketProvider>
           <Route path="*">
             <div> 404 Page Not Found</div>
           </Route>

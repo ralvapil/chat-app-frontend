@@ -1,21 +1,21 @@
-@import '~antd/dist/antd.css';
-@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap');
+@import "~antd/dist/antd.css";
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap");
 @font-face {
-  font-family: 'Gibson-Regular';
-  src: local('Gibson-Regular'),
-    url(../../assets/fonts/gibson-regular.ttf) format('truetype');
+  font-family: "Gibson-Regular";
+  src: local("Gibson-Regular"),
+    url(../../assets/fonts/gibson-regular.ttf) format("truetype");
 }
 
 @font-face {
-  font-family: 'Gibson-Light';
-  src: local('Gibson-Light'),
-    url(../../assets/fonts/gibson-light.ttf) format('truetype');
+  font-family: "Gibson-Light";
+  src: local("Gibson-Light"),
+    url(../../assets/fonts/gibson-light.ttf) format("truetype");
 }
 
 @font-face {
-  font-family: 'Gibson-Semi-Bold';
-  src: local('Gibson-Semi-Bold'),
-    url(../../assets/fonts/Gibson-SemiBold.otf) format('opentype');
+  font-family: "Gibson-Semi-Bold";
+  src: local("Gibson-Semi-Bold"),
+    url(../../assets/fonts/Gibson-SemiBold.otf) format("opentype");
 }
 
 body {
@@ -23,5 +23,9 @@ body {
   font-smooth: always;
   -webkit-font-smoothing: subpixel-antialiased;
   -moz-osx-font-smoothing: auto;
-  background-color: #fcfcfc;
+  background-color: #fff;
+}
+
+html {
+  scroll-behavior: smooth;
 }
