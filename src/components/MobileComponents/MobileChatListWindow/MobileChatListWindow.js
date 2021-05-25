@@ -14,12 +14,6 @@ const List = styled.div`
   overflow-x: hidden;
 `;
 
-const List = styled.div`
-  maxheight: calc(100vh - 94px - 80px);
-  overflow: scroll;
-  overflow-x: hidden;
-`;
-
 export default function MobileChatListWindow() {
   const history = useHistory();
   const { socket, user, dispatch, convos } = useMessengerData();
