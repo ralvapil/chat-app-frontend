@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -9,6 +10,13 @@ import {
   memberIsTyping,
   memberIsTypingEnd,
 } from "../../features/message/messageSlice";
+=======
+import React, { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux'
+
+import { selectIsAuthorized, selectUser } from '../../features/auth/authSlice'
+import { messageReceived, newConvosPushed, messageSentDiffDevice, memberIsTyping, memberIsTypingEnd} from '../../features/message/messageSlice'
+>>>>>>> 69d9e975d8c5cad03c1b2af696cf4c4cb8b0b0b0
 
 import { Socket } from "../../Socket";
 
@@ -21,6 +29,7 @@ function SocketProvider({ children }) {
   const dispatch = useDispatch();
 
   useEffect(() => {
+<<<<<<< HEAD
     if (user?.id && isAuthorized) {
       console.log("socket is being created for", user.id);
 
@@ -32,6 +41,19 @@ function SocketProvider({ children }) {
         memberIsTyping,
         memberIsTypingEnd,
         user.id
+=======
+    if(user?.id && isAuthorized) {
+      console.log('socket is being created for', user.id);
+  
+      const socketInstance = new Socket(
+        dispatch,
+        messageReceived, 
+        newConvosPushed, 
+        messageSentDiffDevice, 
+        memberIsTyping, 
+        memberIsTypingEnd,
+        user.id, 
+>>>>>>> 69d9e975d8c5cad03c1b2af696cf4c4cb8b0b0b0
       );
 
       setSocket(socketInstance);

@@ -14,15 +14,23 @@ export const contactSlice = createSlice({
   },
   reducers: {
     addContact: (state, action) => {
+<<<<<<< HEAD
       console.log("test", action);
       if (action.response == null) {
         state.error.addContact =
           "Oops... a server error occured. Try again later.";
         state.status.addContact = "unsuccessful";
+=======
+      console.log('test', action)
+      if(action.response == null) {
+        state.error.addContact = "Oops... a server error occured. Try again later."
+        state.status.addContact = 'unsuccessful'
+>>>>>>> 69d9e975d8c5cad03c1b2af696cf4c4cb8b0b0b0
 
         return;
       }
 
+<<<<<<< HEAD
       const { status, data } = action.response;
 
       if (!data?.contacts) {
@@ -58,6 +66,42 @@ export const contactSlice = createSlice({
 
       state.error.addContact = "";
       state.status.addContact = "success";
+=======
+      const {status, data} = action.response;
+
+      if(!data?.contacts) {
+        state.error.addContact = "Hmm... We can't seem to find anyone with that email."
+        state.status.addContact = 'unsuccessful'
+
+        return
+      } 
+
+      if(status === 'failed') {
+        state.error.addContact = "Already on your friends list."
+        state.status.addContact = 'unsuccessful'
+
+        return
+      }
+
+      const newContactList = data.contacts.reduce((acc, contact) => {
+        return {
+          ...acc, 
+          [contact.user._id]: {
+            firstName: contact.user.firstName,
+            lastName:  contact.user.lastName,
+            user: contact.user._id,
+            chat_id: contact?.chat?._id.length ?  contact.chat._id : null,
+            picture: contact.user.picture
+          }
+        }
+      }, {})
+      console.log('new', newContactList)
+      state.data = newContactList
+      state.lastUpdated = new Date().toISOString();
+
+      state.error.addContact = '';
+      state.status.addContact = 'success'
+>>>>>>> 69d9e975d8c5cad03c1b2af696cf4c4cb8b0b0b0
     },
     getContacts: (state, action) => {
       console.log("getcontacts", action);
@@ -84,6 +128,7 @@ export const contactSlice = createSlice({
       // a new copy of chats will be pushed to the two users
     },
     clearErrorStatus: (state) => {
+<<<<<<< HEAD
       state.error.addContact = "";
       state.status.addContact = "";
     },
@@ -92,6 +137,20 @@ export const contactSlice = createSlice({
 
 export const { addContact, getContacts, checkChatExists, clearErrorStatus } =
   contactSlice.actions;
+=======
+      state.error.addContact = '';
+      state.status.addContact = '';
+    }
+  }
+});
+
+export const { 
+  addContact, 
+  getContacts,
+  checkChatExists,
+  clearErrorStatus,
+} = contactSlice.actions
+>>>>>>> 69d9e975d8c5cad03c1b2af696cf4c4cb8b0b0b0
 
 export const selectContacts = (state) => {
   return state.contact.data;

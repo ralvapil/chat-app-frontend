@@ -1,6 +1,12 @@
+<<<<<<< HEAD
 import React from "react";
 import styled from "styled-components";
 import { getFormattedTimestamp } from "../../../utils/format";
+=======
+import React from 'react'
+import styled from 'styled-components'
+import { getFormattedTimestamp } from '../../../utils/format'
+>>>>>>> 69d9e975d8c5cad03c1b2af696cf4c4cb8b0b0b0
 
 const StyledContainer = styled.div`
   margin-top: ${(props) =>
@@ -26,6 +32,7 @@ const StyledMessageBody = styled.div`
   background: #3e78ff;
   border-radius: 30px;
   display: inline-block;
+<<<<<<< HEAD
   background-color: ${(props) =>
     props.isNotCurrentUser ? "#f4eeff" : "#f1f7ff"};
   float: ${(props) => (props.isNotCurrentUser ? "left" : "right")};
@@ -33,12 +40,24 @@ const StyledMessageBody = styled.div`
   align-items: center;
   justify-content: center;
 `;
+=======
+  background-color:  ${props => props.isNotCurrentUser ? "#f4eeff" : "#f1f7ff"};
+  float: ${props => props.isNotCurrentUser ? "left" : "right"};
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`
+>>>>>>> 69d9e975d8c5cad03c1b2af696cf4c4cb8b0b0b0
 
 const StyledTimestamp = styled.div`
   font-size: 9px;
   padding-left: 10px;
   color: #c2c2c2;
+<<<<<<< HEAD
 `;
+=======
+`
+>>>>>>> 69d9e975d8c5cad03c1b2af696cf4c4cb8b0b0b0
 
 const StyledMessageText = styled.span`
   background-color: ${(props) =>

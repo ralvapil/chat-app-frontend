@@ -1,6 +1,12 @@
+<<<<<<< HEAD
 import React from "react";
 import styled from "styled-components";
 import { getFormattedTimestamp } from "../../../utils/format";
+=======
+import React from 'react'
+import styled from 'styled-components'
+import { getFormattedTimestamp } from '../../../utils/format'
+>>>>>>> 69d9e975d8c5cad03c1b2af696cf4c4cb8b0b0b0
 
 const StyledContainer = styled.div`
   width: 100%;
@@ -95,6 +101,7 @@ const StyledUnReadPlaceholder = styled.div`
   // margin-top: 6px;
 `;
 
+<<<<<<< HEAD
 export default function MobileChatListItem({
   preview,
   name,
@@ -106,6 +113,13 @@ export default function MobileChatListItem({
 }) {
   const isUnread = unreadMsgCount > 0;
   const formattedTimestamp = timestamp ? getFormattedTimestamp(timestamp) : "";
+=======
+export default function MobileChatListItem( {preview, name, timestamp, handleConvoClick, unreadMsgCount, picture, isGroup} ) {
+
+
+  const isUnread = unreadMsgCount > 0;
+  const formattedTimestamp = timestamp ? getFormattedTimestamp(timestamp) : '';
+>>>>>>> 69d9e975d8c5cad03c1b2af696cf4c4cb8b0b0b0
 
   return (
     <StyledContainer onClick={handleConvoClick}>
@@ -120,6 +134,7 @@ export default function MobileChatListItem({
         <StyledTextContainer>
           <StyledName isUnread={isUnread}>{name}</StyledName>
           <StyledPreviewText isUnread={unreadMsgCount > 0}>
+<<<<<<< HEAD
             {preview?.length > 23 ? preview.substring(0, 20) + "..." : preview}
           </StyledPreviewText>
         </StyledTextContainer>
@@ -130,6 +145,18 @@ export default function MobileChatListItem({
           ) : (
             <StyledUnReadPlaceholder />
           )}
+=======
+            {preview?.length > 23 ? preview.substring(0, 20) + '...' : preview}
+          </StyledPreviewText>
+        </StyledTextContainer>
+        <StyledMetaContainer>
+          <StyledTimeStamp>
+            {formattedTimestamp}
+          </StyledTimeStamp>
+          {
+            unreadMsgCount > 0 ? <StyledUnReadMsgCount>{unreadMsgCount}</StyledUnReadMsgCount> : <StyledUnReadPlaceholder />
+          }
+>>>>>>> 69d9e975d8c5cad03c1b2af696cf4c4cb8b0b0b0
         </StyledMetaContainer>
       </StyledSubContainer>
     </StyledContainer>

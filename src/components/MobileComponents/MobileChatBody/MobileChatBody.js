@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import React, { useEffect, useRef } from "react";
 import styled from "styled-components";
 import { css } from "@emotion/react/macro";
@@ -30,13 +31,48 @@ const StyledWrapper = styled.div`
 const StyledIsTypingWrapper = styled.div`
   padding-bottom: 5px;
 `;
+=======
+import React, { useEffect, useRef } from 'react'
+import styled from 'styled-components'
+import { css } from '@emotion/react/macro'
+import SyncLoader from "react-spinners/SyncLoader";
+import { format } from 'date-fns'
+import { motion, AnimatePresence } from 'framer-motion'
+
+import { getFormattedTimestamp, getTimestampInstance } from '../../../utils/format'
+
+import MobileChatMessage from '../MobileChatMessage/MobileChatMessage'
+import { useSelector } from 'react-redux'
+import { getMessages } from '../../../features/message/messageSlice'
+
+const StyledWrapper = styled.div`
+    margin-top: 84px;
+    padding-top: 10px;
+    margin-bottom: 60px;
+    padding-left: 15px;
+    padding-right: 15px;
+    height: calc(100vh - 160px);
+    overflow-y: scroll;
+    display: flex;
+    flex-direction: column;
+    position:relative;
+`
+
+const StyledIsTypingWrapper = styled.div`
+padding-bottom: 5px;  
+`
+>>>>>>> 69d9e975d8c5cad03c1b2af696cf4c4cb8b0b0b0
 
 const StyledProPic = styled.img`
   border-radius: 50%;
   height: 20px;
   width: 20px;
   border-color: white;
+<<<<<<< HEAD
 `;
+=======
+`
+>>>>>>> 69d9e975d8c5cad03c1b2af696cf4c4cb8b0b0b0
 
 const TypingAnimationWrapper = styled.div`
   background: #f4eeff;
@@ -46,6 +82,7 @@ const TypingAnimationWrapper = styled.div`
   justify-content: center;
   height: 50px;
   width: 50px;
+<<<<<<< HEAD
 `;
 
 // const override = css`display: flex`;
@@ -56,6 +93,13 @@ export default function MobileChatBody({
   contacts,
   membersIsTyping,
 }) {
+=======
+`
+
+// const override = css`display: flex`;
+
+export default function MobileChatBody( { cid, currentUser, contacts, membersIsTyping } ) {
+>>>>>>> 69d9e975d8c5cad03c1b2af696cf4c4cb8b0b0b0
   const messagesEndRef = useRef(null);
   const messages = useSelector((state) => getMessages(state, cid));
   useEffect(() => {
@@ -63,6 +107,7 @@ export default function MobileChatBody({
   }, [messages]);
 
   let prevMessageUserId = null;
+<<<<<<< HEAD
   const renderedMessages = messages?.messages
     ? messages.messages.map((message, idx) => {
         const pictureUrl =
@@ -116,10 +161,59 @@ export default function MobileChatBody({
 
   const renderedIsTyping = getRenderedIsTyping();
 
+=======
+  const renderedMessages = messages?.messages ? messages.messages.map((message, idx) => {
+    const pictureUrl = currentUser.id !== message.user ? messages.users.find((user) => user.user === message.user)?.picture : currentUser.picture;
+    const timestampInstance = getTimestampInstance(message.timestamp);
+
+    const messageJsx = <MobileChatMessage 
+      key={idx} 
+      name={message.senderName}
+      timestamp={timestampInstance ? format(timestampInstance, 'H:mm') : ''}
+      isNotCurrentUser={message.user !== currentUser.id}
+      userIsDifferentThanPrevious = {message.user !== prevMessageUserId}
+      isLastMessage={idx === messages.messages.length - 1}
+      pictureUrl={pictureUrl}
+    >
+      {message.value}
+    </MobileChatMessage>
+    if(prevMessageUserId !== message.user) {
+      prevMessageUserId = message.user;
+    }
+
+    return messageJsx;
+  }) : '';
+
+  const getRenderedIsTyping = () => {
+    if(membersIsTyping?.length > 0) {
+      const typing = membersIsTyping.map((member) => {
+        const memberUser = messages?.users.find((user) => user.user === member);
+        return (
+          <div key={member}>
+            <StyledProPic src={memberUser.picture} alt="propic"/>
+  
+                <TypingAnimationWrapper>
+                  <SyncLoader color='#8b4cff' loading={true} size={6} margin={2} />
+                </TypingAnimationWrapper>
+              
+
+          </div>
+        )
+      })
+      return typing
+    }
+
+    return '';
+  }
+
+  const renderedIsTyping = getRenderedIsTyping();
+  
+>>>>>>> 69d9e975d8c5cad03c1b2af696cf4c4cb8b0b0b0
   return (
     <StyledWrapper>
       {renderedMessages}
       <AnimatePresence>
+<<<<<<< HEAD
         {renderedIsTyping?.length > 0 && (
           <motion.div
             initial={{ opacity: 0.1 }}
@@ -131,6 +225,21 @@ export default function MobileChatBody({
           </motion.div>
         )}
       </AnimatePresence>
+=======
+        {
+          renderedIsTyping?.length > 0 &&        
+            <motion.div
+              initial={{ opacity: 0.1 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.1 }}
+              exit={{ opacity: 0.1}}
+            >
+              <StyledIsTypingWrapper>{renderedIsTyping}</StyledIsTypingWrapper>
+            </motion.div>
+           
+        }
+        </AnimatePresence>
+>>>>>>> 69d9e975d8c5cad03c1b2af696cf4c4cb8b0b0b0
       <div ref={messagesEndRef}></div>
     </StyledWrapper>
   );

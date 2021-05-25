@@ -1,4 +1,4 @@
-import { io } from "socket.io-client";
+import { io } from 'socket.io-client';
 
 export class Socket {
   constructor(
@@ -10,10 +10,10 @@ export class Socket {
     memberIsTypingEndFn,
     userId
   ) {
-    this.socket = io("http://localhost:5000", { query: `userId=${userId}` });
+    this.socket = io('http://localhost:5000', { query: `userId=${userId}` });
     this.dispatch = dispatch;
-    this.socket.on("connect", () => {
-      console.log("connected");
+    this.socket.on('connect', () => {
+      console.log('connected');
     });
     this.userId = userId;
 
@@ -33,7 +33,7 @@ export class Socket {
   }
 
   async emitSocket(event, data) {
-    console.log("in emit for ", event);
+    console.log('in emit for ', event);
     const result = await new Promise((resolve) =>
       this.socket.emit(event, data, (response) => {
         return resolve(response);
@@ -43,10 +43,10 @@ export class Socket {
   }
 
   convosReceived(newConvosPushedFn) {
-    this.socket.on("newConvosPushed", (data) => {
+    this.socket.on('newConvosPushed', (data) => {
       return this.dispatch(
         newConvosPushedFn({
-          type: "newConvosPushed",
+          type: 'newConvosPushed',
           data,
         })
       );
@@ -54,10 +54,10 @@ export class Socket {
   }
 
   messageReceived(messageReceivedFn) {
-    this.socket.on("message", (data) => {
+    this.socket.on('message', (data) => {
       return this.dispatch(
         messageReceivedFn({
-          type: "message",
+          type: 'message',
           data,
         })
       );
@@ -65,10 +65,10 @@ export class Socket {
   }
 
   messageSentDiffDevice(messageSentDiffDeviceFn) {
-    this.socket.on("messageSentDifferentDevice", (data) => {
+    this.socket.on('messageSentDifferentDevice', (data) => {
       return this.dispatch(
         messageSentDiffDeviceFn({
-          type: "message",
+          type: 'message',
           data,
         })
       );
@@ -76,10 +76,10 @@ export class Socket {
   }
 
   memberIsTyping(memberIsTypingFn) {
-    this.socket.on("memberIsTyping", (data) => {
+    this.socket.on('memberIsTyping', (data) => {
       return this.dispatch(
         memberIsTypingFn({
-          type: "message",
+          type: 'message',
           data,
         })
       );
@@ -87,10 +87,10 @@ export class Socket {
   }
 
   memberIsTypingEnd(memberIsTypingEndFn) {
-    this.socket.on("memberEndTyping", (data) => {
+    this.socket.on('memberEndTyping', (data) => {
       return this.dispatch(
         memberIsTypingEndFn({
-          type: "message",
+          type: 'message',
           data,
         })
       );

@@ -1,13 +1,25 @@
+<<<<<<< HEAD
 import React from "react";
 import styled from "styled-components";
 import { useHistory, useLocation } from "react-router-dom";
 import Dropdown from "../../SharedComponents/components/Dropdown/Dropdown";
 import { MessageCircle, User } from "react-feather";
+=======
+import React from 'react'
+import styled from 'styled-components'
+import { useHistory, useLocation } from 'react-router-dom'
+import Dropdown from '../../SharedComponents/components/Dropdown/Dropdown'
+import { MessageCircle, User } from 'react-feather'
+>>>>>>> 69d9e975d8c5cad03c1b2af696cf4c4cb8b0b0b0
 
 const Container = styled.div`
   height: 84px;
   width: 100%;
+<<<<<<< HEAD
   background: #fff;
+=======
+  background:#fff;
+>>>>>>> 69d9e975d8c5cad03c1b2af696cf4c4cb8b0b0b0
   position: fixed;
   bottom: 0;
 `;

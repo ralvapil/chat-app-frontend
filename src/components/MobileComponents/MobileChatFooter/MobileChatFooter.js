@@ -29,7 +29,11 @@ const StyleContainer = styled.div`
   border: 1px solid rgba(221, 221, 221, 0.4);
   border-radius: 30px;
   background: #fff;
+<<<<<<< HEAD
 `;
+=======
+`
+>>>>>>> 69d9e975d8c5cad03c1b2af696cf4c4cb8b0b0b0
 
 const StyledTextArea = styled(TextareaAutosize)`
   width: 80%;

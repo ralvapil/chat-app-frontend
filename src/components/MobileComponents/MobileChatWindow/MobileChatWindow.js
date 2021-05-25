@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 import React, { useState, useEffect, useRef } from "react";
+=======
+import React, { useState, useEffect, useRef } from 'react'
+>>>>>>> 69d9e975d8c5cad03c1b2af696cf4c4cb8b0b0b0
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
@@ -16,6 +20,7 @@ import {
   getUnreadMsgCount,
   sendReadMessages,
   getIsTyping,
+<<<<<<< HEAD
 } from "../../../features/message/messageSlice";
 import { selectUser } from "../../../features/auth/authSlice";
 import {
@@ -24,6 +29,12 @@ import {
   selectLastUpdated,
 } from "../../../features/contact/contactSlice";
 import { useSocket } from "../../Contexts/socketContext";
+=======
+} from '../../../features/message/messageSlice'
+import { selectUser } from '../../../features/auth/authSlice'
+import { getContacts, selectContacts, selectLastUpdated } from '../../../features/contact/contactSlice'
+import { useSocket } from '../../Contexts/socketContext'; 
+>>>>>>> 69d9e975d8c5cad03c1b2af696cf4c4cb8b0b0b0
 
 const StyledContainer = styled.div`
   display: flex;
@@ -31,9 +42,16 @@ const StyledContainer = styled.div`
 `;
 
 export default function MobileChatWindow() {
+<<<<<<< HEAD
   const isTyping = useRef();
   const timeout = useRef();
   const { socket } = useSocket();
+=======
+
+  const isTyping = useRef();
+  const timeout = useRef();
+  const {socket} = useSocket();
+>>>>>>> 69d9e975d8c5cad03c1b2af696cf4c4cb8b0b0b0
   const { cid } = useParams();
   const messages = useSelector((state) => getMessages(state, cid));
   const user = useSelector(selectUser);
@@ -42,14 +60,25 @@ export default function MobileChatWindow() {
   const lastUpdateContacts = useSelector(selectLastUpdated);
   const contacts = useSelector(selectContacts);
   const membersIsTyping = useSelector((state) => getIsTyping(state, cid));
+<<<<<<< HEAD
   console.log("is rerenders");
 
   // useEffect(() => {
+=======
+  console.log('is rerenders')
+
+  // useEffect(() => {
+    
+>>>>>>> 69d9e975d8c5cad03c1b2af696cf4c4cb8b0b0b0
 
   //   return () => {
   //     cleanup
   //   }
   // }, [input])
+<<<<<<< HEAD
+=======
+  
+>>>>>>> 69d9e975d8c5cad03c1b2af696cf4c4cb8b0b0b0
 
   const dispatch = useDispatch();
   const [messageInput, setMessageInput] = useState("");
@@ -141,6 +170,7 @@ export default function MobileChatWindow() {
       timeout.current = setTimeout(sendHasEndedTyping, 500);
     }
 
+<<<<<<< HEAD
     setMessageInput(e.target.value);
   };
 
@@ -194,6 +224,68 @@ export default function MobileChatWindow() {
       <MobileChatFooter
         messageInput={messageInput}
         onChange={handleMessageInputChange}
+=======
+  const sendHasEndedTyping = () => {
+    isTyping.current = false;
+    socket.emitSocket('typingEnd', { user: user.id, cid: cid })
+  }
+
+  const handleMessageInputChange = (e) => { 
+    if(!isTyping.current) {
+      isTyping.current = true;
+      socket.emitSocket('typing', { user: user.id, cid: cid});
+      timeout.current = setTimeout(sendHasEndedTyping, 500)
+      // setMessageInput(() => setMessageInput(e.target.value));
+    } else {
+      clearTimeout(timeout.current);
+      timeout.current = setTimeout(sendHasEndedTyping, 500)
+    }
+
+    setMessageInput(e.target.value);
+  }
+
+  const handlePhoneIconClick = () => {
+    dispatch(getMessageHistory({
+      'type': 'socket',
+      'eventType': 'messageHistory',
+      'data': { 
+        cid
+      },
+      'socket': socket,
+    }));
+  }
+
+  if(!messages?.users) {
+    return <div>Loading...</div>;
+  }
+
+  const contact = messages.isGroup ? null : messages.users.find((convoUser) =>  user.id !== convoUser.user);
+
+  const pictureUrl = messages.users.find((convoUser) => user.id !== convoUser.user).picture;
+  const name = 
+  messages?.nickname?.length > 0 
+  ? messages.nickname 
+  : messages.users
+    .filter((convoUser) =>  user.id !== convoUser.user)
+    .map(
+      (convoUser) => `${convoUser?.firstName} ${convoUser?.lastName}`
+    )
+    .join(', ');
+
+  return (
+    <StyledContainer>  
+      <MobileChatHeader 
+        cid={cid} 
+        onPhoneClick={handlePhoneIconClick}
+        isGroup={messages?.isGroup} 
+        pictureUrl={pictureUrl}
+        name={name}
+      />
+      <MobileChatBody cid={cid} currentUser={user} contacts={contacts} membersIsTyping={membersIsTyping}/>
+      <MobileChatFooter 
+        messageInput={messageInput} 
+        onChange={handleMessageInputChange} 
+>>>>>>> 69d9e975d8c5cad03c1b2af696cf4c4cb8b0b0b0
         handleEnterPress={handleEnterPress}
       />
     </StyledContainer>
